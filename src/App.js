@@ -7,6 +7,7 @@ import { AppLoading } from 'expo';
 import { verifyUser } from './actions/UserActions';
 
 import RootRouter from './navigation/RootNavigation';
+import AuthRouter from './navigation/AuthNavigation';
 
 class App extends React.Component {
   componentDidMount() {
@@ -14,10 +15,10 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLoaded } = this.props;
+    const { isLoaded, isLogged } = this.props;
 
     if (isLoaded) {
-      return <RootRouter />;
+      return isLogged ? <RootRouter /> : <AuthRouter />;
     }
 
     return (
@@ -28,11 +29,13 @@ class App extends React.Component {
 
 App.propTypes = {
   isLoaded: PropTypes.bool.isRequired,
+  isLogged: PropTypes.bool.isRequired,
   verifyUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   isLoaded: state.app.isLoaded,
+  isLogged: state.user.isLogged,
 });
 
 const mapDispatchToProps = dispatch => (

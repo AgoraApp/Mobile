@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 
-  buttonsContainer: {
+  overlayContainer: {
     position: 'absolute',
     flex: 1,
     alignItems: 'center',
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
 const Auth = ({ navigation }) => (
   <View style={styles.container}>
     <ImageBackground style={styles.background} resizeMode="contain" source={splashImage}>
-      <View style={styles.buttonsContainer}>
+      <View style={styles.overlayContainer}>
         <TouchableOpacity
           style={[styles.button, styles.loginButton]}
           onPress={() => navigation.navigate('Login')}
