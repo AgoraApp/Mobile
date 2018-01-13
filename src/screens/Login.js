@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { StyleSheet, View, ImageBackground, TextInput, TouchableOpacity, Text } from 'react-native';
+import { DoubleBounce } from 'react-native-loader';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from './../config/colors';
 import splashImage from './../../assets/splash.png';
@@ -53,6 +54,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
   },
+
+  loader: {
+    position: 'absolute',
+    right: 25,
+    top: 15,
+    backgroundColor: 'transparent',
+  },
 });
 
 class Login extends React.Component {
@@ -72,6 +80,7 @@ class Login extends React.Component {
   }
 
   render() {
+    const { isLoading } = this.props;
     const { email, password } = this.state;
 
     return (
@@ -100,6 +109,11 @@ class Login extends React.Component {
               onPress={this.handleLogin}
             >
               <Text style={styles.buttonText}>Se connecter</Text>
+              {
+                isLoading ?
+                  <View style={styles.loader}><DoubleBounce size={10} color="#FFFFFF" /></View>
+                  : null
+              }
             </TouchableOpacity>
           </View>
         </ImageBackground>
@@ -109,8 +123,13 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   login: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = state => ({
+  isLoading: state.user.isLoading,
+});
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
@@ -118,4 +137,4 @@ const mapDispatchToProps = dispatch => (
   }, dispatch)
 );
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
