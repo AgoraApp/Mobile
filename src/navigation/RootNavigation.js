@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import { addNavigationHelpers, TabNavigator } from 'react-navigation';
 
 import Home from './../screens/Home';
+import Map from './../screens/Map';
 
 const screens = {
   Home: { screen: Home },
+  Map: { screen: Map },
 };
 
 const options = {
