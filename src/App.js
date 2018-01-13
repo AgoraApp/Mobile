@@ -5,6 +5,8 @@ import { AppLoading } from 'expo';
 
 import store from './store';
 
+import RootRouter from './navigation/RootNavigation';
+
 export default class App extends React.Component {
   state = {
     isReady: false,
@@ -12,7 +14,7 @@ export default class App extends React.Component {
 
   renderApp = () => {
     if (this.state.isReady) {
-
+      return <RootRouter />;
     }
 
     return (
@@ -24,10 +26,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    if (this.state.isReady) {
-
-    }
-
     return (
       <Provider store={store}>
         { this.renderApp() }
