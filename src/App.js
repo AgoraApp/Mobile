@@ -1,34 +1,44 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { AppLoading } from 'expo';
 
-import store from './store';
+import { verifyUser } from './actions/UserActions';
 
 import RootRouter from './navigation/RootNavigation';
 
-export default class App extends React.Component {
-  state = {
-    isReady: false,
-  };
+class App extends React.Component {
+  componentDidMount() {
+    this.props.verifyUser();
+  }
 
-  renderApp = () => {
-    if (this.state.isReady) {
+  render() {
+    const { isLoaded } = this.props;
+
+    if (isLoaded) {
       return <RootRouter />;
     }
 
     return (
-      <AppLoading
-        startAsync={() => {}}
-        onFinish={() => this.setState({ isReady: true })}
-      />
-    );
-  }
-
-  render() {
-    return (
-      <Provider store={store}>
-        { this.renderApp() }
-      </Provider>
+      <AppLoading />
     );
   }
 }
+
+App.propTypes = {
+  isLoaded: PropTypes.bool.isRequired,
+  verifyUser: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  isLoaded: state.app.isLoaded,
+});
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    verifyUser,
+  }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
