@@ -11,6 +11,9 @@ export const SET_TOKEN = '@@USER/SET_TOKEN';
 export const FETCH_LOGIN = '@@USER/FETCH_LOGIN';
 export const FETCH_LOGIN__SUCCESS = '@@USER/FETCH_LOGIN__SUCCESS';
 export const FETCH_LOGIN__FAIL = '@@USER/FETCH_LOGIN__FAIL';
+export const FETCH_ME = '@@USER/FETCH_ME';
+export const FETCH_ME__SUCCESS = '@@USER/FETCH_ME__SUCCESS';
+export const FETCH_ME__FAIL = '@@USER/FETCH_ME__FAIL';
 
 export const verifyUser = () => (dispatch) => {
   dispatch({ type: VERIFY_USER });
@@ -27,10 +30,33 @@ export const verifyUser = () => (dispatch) => {
       fetch(`${API_BASE_URL}/refresh`)
         .then(response => response.json())
         .then((data) => {
-          dispatch({
-            type: VERIFY_USER__SUCCESS,
-            payload: data,
-          });
+          dispatch([
+            {
+              type: VERIFY_USER__SUCCESS,
+              payload: data,
+            },
+            {
+              type: FETCH_ME,
+            },
+          ]);
+
+          fetch(`${API_BASE_URL}/me`)
+            .then(response => response.json())
+            .then((user) => {
+              dispatch({
+                type: FETCH_ME__SUCCESS,
+                payload: user,
+              });
+            })
+            .catch((error) => {
+              dispatch({
+                type: FETCH_ME__FAIL,
+                payload: error,
+              });
+            })
+            .then(() => {
+              dispatch({ type: APP_IS_LOADED });
+            });
         })
         .catch((error) => {
           AsyncStorage.setItem('@AgoraStore:authToken', '');
@@ -39,9 +65,6 @@ export const verifyUser = () => (dispatch) => {
             type: VERIFY_USER__FAIL,
             payload: error,
           });
-        })
-        .then(() => {
-          dispatch({ type: APP_IS_LOADED });
         });
     } else {
       dispatch([

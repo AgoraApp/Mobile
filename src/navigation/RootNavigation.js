@@ -5,10 +5,12 @@ import { addNavigationHelpers, TabNavigator } from 'react-navigation';
 
 import Home from './../screens/Home';
 import Map from './../screens/Map';
+import Profile from './../screens/Profile';
 
 const screens = {
   Home: { screen: Home },
   Map: { screen: Map },
+  Profile: { screen: Profile },
 };
 
 const options = {

@@ -2,6 +2,7 @@ import {
   SET_TOKEN,
   VERIFY_USER__SUCCESS,
   VERIFY_USER__FAIL,
+  FETCH_ME__SUCCESS,
   FETCH_LOGIN,
   FETCH_LOGIN__SUCCESS,
   FETCH_LOGIN__FAIL,
@@ -13,6 +14,7 @@ const initialState = {
   name: '',
   skills: [],
   token: '',
+  user: {},
 };
 
 export default function userState(state = initialState, action) {
@@ -35,6 +37,13 @@ export default function userState(state = initialState, action) {
         token: '',
       };
 
+    case FETCH_ME__SUCCESS:
+      return {
+        ...state,
+        name: action.payload.name,
+        skills: action.payload.skills,
+      };
+
     case FETCH_LOGIN:
       return {
         ...state,
@@ -46,6 +55,9 @@ export default function userState(state = initialState, action) {
         ...state,
         isLogged: true,
         isLoading: false,
+        token: action.payload.token,
+        name: action.payload.user.name,
+        skills: action.payload.user.skills,
       };
 
     case FETCH_LOGIN__FAIL:
