@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 
@@ -11,7 +12,7 @@ const screens = {
 };
 
 const options = {
-  headerMode: 'none'
+  headerMode: 'none',
 };
 
 export const RootNavigator = StackNavigator(screens, options);
@@ -20,12 +21,18 @@ const RootRouter = ({ dispatch, rootNavigation }) => (
   <RootNavigator
     navigation={addNavigationHelpers({
       dispatch,
-      state: rootNavigation
-    })} />
+      state: rootNavigation,
+    })}
+  />
 );
 
-const mapStateToProps = (state) => ({
-  rootNavigation: state.rootNavigation
+RootRouter.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  rootNavigation: PropTypes.shape({}).isRequired,
+};
+
+const mapStateToProps = state => ({
+  rootNavigation: state.rootNavigation,
 });
 
 export default connect(mapStateToProps)(RootRouter);

@@ -1,12 +1,18 @@
 {
-  "name": "Agora",
+  "name": "agora",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.15.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.5.1",
+    "husky": "^0.14.3",
     "jest-expo": "23.0.0",
     "react-native-scripts": "1.8.1",
-    "react-test-renderer": "16.0.0",
-    "redux-devtools-extension": "^2.13.2"
+    "react-test-renderer": "16.0.0"
   },
   "main": "./index.js",
   "scripts": {
@@ -14,18 +20,22 @@
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
-    "test": "node node_modules/jest/bin/jest.js --watch"
+    "lint": "eslint src --ext .jsx --ext .js --color",
+    "test": "node node_modules/jest/bin/jest.js --watch",
+    "precommit": "yarn lint"
   },
   "jest": {
     "preset": "jest-expo"
   },
   "dependencies": {
     "expo": "^23.0.4",
+    "prop-types": "^15.6.0",
     "react": "16.0.0",
     "react-native": "0.50.3",
     "react-navigation": "^1.0.0-beta.26",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
     "redux-multi": "^0.1.12",
     "redux-thunk": "^2.2.0"
   }

@@ -5,8 +5,9 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import indexReducer from './../reducers';
 
-const store = createStore(indexReducer, composeWithDevTools(
-  applyMiddleware(thunk, multi),
-));
+const store = createStore(
+  indexReducer,
+  composeWithDevTools(applyMiddleware(thunk, multi)),
+);
 
 export default store;
