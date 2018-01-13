@@ -1,14 +1,37 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Provider } from 'react-redux';
+import { AppLoading } from 'expo';
+
+import store from './store';
 
 export default class App extends React.Component {
-  render() {
+  state = {
+    isReady: false,
+  };
+
+  renderApp = () => {
+    if (this.state.isReady) {
+
+    }
+
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
+      <AppLoading
+        startAsync={() => {}}
+        onFinish={() => this.setState({ isReady: true })}
+      />
+    );
+  }
+
+  render() {
+    if (this.state.isReady) {
+
+    }
+
+    return (
+      <Provider store={store}>
+        { this.renderApp() }
+      </Provider>
     );
   }
 }
