@@ -12,7 +12,7 @@ const screens = {
 };
 
 const options = {
-  initialRouteName: 'Login',
+  initialRouteName: 'Auth',
   headerMode: 'none',
   transitionConfig: () => ({ screenInterpolator: () => null }),
 };

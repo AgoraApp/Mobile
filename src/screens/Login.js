@@ -2,7 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { StyleSheet, View, ImageBackground, TextInput, TouchableOpacity, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ImageBackground,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  KeyboardAvoidingView,
+  Keyboard,
+} from 'react-native';
 import { DoubleBounce } from 'react-native-loader';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from './../config/colors';
@@ -70,8 +79,27 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
+      keyboardIsVisible: false,
     };
   }
+
+  componentWillMount() {
+    this.keyboardWillShowSubscription = Keyboard.addListener('keyboardWillShow', this.handleKeyboardWillShow);
+    this.keyboardWillHideSubscription = Keyboard.addListener('keyboardWillHide', this.handleKeyboardWillHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardWillShowSubscription.remove();
+    this.keyboardWillHideSubscription.remove();
+  }
+
+  handleKeyboardWillShow = () => {
+    this.setState({ keyboardIsVisible: true });
+  };
+
+  handleKeyboardWillHide = () => {
+    this.setState({ keyboardIsVisible: false });
+  };
 
   handleLogin = () => {
     const { email, password } = this.state;
@@ -81,12 +109,16 @@ class Login extends React.Component {
 
   render() {
     const { isLoading } = this.props;
-    const { email, password } = this.state;
+    const { email, password, keyboardIsVisible } = this.state;
 
     return (
       <View style={styles.container}>
-        <ImageBackground style={styles.background} resizeMode="contain" source={splashImage}>
-          <View style={styles.overlayContainer}>
+        <ImageBackground style={styles.background} resizeMode="contain" source={splashImage} blurRadius={keyboardIsVisible ? 10 : 0}>
+          <KeyboardAvoidingView
+            style={styles.overlayContainer}
+            behavior="position"
+            keyboardVerticalOffset={25}
+          >
             <TextInput
               style={styles.input}
               autoCapitalize="none"
@@ -115,7 +147,7 @@ class Login extends React.Component {
                   : null
               }
             </TouchableOpacity>
-          </View>
+          </KeyboardAvoidingView>
         </ImageBackground>
       </View>
     );
