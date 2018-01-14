@@ -7,6 +7,7 @@ import {
   FETCH_LOGIN__SUCCESS,
   FETCH_LOGIN__FAIL,
   FETCH_LOGOUT__SUCCESS,
+  FETCH_ADD_SKILL__SUCCESS,
 } from './../actions/UserActions';
 
 const initialState = {
@@ -86,6 +87,12 @@ export default function userState(state = initialState, action) {
         avatar: '',
         expertise: '',
         skills: [],
+      };
+
+    case FETCH_ADD_SKILL__SUCCESS:
+      return {
+        ...state,
+        skills: action.payload,
       };
 
     default:

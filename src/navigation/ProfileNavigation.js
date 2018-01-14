@@ -4,14 +4,17 @@ import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 
 import Overview from './../screens/profile/Overview';
+import AddSkill from './../screens/profile/AddSkill';
 
 const screens = {
   Overview: { screen: Overview },
+  AddSkill: { screen: AddSkill },
 };
 
 const options = {
   initialRouteName: 'Overview',
   headerMode: 'none',
+  mode: 'modal',
 };
 
 export const ProfileNavigator = StackNavigator(screens, options);

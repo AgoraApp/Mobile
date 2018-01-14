@@ -7,6 +7,8 @@ import './src/helpers/fetchHelpers';
 import store from './src/store';
 import App from './src/App';
 
+console.disableYellowBox = true;
+
 Expo.registerRootComponent(() => (
   <Provider store={store}>
     <App />

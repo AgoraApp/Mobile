@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, FlatList, Text } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
 import { MAIN_COLOR, COLOR_GREY, FONT_COLOR } from './../../../config/colors';
 
 import skillShape from './../../../config/shapes/userShape';
+import navigationShape from './../../../config/shapes/navigationShape';
 
 import Tag from './../Tag';
 import Icon from './../Icon';
+import Button from './../Button';
 
 const styles = StyleSheet.create({
   skillsContainer: {
@@ -58,10 +61,6 @@ class SkillsList extends React.PureComponent {
     return finalSkills;
   }
 
-  handleAddSkill = () => {
-    console.log('handleAddSkill');
-  }
-
   renderSkill = ({ item }) => (
     <View style={styles.tagList}>
       {
@@ -83,20 +82,24 @@ class SkillsList extends React.PureComponent {
     return (
       <View>
         <View style={styles.skillsContainer}>
-          <FlatList
-            data={this.createSkillGroups()}
-            keyExtractor={item => item[0].id}
-            renderItem={this.renderSkill}
-            horizontal
-          />
+          {
+            this.props.skills.length > 0 ?
+              <FlatList
+                data={this.createSkillGroups()}
+                keyExtractor={item => item[0].id}
+                renderItem={this.renderSkill}
+                horizontal
+              />
+              :
+              <Text>Start adding some skills to help us to know you.</Text>
+          }
         </View>
         <View style={styles.actionContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.handleAddSkill()}
+          <Button
+            onPress={() => this.props.navigation.navigate('AddSkill')}
           >
             <Icon name="plus" color={MAIN_COLOR} size={20} />
-          </TouchableOpacity>
+          </Button>
         </View>
       </View>
     );
@@ -105,10 +108,11 @@ class SkillsList extends React.PureComponent {
 
 SkillsList.propTypes = {
   skills: PropTypes.arrayOf(PropTypes.shape(skillShape)),
+  navigation: PropTypes.shape(navigationShape).isRequired,
 };
 
 SkillsList.defaultProps = {
   skills: [],
 };
 
-export default SkillsList;
+export default withNavigation(SkillsList);

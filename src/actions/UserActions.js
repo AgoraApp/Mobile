@@ -4,19 +4,27 @@ import { API_BASE_URL } from './../config/api';
 
 import { APP_IS_LOADED } from './AppActions';
 
+export const SET_TOKEN = '@@USER/SET_TOKEN';
+
 export const VERIFY_USER = '@@USER/VERIFY_USER';
 export const VERIFY_USER__SUCCESS = '@@USER/VERIFY_USER__SUCCESS';
 export const VERIFY_USER__FAIL = '@@USER/VERIFY_USER__FAIL';
-export const SET_TOKEN = '@@USER/SET_TOKEN';
-export const FETCH_LOGIN = '@@USER/FETCH_LOGIN';
-export const FETCH_LOGIN__SUCCESS = '@@USER/FETCH_LOGIN__SUCCESS';
-export const FETCH_LOGIN__FAIL = '@@USER/FETCH_LOGIN__FAIL';
+
 export const FETCH_ME = '@@USER/FETCH_ME';
 export const FETCH_ME__SUCCESS = '@@USER/FETCH_ME__SUCCESS';
 export const FETCH_ME__FAIL = '@@USER/FETCH_ME__FAIL';
+
+export const FETCH_LOGIN = '@@USER/FETCH_LOGIN';
+export const FETCH_LOGIN__SUCCESS = '@@USER/FETCH_LOGIN__SUCCESS';
+export const FETCH_LOGIN__FAIL = '@@USER/FETCH_LOGIN__FAIL';
+
 export const FETCH_LOGOUT = '@@USER/FETCH_LOGOUT';
 export const FETCH_LOGOUT__SUCCESS = '@@USER/FETCH_LOGOUT__SUCCESS';
 export const FETCH_LOGOUT__FAIL = '@@USER/FETCH_LOGOUT__FAIL';
+
+export const FETCH_ADD_SKILL = '@@PLACE/FETCH_ADD_SKILL';
+export const FETCH_ADD_SKILL__SUCCESS = '@@PLACE/FETCH_ADD_SKILL__SUCCESS';
+export const FETCH_ADD_SKILL__FAIL = '@@PLACE/FETCH_ADD_SKILL_FAIL';
 
 export const verifyUser = () => (dispatch) => {
   dispatch({ type: VERIFY_USER });
@@ -139,6 +147,25 @@ export const logout = () => (dispatch) => {
     .catch((error) => {
       dispatch({
         type: FETCH_LOGOUT__FAIL,
+        payload: error,
+      });
+    });
+};
+
+export const addSkill = skill => (dispatch) => {
+  dispatch({ type: FETCH_ADD_SKILL });
+
+  fetch(`${API_BASE_URL}/me/add-skill/${skill}`, { method: 'POST' })
+    .then(response => response.json())
+    .then((data) => {
+      dispatch({
+        type: FETCH_ADD_SKILL__SUCCESS,
+        payload: data.user.skills,
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: FETCH_ADD_SKILL__FAIL,
         payload: error,
       });
     });
