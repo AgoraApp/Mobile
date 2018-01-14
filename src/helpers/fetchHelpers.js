@@ -23,6 +23,7 @@ const unregister = fetchIntercept.register({
   },
 
   response: (response) => {
+    console.log('FETCH RESPONSE', response);
     if (response.status === 200) {
       if (response.headers.has('Authorization')) {
         const token = response.headers.get('Authorization').split(' ')[1];

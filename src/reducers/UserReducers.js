@@ -6,15 +6,18 @@ import {
   FETCH_LOGIN,
   FETCH_LOGIN__SUCCESS,
   FETCH_LOGIN__FAIL,
+  FETCH_LOGOUT__SUCCESS,
 } from './../actions/UserActions';
 
 const initialState = {
   isLogged: false,
   isLoading: false,
-  name: '',
+  firstName: '',
+  lastName: '',
+  avatar: '',
+  expertise: '',
   skills: [],
   token: '',
-  user: {},
 };
 
 export default function userState(state = initialState, action) {
@@ -40,7 +43,10 @@ export default function userState(state = initialState, action) {
     case FETCH_ME__SUCCESS:
       return {
         ...state,
-        name: action.payload.name,
+        firstName: action.payload.first_name,
+        lastName: action.payload.last_name,
+        avatar: action.payload.avatar,
+        expertise: action.payload.expertise,
         skills: action.payload.skills,
       };
 
@@ -56,7 +62,10 @@ export default function userState(state = initialState, action) {
         isLogged: true,
         isLoading: false,
         token: action.payload.token,
-        name: action.payload.user.name,
+        firstName: action.payload.user.first_name,
+        lastName: action.payload.user.last_name,
+        avatar: action.payload.user.avatar,
+        expertise: action.payload.user.expertise,
         skills: action.payload.user.skills,
       };
 
@@ -65,6 +74,18 @@ export default function userState(state = initialState, action) {
         ...state,
         token: '',
         isLoading: false,
+      };
+
+    case FETCH_LOGOUT__SUCCESS:
+      return {
+        ...state,
+        isLogged: false,
+        token: '',
+        firstName: '',
+        lastName: '',
+        avatar: '',
+        expertise: '',
+        skills: [],
       };
 
     default:

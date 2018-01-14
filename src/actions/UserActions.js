@@ -14,6 +14,9 @@ export const FETCH_LOGIN__FAIL = '@@USER/FETCH_LOGIN__FAIL';
 export const FETCH_ME = '@@USER/FETCH_ME';
 export const FETCH_ME__SUCCESS = '@@USER/FETCH_ME__SUCCESS';
 export const FETCH_ME__FAIL = '@@USER/FETCH_ME__FAIL';
+export const FETCH_LOGOUT = '@@USER/FETCH_LOGOUT';
+export const FETCH_LOGOUT__SUCCESS = '@@USER/FETCH_LOGOUT__SUCCESS';
+export const FETCH_LOGOUT__FAIL = '@@USER/FETCH_LOGOUT__FAIL';
 
 export const verifyUser = () => (dispatch) => {
   dispatch({ type: VERIFY_USER });
@@ -103,6 +106,24 @@ export const login = (email, password) => (dispatch) => {
     .catch((error) => {
       dispatch({
         type: FETCH_LOGIN__FAIL,
+        payload: error,
+      });
+    });
+};
+
+export const logout = () => (dispatch) => {
+  dispatch({ type: FETCH_LOGOUT });
+
+  fetch(`${API_BASE_URL}/auth/logout`, { method: 'POST' })
+    .then(response => response.json())
+    .then(() => {
+      AsyncStorage.setItem('@AgoraStore:authToken', '');
+
+      dispatch({ type: FETCH_LOGOUT__SUCCESS });
+    })
+    .catch((error) => {
+      dispatch({
+        type: FETCH_LOGOUT__FAIL,
         payload: error,
       });
     });
