@@ -18,12 +18,24 @@ const styles = StyleSheet.create({
 });
 
 class Map extends React.Component {
+  constructor() {
+    super();
+
+    this.map = null;
+  }
+
   componentDidMount() {
     if (!this.props.isLoading && this.props.places.length === 0) {
       this.getCurrentLocation()
         .then((location) => {
           if (location) {
             this.props.fetchNearyPlaces(location.coords.latitude, location.coords.longitude);
+            this.map.animateToRegion({
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+              latitudeDelta: 0.05,
+              longitudeDelta: 0.05,
+            });
           }
         });
     }
@@ -45,9 +57,9 @@ class Map extends React.Component {
     return (
       <View style={styles.container}>
         <MapView
+          ref={(map) => { this.map = map; }}
           style={styles.map}
           showsUserLocation
-          followsUserLocation
         >
           {
             places.map(place => (
