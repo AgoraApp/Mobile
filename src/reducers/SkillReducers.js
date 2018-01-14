@@ -7,6 +7,7 @@ import {
 
 const initialState = {
   isLoading: false,
+  hasNoResults: false,
   skills: [],
 };
 
@@ -16,12 +17,14 @@ export default function skillState(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
+        hasNoResults: false,
       };
 
     case FETCH_SKILL_AUTOCOMPLETE__SUCCESS:
       return {
         ...state,
         isLoading: false,
+        hasNoResults: action.payload.length === 0,
         skills: action.payload,
       };
 
@@ -35,6 +38,7 @@ export default function skillState(state = initialState, action) {
       return {
         ...state,
         skills: [],
+        hasNoResults: false,
       };
 
     default:

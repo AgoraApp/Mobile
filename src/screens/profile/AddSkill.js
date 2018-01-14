@@ -48,12 +48,21 @@ const styles = StyleSheet.create({
 });
 
 class AddSkill extends React.PureComponent {
+  constructor() {
+    super();
+
+    this.state = {
+      autoCompleteValue: '',
+    };
+  }
+
   componentWillUnmount() {
     this.props.resetAutocomplete();
   }
 
   handleInputChange = (value) => {
-    this.props.fetchSkillAutocomplete(value);
+    this.setState({ autoCompleteValue: value });
+    this.props.fetchSkillAutocomplete(value.replace(/\s*$/, ''));
   }
 
   handleSkillPress = (name) => {
@@ -61,7 +70,7 @@ class AddSkill extends React.PureComponent {
   }
 
   renderSkill = ({ item }) => {
-    const userHasSkill = this.props.userSkills.find(skill => skill.id === item.id);
+    const userHasSkill = this.props.userSkills.find(skill => skill.name === item.name);
 
     if (userHasSkill) {
       return (
@@ -96,7 +105,19 @@ class AddSkill extends React.PureComponent {
   };
 
   render() {
-    const { skills, userSkills } = this.props;
+    const { skills, hasNoResults, userSkills } = this.props;
+    const { autoCompleteValue } = this.state;
+
+    const formattedSkills = [...skills];
+    const formattedAutoCompleteValue = autoCompleteValue.replace(/\s*$/, '').toLowerCase();
+
+    const skillExists = skills.find(skill => (
+      skill.name.toLowerCase() === formattedAutoCompleteValue
+    ));
+
+    if (!skillExists && (hasNoResults || skills.length > 0)) {
+      formattedSkills.push({ id: `new-skill-${autoCompleteValue}`, name: autoCompleteValue });
+    }
 
     return (
       <View style={styles.container}>
@@ -121,7 +142,7 @@ class AddSkill extends React.PureComponent {
           />
           <View style={styles.skillsList}>
             <FlatList
-              data={skills}
+              data={formattedSkills}
               extraData={userSkills}
               keyExtractor={item => item.id}
               renderItem={this.renderSkill}
@@ -137,6 +158,7 @@ class AddSkill extends React.PureComponent {
 
 AddSkill.propTypes = {
   skills: PropTypes.arrayOf(PropTypes.shape(skillShape)).isRequired,
+  hasNoResults: PropTypes.bool.isRequired,
   userSkills: PropTypes.arrayOf(PropTypes.shape(skillShape)).isRequired,
   navigation: PropTypes.shape(navigationShape).isRequired,
   fetchSkillAutocomplete: PropTypes.func.isRequired,
@@ -146,6 +168,7 @@ AddSkill.propTypes = {
 
 const mapStateToProps = state => ({
   skills: state.skill.skills,
+  hasNoResults: state.skill.hasNoResults,
   userSkills: state.user.skills,
 });
 
