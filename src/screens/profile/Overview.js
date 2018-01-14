@@ -5,14 +5,14 @@ import { bindActionCreators } from 'redux';
 import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native';
 import { Constants } from 'expo';
 
-import { MAIN_COLOR } from './../config/colors';
-import skillShape from './../config/shapes/userShape';
+import { MAIN_COLOR } from './../../config/colors';
+import skillShape from './../../config/shapes/userShape';
 
-import { logout } from './../actions/UserActions';
+import { logout } from './../../actions/UserActions';
 
-import Icon from './../components/blocks/Icon';
-import Tag from './../components/blocks/Tag';
-import SkillsList from './../components/blocks/profile/SkillsList';
+import Icon from './../../components/blocks/Icon';
+import Tag from './../../components/blocks/Tag';
+import SkillsList from './../../components/blocks/profile/SkillsList';
 
 const styles = StyleSheet.create({
   container: {

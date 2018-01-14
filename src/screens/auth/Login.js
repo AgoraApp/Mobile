@@ -14,10 +14,10 @@ import {
 } from 'react-native';
 import { DoubleBounce } from 'react-native-loader';
 
-import { MAIN_COLOR, SECONDARY_COLOR } from './../config/colors';
-import splashImage from './../../assets/splash.png';
+import { MAIN_COLOR, SECONDARY_COLOR } from './../../config/colors';
+import splashImage from './../../../assets/splash.png';
 
-import { login } from './../actions/UserActions';
+import { login } from './../../actions/UserActions';
 
 const styles = StyleSheet.create({
   container: {

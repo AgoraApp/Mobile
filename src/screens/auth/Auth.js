@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, ImageBackground, TouchableOpacity, Text } from 'react-native';
 
-import { MAIN_COLOR, SECONDARY_COLOR } from './../config/colors';
-import splashImage from './../../assets/splash.png';
+import { MAIN_COLOR, SECONDARY_COLOR } from './../../config/colors';
+import splashImage from './../../../assets/splash.png';
 
 const styles = StyleSheet.create({
   container: {

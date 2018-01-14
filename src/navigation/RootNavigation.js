@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, TabNavigator } from 'react-navigation';
 
-import Home from './../screens/Home';
-import Map from './../screens/Map';
-import Profile from './../screens/Profile';
+import Home from './../screens/tab/Home';
+import Map from './../screens/tab/Map';
+import Profile from './../screens/tab/Profile';
 
 const screens = {
   Home: { screen: Home },

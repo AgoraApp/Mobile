@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { StyleSheet, View } from 'react-native';
 import { MapView, Permissions, Location } from 'expo';
 
-import { fetchNearyPlaces } from './../actions/PlaceActions';
+import { fetchNearyPlaces } from './../../actions/PlaceActions';
 
 const styles = StyleSheet.create({
   container: {

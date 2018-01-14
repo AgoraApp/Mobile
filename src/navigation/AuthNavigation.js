@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 
-import Auth from './../screens/Auth';
-import Login from './../screens/Login';
+import Auth from './../screens/auth/Auth';
+import Login from './../screens/auth/Login';
 
 const screens = {
   Auth: { screen: Auth },
