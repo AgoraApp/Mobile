@@ -12,9 +12,18 @@ import Tag from './../Tag';
 import Icon from './../Icon';
 import Button from './../Button';
 
+const ITEMS_PER_GROUP = 4;
+
 const styles = StyleSheet.create({
   skillsContainer: {
+    alignItems: 'center',
     marginBottom: 20,
+  },
+
+  emptySkills: {
+    color: FONT_COLOR,
+    marginTop: 20,
+    marginBottom: 10,
   },
 
   tagList: {
@@ -30,31 +39,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  button: {
-    paddingTop: 8,
-    paddingBottom: 8,
-    paddingLeft: 20,
-    paddingRight: 20,
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    borderRadius: 50,
+  buttonIcon: {
+    marginRight: 10,
   },
 });
 
 class SkillsList extends React.PureComponent {
   createSkillGroups = () => {
-    const ITEMS_PER_GROUP = 4;
     const finalSkills = [];
     let tempSkills = [];
 
-    this.props.skills.forEach((skill) => {
+    this.props.skills.forEach((skill, index) => {
       tempSkills.push(skill);
 
       if (tempSkills.length === ITEMS_PER_GROUP) {
         finalSkills.push(tempSkills);
         tempSkills = [];
+      } else if (index === this.props.skills.length - 1) {
+        finalSkills.push(tempSkills);
       }
     });
 
@@ -88,17 +90,21 @@ class SkillsList extends React.PureComponent {
                 data={this.createSkillGroups()}
                 keyExtractor={item => item[0].id}
                 renderItem={this.renderSkill}
+                scrollEnabled={this.props.skills.length > ITEMS_PER_GROUP}
                 horizontal
               />
               :
-              <Text>Start adding some skills to help us to know you.</Text>
+              <Text style={styles.emptySkills}>
+                Start adding some skills to help us to know you.
+              </Text>
           }
         </View>
         <View style={styles.actionContainer}>
           <Button
             onPress={() => this.props.navigation.navigate('AddSkill')}
           >
-            <Icon name="plus" color={MAIN_COLOR} size={20} />
+            <Icon style={styles.buttonIcon} name="plus" color={MAIN_COLOR} size={20} />
+            <Text>Add a skill</Text>
           </Button>
         </View>
       </View>

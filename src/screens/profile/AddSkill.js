@@ -6,7 +6,7 @@ import { StyleSheet, View, Text, TextInput, FlatList, KeyboardAvoidingView, Touc
 import { Constants } from 'expo';
 import debounce from 'lodash.debounce';
 
-import { MAIN_COLOR, COLOR_GREY, FONT_COLOR } from './../../config/colors';
+import { MAIN_COLOR, COLOR_GREY, FONT_COLOR, SECONDARY_COLOR } from './../../config/colors';
 import navigationShape from './../../config/shapes/navigationShape';
 import skillShape from './../../config/shapes/userShape';
 import inputStyles from './../../styles/Input';
@@ -60,24 +60,43 @@ class AddSkill extends React.PureComponent {
     this.props.addSkill(name);
   }
 
-  renderSkill = ({ item }) => (
-    <TouchableOpacity
-      style={styles.skillContainer}
-      onPress={() => this.handleSkillPress(item.name)}
-    >
-      <Tag
-        style={styles.tag}
-        key={item.id}
-        text={item.name}
-        color={COLOR_GREY}
-        fontColor={FONT_COLOR}
-        size="large"
-      />
-    </TouchableOpacity>
-  );
+  renderSkill = ({ item }) => {
+    const userHasSkill = this.props.userSkills.find(skill => skill.id === item.id);
+
+    if (userHasSkill) {
+      return (
+        <View style={styles.skillContainer}>
+          <Tag
+            style={styles.tag}
+            key={item.id}
+            text={item.name}
+            color={SECONDARY_COLOR}
+            fontColor="#FFFFFF"
+            size="large"
+          />
+        </View>
+      );
+    }
+
+    return (
+      <TouchableOpacity
+        style={styles.skillContainer}
+        onPress={() => this.handleSkillPress(item.name, userHasSkill)}
+      >
+        <Tag
+          style={styles.tag}
+          key={item.id}
+          text={item.name}
+          color={COLOR_GREY}
+          fontColor={FONT_COLOR}
+          size="large"
+        />
+      </TouchableOpacity>
+    );
+  };
 
   render() {
-    const { skills } = this.props;
+    const { skills, userSkills } = this.props;
 
     return (
       <View style={styles.container}>
@@ -103,9 +122,11 @@ class AddSkill extends React.PureComponent {
           <View style={styles.skillsList}>
             <FlatList
               data={skills}
+              extraData={userSkills}
               keyExtractor={item => item.id}
               renderItem={this.renderSkill}
               showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps="handled"
             />
           </View>
         </KeyboardAvoidingView>
@@ -116,6 +137,7 @@ class AddSkill extends React.PureComponent {
 
 AddSkill.propTypes = {
   skills: PropTypes.arrayOf(PropTypes.shape(skillShape)).isRequired,
+  userSkills: PropTypes.arrayOf(PropTypes.shape(skillShape)).isRequired,
   navigation: PropTypes.shape(navigationShape).isRequired,
   fetchSkillAutocomplete: PropTypes.func.isRequired,
   resetAutocomplete: PropTypes.func.isRequired,
@@ -124,6 +146,7 @@ AddSkill.propTypes = {
 
 const mapStateToProps = state => ({
   skills: state.skill.skills,
+  userSkills: state.user.skills,
 });
 
 const mapDispatchToProps = dispatch => (
