@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   actionsContainer: {
     position: 'absolute',
     right: 15,
-    top: Constants.statusBarHeight,
+    top: Constants.statusBarHeight + 10,
   },
 
   avatarContainer: {
@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
+    backgroundColor: '#FFFFFF',
   },
 
   userContainer: {

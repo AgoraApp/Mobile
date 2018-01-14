@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Image } from 'react-native';
 
 import { API_BASE_URL } from './../config/api';
 
@@ -46,28 +46,42 @@ export const verifyUser = () => (dispatch) => {
           fetch(`${API_BASE_URL}/me`)
             .then(response => response.json())
             .then((user) => {
-              dispatch({
-                type: FETCH_ME__SUCCESS,
-                payload: user,
+              Image.prefetch(user.avatar).then(() => {
+                dispatch([
+                  {
+                    type: FETCH_ME__SUCCESS,
+                    payload: user,
+                  },
+                  {
+                    type: APP_IS_LOADED,
+                  },
+                ]);
               });
             })
             .catch((error) => {
-              dispatch({
-                type: FETCH_ME__FAIL,
-                payload: error,
-              });
-            })
-            .then(() => {
-              dispatch({ type: APP_IS_LOADED });
+              dispatch([
+                {
+                  type: FETCH_ME__FAIL,
+                  payload: error,
+                },
+                {
+                  type: APP_IS_LOADED,
+                },
+              ]);
             });
         })
         .catch((error) => {
           AsyncStorage.setItem('@AgoraStore:authToken', '');
 
-          dispatch({
-            type: VERIFY_USER__FAIL,
-            payload: error,
-          });
+          dispatch([
+            {
+              type: VERIFY_USER__FAIL,
+              payload: error,
+            },
+            {
+              type: APP_IS_LOADED,
+            },
+          ]);
         });
     } else {
       dispatch([
@@ -97,10 +111,11 @@ export const login = (email, password) => (dispatch) => {
     .then(response => response.json())
     .then((data) => {
       AsyncStorage.setItem('@AgoraStore:authToken', data.token);
-
-      dispatch({
-        type: FETCH_LOGIN__SUCCESS,
-        payload: data,
+      Image.prefetch(data.user.avatar).then(() => {
+        dispatch({
+          type: FETCH_LOGIN__SUCCESS,
+          payload: data,
+        });
       });
     })
     .catch((error) => {

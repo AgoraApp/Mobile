@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { AppLoading, Font } from 'expo';
+import { AppLoading, Font, Asset } from 'expo';
 
 import agoraIcons from './../assets/fonts/agora-icons.ttf';
+import splashImage from './../assets/splash.png';
 
 import { verifyUser } from './actions/UserActions';
 
@@ -29,9 +30,14 @@ class App extends React.Component {
       { AgoraIcons: agoraIcons },
     ];
 
-    const cacheFonts = fonts.map(font => Font.loadAsync(font));
+    const images = [
+      splashImage,
+    ];
 
-    return Promise.all(cacheFonts);
+    const cacheFonts = fonts.map(font => Font.loadAsync(font));
+    const cacheImages = images.map(image => Asset.fromModule(image).downloadAsync());
+
+    return Promise.all([...cacheFonts, ...cacheImages]);
   }
 
   render() {
