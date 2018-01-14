@@ -15,7 +15,7 @@ const screens = {
 
 const options = {
   initialRouteName: 'Home',
-  swipeEnabled: true,
+  swipeEnabled: false,
   animationEnabled: true,
   tabBarOptions: {
     activeTintColor: '#fff',
