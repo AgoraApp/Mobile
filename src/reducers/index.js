@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 
-import appState from './AppReducers';
 import rootNavigationState from './RootNavigationReducers';
 import authNavigationState from './AuthNavigationReducers';
 import profileNavigationState from './ProfileNavigationReducers';
@@ -9,7 +8,6 @@ import placeState from './PlaceReducers';
 import skillState from './SkillReducers';
 
 const state = combineReducers({
-  app: appState,
   rootNavigation: rootNavigationState,
   authNavigation: authNavigationState,
   profileNavigation: profileNavigationState,

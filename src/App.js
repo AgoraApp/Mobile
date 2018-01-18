@@ -7,7 +7,7 @@ import { AppLoading, Font, Asset } from 'expo';
 import agoraIcons from './../assets/fonts/agora-icons.ttf';
 import splashImage from './../assets/splash.png';
 
-import { verifyUser } from './actions/UserActions';
+import { verifyToken, verifyUser, fetchUserData } from './actions/UserActions';
 
 import RootRouter from './navigation/RootNavigation';
 import AuthRouter from './navigation/AuthNavigation';
@@ -17,12 +17,20 @@ class App extends React.Component {
     super();
 
     this.state = {
-      resourcesLoaded: false,
+      isLoaded: false,
     };
   }
 
-  componentDidMount() {
-    this.props.verifyUser();
+  loadAsync = async () => {
+    const cacheResources = this.cacheResourcesAsync();
+
+    return this.props.verifyToken()
+      .then(() => (
+        this.props.verifyUser()
+          .then(() => Promise.all([this.props.fetchUserData(), cacheResources]))
+          .catch(() => cacheResources)
+      ))
+      .catch(() => cacheResources);
   }
 
   cacheResourcesAsync = async () => {
@@ -41,36 +49,38 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLoaded, isLogged } = this.props;
-    const { resourcesLoaded } = this.state;
+    const { isLogged } = this.props;
+    const { isLoaded } = this.state;
 
-    if (isLoaded && resourcesLoaded) {
-      return isLogged ? <RootRouter /> : <AuthRouter />;
+    if (!isLoaded) {
+      return (
+        <AppLoading
+          startAsync={this.loadAsync}
+          onFinish={() => this.setState({ isLoaded: true })}
+        />
+      );
     }
 
-    return (
-      <AppLoading
-        startAsync={this.cacheResourcesAsync}
-        onFinish={() => this.setState({ resourcesLoaded: true })}
-      />
-    );
+    return isLogged ? <RootRouter /> : <AuthRouter />;
   }
 }
 
 App.propTypes = {
-  isLoaded: PropTypes.bool.isRequired,
   isLogged: PropTypes.bool.isRequired,
+  verifyToken: PropTypes.func.isRequired,
   verifyUser: PropTypes.func.isRequired,
+  fetchUserData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isLoaded: state.app.isLoaded,
   isLogged: state.user.isLogged,
 });
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
+    verifyToken,
     verifyUser,
+    fetchUserData,
   }, dispatch)
 );
 

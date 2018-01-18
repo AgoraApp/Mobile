@@ -2,8 +2,9 @@ import { AsyncStorage, Image } from 'react-native';
 
 import { API_BASE_URL } from './../config/api';
 
-import { APP_IS_LOADED } from './AppActions';
-
+export const VERIFY_TOKEN = '@@USER/VERIFY_TOKEN';
+export const VERIFY_TOKEN__SUCCESS = '@@USER/VERIFY_TOKEN__SUCCESS';
+export const VERIFY_TOKEN__FAIL = '@@USER/VERIFY_TOKEN__FAIL';
 export const SET_TOKEN = '@@USER/SET_TOKEN';
 
 export const VERIFY_USER = '@@USER/VERIFY_USER';
@@ -22,86 +23,74 @@ export const FETCH_LOGOUT = '@@USER/FETCH_LOGOUT';
 export const FETCH_LOGOUT__SUCCESS = '@@USER/FETCH_LOGOUT__SUCCESS';
 export const FETCH_LOGOUT__FAIL = '@@USER/FETCH_LOGOUT__FAIL';
 
-export const FETCH_ADD_SKILL = '@@PLACE/FETCH_ADD_SKILL';
-export const FETCH_ADD_SKILL__SUCCESS = '@@PLACE/FETCH_ADD_SKILL__SUCCESS';
-export const FETCH_ADD_SKILL__FAIL = '@@PLACE/FETCH_ADD_SKILL_FAIL';
+export const FETCH_ADD_SKILL = '@@USER/FETCH_ADD_SKILL';
+export const FETCH_ADD_SKILL__SUCCESS = '@@USER/FETCH_ADD_SKILL__SUCCESS';
+export const FETCH_ADD_SKILL__FAIL = '@@USER/FETCH_ADD_SKILL_FAIL';
 
 export const verifyUser = () => (dispatch) => {
   dispatch({ type: VERIFY_USER });
 
-  AsyncStorage.getItem('@AgoraStore:authToken').then((token) => {
-    if (token) {
-      AsyncStorage.setItem('@AgoraStore:authToken', token);
+  return fetch(`${API_BASE_URL}/refresh`)
+    .then(response => response.json())
+    .then((data) => {
+      dispatch({
+        type: VERIFY_USER__SUCCESS,
+        payload: data,
+      });
+    })
+    .catch((error) => {
+      AsyncStorage.setItem('@AgoraStore:authToken', '');
 
       dispatch({
-        type: SET_TOKEN,
-        payload: token,
+        type: VERIFY_USER__FAIL,
+        payload: error,
       });
+    });
+};
 
-      fetch(`${API_BASE_URL}/refresh`)
-        .then(response => response.json())
-        .then((data) => {
-          dispatch([
-            {
-              type: VERIFY_USER__SUCCESS,
-              payload: data,
-            },
-            {
-              type: FETCH_ME,
-            },
-          ]);
+export const verifyToken = () => (dispatch) => {
+  dispatch({ type: VERIFY_TOKEN });
 
-          fetch(`${API_BASE_URL}/me`)
-            .then(response => response.json())
-            .then((user) => {
-              Image.prefetch(user.avatar).then(() => {
-                dispatch([
-                  {
-                    type: FETCH_ME__SUCCESS,
-                    payload: user,
-                  },
-                  {
-                    type: APP_IS_LOADED,
-                  },
-                ]);
-              });
-            })
-            .catch((error) => {
-              dispatch([
-                {
-                  type: FETCH_ME__FAIL,
-                  payload: error,
-                },
-                {
-                  type: APP_IS_LOADED,
-                },
-              ]);
-            });
-        })
-        .catch((error) => {
-          AsyncStorage.setItem('@AgoraStore:authToken', '');
-
-          dispatch([
-            {
-              type: VERIFY_USER__FAIL,
-              payload: error,
-            },
-            {
-              type: APP_IS_LOADED,
-            },
-          ]);
-        });
-    } else {
+  return AsyncStorage.getItem('@AgoraStore:authToken').then((token) => {
+    if (token) {
       dispatch([
         {
-          type: VERIFY_USER__FAIL,
+          type: VERIFY_TOKEN__SUCCESS,
         },
         {
-          type: APP_IS_LOADED,
+          type: SET_TOKEN,
+          payload: token,
         },
       ]);
+
+      return Promise.resolve();
     }
+
+    dispatch({ type: VERIFY_TOKEN__FAIL });
+
+    return Promise.reject();
   });
+};
+
+export const fetchUserData = () => (dispatch) => {
+  dispatch({ type: FETCH_ME });
+
+  return fetch(`${API_BASE_URL}/me`)
+    .then(response => response.json())
+    .then((user) => {
+      dispatch({
+        type: FETCH_ME__SUCCESS,
+        payload: user,
+      });
+
+      return Image.prefetch(user.avatar);
+    })
+    .catch((error) => {
+      dispatch({
+        type: FETCH_ME__FAIL,
+        payload: error,
+      });
+    });
 };
 
 export const login = (email, password) => (dispatch) => {
