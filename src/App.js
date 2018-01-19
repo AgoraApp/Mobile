@@ -6,6 +6,7 @@ import { AppLoading, Font, Asset } from 'expo';
 
 import agoraIcons from './../assets/fonts/agora-icons.ttf';
 import splashImage from './../assets/splash.png';
+import pin from './../assets/pin_red.png';
 
 import { verifyToken, verifyUser, fetchUserData } from './actions/UserActions';
 
@@ -40,6 +41,7 @@ class App extends React.Component {
 
     const images = [
       splashImage,
+      pin,
     ];
 
     const cacheFonts = fonts.map(font => Font.loadAsync(font));

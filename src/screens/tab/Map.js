@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 import { StyleSheet, View } from 'react-native';
 import { MapView, Permissions, Location } from 'expo';
 
+import pin from './../../../assets/pin_red.png';
+
 import placeShape from './../../config/shapes/placeShape';
 import regionShape from './../../config/shapes/mapShape';
 import { fetchNearyPlaces } from './../../actions/PlaceActions';
@@ -79,6 +81,8 @@ class Map extends React.Component {
             places.map(place => (
               <MapView.Marker
                 key={place.id}
+                image={pin}
+                centerOffset={{ x: -0.5, y: -15 }}
                 coordinate={{ latitude: place.latitude, longitude: place.longitude }}
               />
             ))
