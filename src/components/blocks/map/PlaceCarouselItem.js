@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Dimensions, View, Text, Image } from 'react-native';
+import { StyleSheet, Dimensions, View, Text } from 'react-native';
 
 import SLIDER from './../../../config/map';
 import { FONT_GREY, MAIN_COLOR } from './../../../config/colors';
@@ -8,6 +8,7 @@ import placeShape from './../../../config/shapes/placeShape';
 import transformKilometersToMeters from './../../../helpers/generalHelpers';
 
 import Icon from './../Icon';
+import PlaceholderImage from './../PlaceholderImage';
 
 const sliderWidth = Dimensions.get('window').width;
 const itemWidth = (sliderWidth / 3) * 2;
@@ -21,7 +22,6 @@ const styles = StyleSheet.create({
 
   image: {
     height: 125,
-    resizeMode: 'cover',
     marginHorizontal: -10,
   },
 
@@ -82,7 +82,7 @@ class PlaceCarouselItem extends React.PureComponent {
 
     return (
       <View style={styles.container}>
-        <Image style={styles.image} source={{ uri: image }} />
+        <PlaceholderImage style={styles.image} src={image} />
         <View style={styles.content}>
           <Text style={styles.name}>{ name }</Text>
           <View style={styles.addressContainer}>
