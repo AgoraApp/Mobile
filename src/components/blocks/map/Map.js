@@ -2,23 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 import { MapView, Permissions, Location } from 'expo';
 
-import pin from './../../../assets/pin_red.png';
+import pin from './../../../../assets/pin_red.png';
 
-import placeShape from './../../config/shapes/placeShape';
-import regionShape from './../../config/shapes/mapShape';
-import { fetchNearyPlaces } from './../../actions/PlaceActions';
-import { setRegion } from './../../actions/MapActions';
-
-import PlacesCarousel from './../../components/blocks/map/PlacesCarousel';
+import placeShape from './../../../config/shapes/placeShape';
+import regionShape from './../../../config/shapes/mapShape';
+import { fetchNearyPlaces } from './../../../actions/PlaceActions';
+import { setRegion } from './../../../actions/MapActions';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
   map: {
     flex: 1,
   },
@@ -36,10 +30,10 @@ class Map extends React.Component {
       this.getCurrentLocation()
         .then((location) => {
           if (location) {
-            this.props.fetchNearyPlaces(location.coords.latitude, location.coords.longitude);
-            this.props.setRegion(location.coords.latitude, location.coords.longitude);
-            // this.props.fetchNearyPlaces(44.825917, -0.556826);
-            // this.props.setRegion(44.825917, -0.556826);
+            // this.props.fetchNearyPlaces(location.coords.latitude, location.coords.longitude);
+            // this.props.setRegion(location.coords.latitude, location.coords.longitude);
+            this.props.fetchNearyPlaces(44.825917, -0.556826);
+            this.props.setRegion(44.825917, -0.556826);
           }
         });
     }
@@ -71,26 +65,23 @@ class Map extends React.Component {
     const { places } = this.props;
 
     return (
-      <View style={styles.container}>
-        <MapView
-          ref={(map) => { this.map = map; }}
-          style={styles.map}
-          showsUserLocation
-        >
-          {
-            places.map(place => (
-              <MapView.Marker
-                key={place.id}
-                centerOffset={{ x: -0.5, y: -18 }}
-                coordinate={{ latitude: place.latitude, longitude: place.longitude }}
-              >
-                <Image source={pin} style={{ width: 30, height: 45 }} />
-              </MapView.Marker>
-            ))
-          }
-        </MapView>
-        <PlacesCarousel />
-      </View>
+      <MapView
+        ref={(map) => { this.map = map; }}
+        style={styles.map}
+        showsUserLocation
+      >
+        {
+          places.map(place => (
+            <MapView.Marker
+              key={place.id}
+              centerOffset={{ x: -0.5, y: -18 }}
+              coordinate={{ latitude: place.latitude, longitude: place.longitude }}
+            >
+              <Image source={pin} style={{ width: 30, height: 45 }} />
+            </MapView.Marker>
+          ))
+        }
+      </MapView>
     );
   }
 }

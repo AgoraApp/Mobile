@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { addNavigationHelpers, TabNavigator } from 'react-navigation';
 
 import Home from './../screens/tab/Home';
-import Map from './../screens/tab/Map';
+import Places from './../screens/tab/Places';
 import Profile from './../screens/tab/Profile';
 
 const screens = {
   Home: { screen: Home },
-  Map: { screen: Map },
+  Places: { screen: Places },
   Profile: { screen: Profile },
 };
 
