@@ -23,6 +23,18 @@
       "css": "plus",
       "code": 59393,
       "src": "entypo"
+    },
+    {
+      "uid": "gjt8ba5q0n3nn8ptw6324sflr8qoaeam",
+      "css": "location",
+      "code": 59395,
+      "src": "typicons"
+    },
+    {
+      "uid": "64f5a50cf7ac972a56a9a511acb5d28e",
+      "css": "address",
+      "code": 59396,
+      "src": "entypo"
     }
   ]
 }

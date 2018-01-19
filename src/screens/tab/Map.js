@@ -5,7 +5,12 @@ import { bindActionCreators } from 'redux';
 import { StyleSheet, View } from 'react-native';
 import { MapView, Permissions, Location } from 'expo';
 
+import placeShape from './../../config/shapes/placeShape';
+import regionShape from './../../config/shapes/mapShape';
 import { fetchNearyPlaces } from './../../actions/PlaceActions';
+import { setRegion } from './../../actions/MapActions';
+
+import PlacesCarousel from './../../components/blocks/map/PlacesCarousel';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,14 +35,23 @@ class Map extends React.Component {
         .then((location) => {
           if (location) {
             this.props.fetchNearyPlaces(location.coords.latitude, location.coords.longitude);
-            this.map.animateToRegion({
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
-              latitudeDelta: 0.05,
-              longitudeDelta: 0.05,
-            });
+            this.props.setRegion(location.coords.latitude, location.coords.longitude);
+            // this.props.fetchNearyPlaces(44.825917, -0.556826);
+            // this.props.setRegion(44.825917, -0.556826);
           }
         });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.region.latitude !== nextProps.region.latitude ||
+        this.props.region.longitude !== nextProps.region.longitude) {
+      this.map.animateToRegion({
+        latitude: nextProps.region.latitude,
+        longitude: nextProps.region.longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
+      });
     }
   }
 
@@ -70,18 +84,22 @@ class Map extends React.Component {
             ))
           }
         </MapView>
+        <PlacesCarousel />
       </View>
     );
   }
 }
 
 Map.propTypes = {
+  region: PropTypes.shape(regionShape).isRequired,
   isLoading: PropTypes.bool.isRequired,
-  places: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  places: PropTypes.arrayOf(PropTypes.shape(placeShape)).isRequired,
   fetchNearyPlaces: PropTypes.func.isRequired,
+  setRegion: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
+  region: state.map.region,
   isLoading: state.place.isLoading,
   places: state.place.places,
 });
@@ -89,6 +107,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     fetchNearyPlaces,
+    setRegion,
   }, dispatch)
 );
 

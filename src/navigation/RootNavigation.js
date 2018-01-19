@@ -14,7 +14,7 @@ const screens = {
 };
 
 const options = {
-  initialRouteName: 'Profile',
+  initialRouteName: 'Home',
   swipeEnabled: false,
   animationEnabled: true,
   tabBarOptions: {
