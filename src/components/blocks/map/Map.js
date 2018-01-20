@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux';
 import { StyleSheet, Image } from 'react-native';
 import { MapView, Permissions, Location } from 'expo';
 
-import pin from './../../../../assets/pin_red.png';
+import redPin from './../../../../assets/pin_red.png';
+import bluePin from './../../../../assets/pin_blue.png';
 
 import placeShape from './../../../config/shapes/placeShape';
 import regionShape from './../../../config/shapes/mapShape';
@@ -62,7 +63,7 @@ class Map extends React.Component {
   }
 
   render() {
-    const { places } = this.props;
+    const { places, focusedPlace } = this.props;
 
     return (
       <MapView
@@ -77,7 +78,10 @@ class Map extends React.Component {
               centerOffset={{ x: -0.5, y: -18 }}
               coordinate={{ latitude: place.latitude, longitude: place.longitude }}
             >
-              <Image source={pin} style={{ width: 30, height: 45 }} />
+              <Image
+                source={focusedPlace === place.id ? bluePin : redPin}
+                style={{ width: 30, height: 45 }}
+              />
             </MapView.Marker>
           ))
         }
@@ -90,14 +94,20 @@ Map.propTypes = {
   region: PropTypes.shape(regionShape).isRequired,
   isLoading: PropTypes.bool.isRequired,
   places: PropTypes.arrayOf(PropTypes.shape(placeShape)).isRequired,
+  focusedPlace: PropTypes.number,
   fetchNearyPlaces: PropTypes.func.isRequired,
   setRegion: PropTypes.func.isRequired,
+};
+
+Map.defaultProps = {
+  focusedPlace: null,
 };
 
 const mapStateToProps = state => ({
   region: state.map.region,
   isLoading: state.place.isLoading,
   places: state.place.places,
+  focusedPlace: state.place.focusedPlace,
 });
 
 const mapDispatchToProps = dispatch => (

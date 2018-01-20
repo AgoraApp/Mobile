@@ -2,11 +2,13 @@ import {
   FETCH_NEARBY_PLACES,
   FETCH_NEARBY_PLACES__SUCCESS,
   FETCH_NEARBY_PLACES__FAIL,
+  SET_FOCUSED_PLACE,
 } from './../actions/PlaceActions';
 
 const initialState = {
   isLoading: false,
   places: [],
+  focusedPlace: null,
 };
 
 export default function placeState(state = initialState, action) {
@@ -28,6 +30,12 @@ export default function placeState(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+      };
+
+    case SET_FOCUSED_PLACE:
+      return {
+        ...state,
+        focusedPlace: action.payload,
       };
 
     default:

@@ -7,7 +7,7 @@ import Carousel from 'react-native-snap-carousel';
 import { StyleSheet, Dimensions, View } from 'react-native';
 
 import placeShape from './../../../config/shapes/placeShape';
-import { setRegion } from './../../../actions/MapActions';
+import { focusPlace } from './../../../actions/PlaceActions';
 
 import PlaceCarouselItem from './PlaceCarouselItem';
 
@@ -25,7 +25,7 @@ class PlacesCarousel extends React.PureComponent {
   handleSnap = (index) => {
     const place = this.props.places[index];
 
-    this.props.setRegion(place.latitude, place.longitude);
+    this.props.focusPlace(place);
   }
 
 
@@ -50,7 +50,7 @@ class PlacesCarousel extends React.PureComponent {
 
 PlacesCarousel.propTypes = {
   places: PropTypes.arrayOf(PropTypes.shape(placeShape)).isRequired,
-  setRegion: PropTypes.func.isRequired,
+  focusPlace: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -59,7 +59,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
-    setRegion,
+    focusPlace,
   }, dispatch)
 );
 
