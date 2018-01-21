@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import Map from './../../components/blocks/map/Map';
-import PlacesCarousel from './../../components/blocks/map/PlacesCarousel';
+import PlacesCarousel from '../../components/blocks/map/PlacesCarousel';
 
 const styles = StyleSheet.create({
   container: {

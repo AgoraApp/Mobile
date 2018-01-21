@@ -1,31 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Dimensions, View, Text } from 'react-native';
+import { StyleSheet, Dimensions, View, Text, Animated } from 'react-native';
 
-import SLIDER from './../../../config/map';
 import { FONT_GREY, MAIN_COLOR } from './../../../config/colors';
 import placeShape from './../../../config/shapes/placeShape';
 import transformKilometersToMeters from './../../../helpers/generalHelpers';
 
 import Icon from './../Icon';
 import PlaceholderImage from './../PlaceholderImage';
-
-const sliderWidth = Dimensions.get('window').width;
-const itemWidth = (sliderWidth / 3) * 2;
+import Snappable from './../../core/Snappable';
 
 const styles = StyleSheet.create({
-  container: {
-    width: itemWidth,
-    height: SLIDER.ITEM_HEIGHT,
-    paddingHorizontal: 25,
-  },
-
   image: {
     height: 125,
     marginHorizontal: -10,
   },
 
   content: {
+    justifyContent: 'center',
     marginTop: -35,
     padding: 15,
     backgroundColor: '#ffffff',
@@ -72,6 +64,33 @@ const styles = StyleSheet.create({
 });
 
 class PlaceCarouselItem extends React.PureComponent {
+  constructor() {
+    super();
+
+    this.deviceWidth = Dimensions.get('window').width;
+    this.deviceHeight = Dimensions.get('window').height;
+
+    this.state = {
+      // imageHeight: new Animated.Value(125),
+      cardWidth: new Animated.Value((this.deviceWidth / 3) * 2),
+      contentHeight: new Animated.Value(75),
+    };
+  }
+
+  handleSnapUp = () => {
+    Animated.stagger(250, [
+      Animated.spring(this.state.contentHeight, { toValue: this.deviceHeight / 2, duration: 300 }),
+      Animated.spring(this.state.cardWidth, { toValue: this.deviceWidth - 50, duration: 300 }),
+    ]).start();
+  }
+
+  handleSnapDown = () => {
+    Animated.stagger(250, [
+      Animated.spring(this.state.contentHeight, { toValue: 75, duration: 300 }),
+      Animated.spring(this.state.cardWidth, { toValue: (this.deviceWidth / 3) * 2, duration: 300 }),
+    ]).start();
+  }
+
   render() {
     const {
       name,
@@ -81,20 +100,31 @@ class PlaceCarouselItem extends React.PureComponent {
     } = this.props.place;
 
     return (
-      <View style={styles.container}>
-        <PlaceholderImage style={styles.image} src={image} />
-        <View style={styles.content}>
-          <Text style={styles.name}>{ name }</Text>
-          <View style={styles.addressContainer}>
-            <Icon style={styles.addressIcon} name="address" size={10} color={FONT_GREY} />
-            <Text style={styles.address}>{ address }</Text>
-          </View>
-          <View style={styles.distanceContainer}>
-            <Icon style={styles.distanceIcon} name="location" size={10} color="#FFFFFF" />
-            <Text style={styles.distance}>{ transformKilometersToMeters(distance) }m</Text>
-          </View>
-        </View>
-      </View>
+      <Animated.View style={[styles.container, {
+          width: this.state.cardWidth,
+        }]}
+      >
+        <Snappable
+          onSnapUp={this.handleSnapUp}
+          onSnapDown={this.handleSnapDown}
+        >
+          <PlaceholderImage style={styles.image} src={image} />
+          <Animated.View style={[styles.content, {
+              height: this.state.contentHeight,
+            }]}
+          >
+            <Text style={styles.name}>{ name }</Text>
+            <View style={styles.addressContainer}>
+              <Icon style={styles.addressIcon} name="address" size={10} color={FONT_GREY} />
+              <Text style={styles.address}>{ address }</Text>
+            </View>
+            <View style={styles.distanceContainer}>
+              <Icon style={styles.distanceIcon} name="location" size={10} color="#FFFFFF" />
+              <Text style={styles.distance}>{ transformKilometersToMeters(distance) }m</Text>
+            </View>
+          </Animated.View>
+        </Snappable>
+      </Animated.View>
     );
   }
 }
