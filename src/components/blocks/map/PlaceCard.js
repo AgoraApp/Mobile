@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { StyleSheet, Dimensions, View, Text, Animated } from 'react-native';
 
 import { FONT_GREY, MAIN_COLOR } from './../../../config/colors';
 import placeShape from './../../../config/shapes/placeShape';
 import transformKilometersToMeters from './../../../helpers/generalHelpers';
+import { expandPlace, focusPlace } from './../../../actions/PlaceActions';
 
 import Icon from './../Icon';
 import PlaceholderImage from './../PlaceholderImage';
@@ -71,24 +74,43 @@ class PlaceCard extends React.PureComponent {
     this.deviceHeight = Dimensions.get('window').height;
 
     this.state = {
-      // imageHeight: new Animated.Value(125),
       cardWidth: new Animated.Value((this.deviceWidth / 3) * 2),
       contentHeight: new Animated.Value(75),
     };
   }
 
   handleSnapUp = () => {
+    this.props.expandPlace(this.props.place);
+
     Animated.stagger(250, [
-      Animated.spring(this.state.contentHeight, { toValue: this.deviceHeight / 2, duration: 300 }),
-      Animated.spring(this.state.cardWidth, { toValue: this.deviceWidth - 50, duration: 300 }),
+      Animated.spring(this.state.contentHeight, {
+        toValue: this.deviceHeight / 2,
+        duration: 300,
+      }),
+      Animated.spring(this.state.cardWidth, {
+        toValue: this.deviceWidth - 50,
+        duration: 300,
+      }),
     ]).start();
   }
 
   handleSnapDown = () => {
-    Animated.stagger(250, [
-      Animated.spring(this.state.contentHeight, { toValue: 75, duration: 300 }),
-      Animated.spring(this.state.cardWidth, { toValue: (this.deviceWidth / 3) * 2, duration: 300 }),
-    ]).start();
+    if (this.props.expandedPlaceId) {
+      this.props.expandPlace({});
+
+      Animated.stagger(250, [
+        Animated.spring(this.state.contentHeight, {
+          toValue: 75,
+          duration: 300,
+        }),
+        Animated.spring(this.state.cardWidth, {
+          toValue: (this.deviceWidth / 3) * 2,
+          duration: 300,
+        }),
+      ]).start();
+    } else {
+      this.props.focusPlace({});
+    }
   }
 
   render() {
@@ -131,6 +153,24 @@ class PlaceCard extends React.PureComponent {
 
 PlaceCard.propTypes = {
   place: PropTypes.shape(placeShape).isRequired,
+  expandedPlaceId: PropTypes.number,
+  expandPlace: PropTypes.func.isRequired,
+  focusPlace: PropTypes.func.isRequired,
 };
 
-export default PlaceCard;
+PlaceCard.defaultProps = {
+  expandedPlaceId: null,
+};
+
+const mapStateToProps = state => ({
+  expandedPlaceId: state.place.expandedPlaceId,
+});
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    expandPlace,
+    focusPlace,
+  }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlaceCard);

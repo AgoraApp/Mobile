@@ -40,7 +40,7 @@ PlaceContainer.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  focusedPlace: state.place.places.find(place => place.id === state.place.focusedPlace),
+  focusedPlace: state.place.places.find(place => place.id === state.place.focusedPlaceId),
 });
 
 export default connect(mapStateToProps, null)(PlaceContainer);

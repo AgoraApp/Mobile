@@ -7,6 +7,7 @@ export const FETCH_NEARBY_PLACES__SUCCESS = '@@PLACE/FETCH_NEARBY_PLACES__SUCCES
 export const FETCH_NEARBY_PLACES__FAIL = '@@PLACE/FETCH_NEARBY_PLACES_FAIL';
 
 export const SET_FOCUSED_PLACE = '@@PLACE/SET_FOCUSED_PLACE';
+export const SET_EXPANDED_PLACE = '@@PLACE/SET_EXPANDED_PLACE';
 
 export const fetchNearyPlaces = (latitude, longitude) => (dispatch) => {
   dispatch({ type: FETCH_NEARBY_PLACES });
@@ -28,14 +29,22 @@ export const fetchNearyPlaces = (latitude, longitude) => (dispatch) => {
 };
 
 export const focusPlace = place => (dispatch) => {
-  dispatch([
-    {
-      type: SET_FOCUSED_PLACE,
-      payload: place.id,
-    },
-    {
+  dispatch({
+    type: SET_FOCUSED_PLACE,
+    payload: place.id,
+  });
+
+  if (place.latitude && place.longitude) {
+    dispatch({
       type: SET_REGION,
       payload: { latitude: place.latitude, longitude: place.longitude },
-    },
-  ]);
+    });
+  }
+};
+
+export const expandPlace = place => (dispatch) => {
+  dispatch({
+    type: SET_EXPANDED_PLACE,
+    payload: place.id,
+  });
 };

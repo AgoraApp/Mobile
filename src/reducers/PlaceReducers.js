@@ -3,12 +3,14 @@ import {
   FETCH_NEARBY_PLACES__SUCCESS,
   FETCH_NEARBY_PLACES__FAIL,
   SET_FOCUSED_PLACE,
+  SET_EXPANDED_PLACE,
 } from './../actions/PlaceActions';
 
 const initialState = {
   isLoading: false,
   places: [],
-  focusedPlace: null,
+  focusedPlaceId: null,
+  expandedPlaceId: null,
 };
 
 export default function placeState(state = initialState, action) {
@@ -35,7 +37,13 @@ export default function placeState(state = initialState, action) {
     case SET_FOCUSED_PLACE:
       return {
         ...state,
-        focusedPlace: action.payload,
+        focusedPlaceId: action.payload,
+      };
+
+    case SET_EXPANDED_PLACE:
+      return {
+        ...state,
+        expandedPlaceId: action.payload,
       };
 
     default:

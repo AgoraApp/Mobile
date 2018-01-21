@@ -67,7 +67,7 @@ class Map extends React.Component {
   }
 
   render() {
-    const { places, focusedPlace } = this.props;
+    const { places, focusedPlaceId } = this.props;
 
     return (
       <MapView
@@ -84,7 +84,7 @@ class Map extends React.Component {
               onPress={() => this.handleMarkerPress(place)}
             >
               <Image
-                source={focusedPlace === place.id ? bluePin : redPin}
+                source={focusedPlaceId === place.id ? bluePin : redPin}
                 style={{ width: 30, height: 45 }}
               />
             </MapView.Marker>
@@ -99,21 +99,21 @@ Map.propTypes = {
   region: PropTypes.shape(regionShape).isRequired,
   isLoading: PropTypes.bool.isRequired,
   places: PropTypes.arrayOf(PropTypes.shape(placeShape)).isRequired,
-  focusedPlace: PropTypes.number,
+  focusedPlaceId: PropTypes.number,
   fetchNearyPlaces: PropTypes.func.isRequired,
   setRegion: PropTypes.func.isRequired,
   focusPlace: PropTypes.func.isRequired,
 };
 
 Map.defaultProps = {
-  focusedPlace: null,
+  focusedPlaceId: null,
 };
 
 const mapStateToProps = state => ({
   region: state.map.region,
   isLoading: state.place.isLoading,
   places: state.place.places,
-  focusedPlace: state.place.focusedPlace,
+  focusedPlaceId: state.place.focusedPlaceId,
 });
 
 const mapDispatchToProps = dispatch => (
