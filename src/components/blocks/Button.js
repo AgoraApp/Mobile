@@ -6,10 +6,8 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: 8,
-    paddingBottom: 8,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 20,
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.2,
