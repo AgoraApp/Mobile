@@ -10,7 +10,7 @@ import bluePin from './../../../../assets/pin_blue.png';
 
 import placeShape from './../../../config/shapes/placeShape';
 import regionShape from './../../../config/shapes/mapShape';
-import { fetchNearyPlaces } from './../../../actions/PlaceActions';
+import { fetchNearyPlaces, focusPlace } from './../../../actions/PlaceActions';
 import { setRegion } from './../../../actions/MapActions';
 
 const styles = StyleSheet.create({
@@ -62,6 +62,10 @@ class Map extends React.Component {
     return Location.getCurrentPositionAsync({});
   }
 
+  handleMarkerPress = (place) => {
+    this.props.focusPlace(place);
+  }
+
   render() {
     const { places, focusedPlace } = this.props;
 
@@ -77,6 +81,7 @@ class Map extends React.Component {
               key={place.id}
               centerOffset={{ x: -0.5, y: -18 }}
               coordinate={{ latitude: place.latitude, longitude: place.longitude }}
+              onPress={() => this.handleMarkerPress(place)}
             >
               <Image
                 source={focusedPlace === place.id ? bluePin : redPin}
@@ -97,6 +102,7 @@ Map.propTypes = {
   focusedPlace: PropTypes.number,
   fetchNearyPlaces: PropTypes.func.isRequired,
   setRegion: PropTypes.func.isRequired,
+  focusPlace: PropTypes.func.isRequired,
 };
 
 Map.defaultProps = {
@@ -114,6 +120,7 @@ const mapDispatchToProps = dispatch => (
   bindActionCreators({
     fetchNearyPlaces,
     setRegion,
+    focusPlace,
   }, dispatch)
 );
 

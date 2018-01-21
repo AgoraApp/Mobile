@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import Map from './../../components/blocks/map/Map';
-import PlacesCarousel from '../../components/blocks/map/PlacesCarousel';
+import PlacesContainer from '../../components/blocks/map/PlacesContainer';
 
 const styles = StyleSheet.create({
   container: {
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 const Places = () => (
   <View style={styles.container}>
     <Map />
-    <PlacesCarousel />
+    <PlacesContainer />
   </View>
 );
 

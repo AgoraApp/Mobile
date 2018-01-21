@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class PlaceCarouselItem extends React.PureComponent {
+class PlaceCard extends React.PureComponent {
   constructor() {
     super();
 
@@ -129,8 +129,8 @@ class PlaceCarouselItem extends React.PureComponent {
   }
 }
 
-PlaceCarouselItem.propTypes = {
+PlaceCard.propTypes = {
   place: PropTypes.shape(placeShape).isRequired,
 };
 
-export default PlaceCarouselItem;
+export default PlaceCard;
