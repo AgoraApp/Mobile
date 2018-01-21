@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Animated, View } from 'react-native';
+
+import placeShape from '../../../config/shapes/placeShape';
 
 import PlaceCard from './PlaceCard';
 
@@ -16,14 +18,60 @@ const styles = StyleSheet.create({
 });
 
 class PlaceContainer extends React.PureComponent {
+  constructor() {
+    super();
+
+    this.translateY = new Animated.Value(200);
+
+    this.state = {
+      focusedPlace: null,
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.focusedPlaceId !== nextProps.focusedPlaceId) {
+      const focusedPlace = nextProps.places.find(place => place.id === nextProps.focusedPlaceId);
+
+      if (this.props.focusedPlaceId) {
+        this.hideCard().start(() => {
+          if (nextProps.focusedPlaceId) {
+            this.setState({ focusedPlace });
+            this.showCard().start();
+          } else {
+            this.setState({ focusedPlace: null });
+          }
+        });
+      } else {
+        this.setState({ focusedPlace });
+        this.showCard().start();
+      }
+    }
+  }
+
+  showCard = () => (
+    Animated.timing(this.translateY, {
+      toValue: 0,
+      duration: 300,
+    })
+  )
+
+  hideCard = () => (
+    Animated.timing(this.translateY, {
+      toValue: 200,
+      duration: 300,
+    })
+  )
+
   render() {
-    const { focusedPlace } = this.props;
+    const { focusedPlace } = this.state;
 
     return (
       <View style={styles.container}>
         {
           focusedPlace ?
-            <PlaceCard place={focusedPlace} />
+            <Animated.View style={{ transform: [{ translateY: this.translateY }] }}>
+              <PlaceCard place={focusedPlace} />
+            </Animated.View>
             : null
         }
       </View>
@@ -32,15 +80,18 @@ class PlaceContainer extends React.PureComponent {
 }
 
 PlaceContainer.propTypes = {
-  focusedPlace: PropTypes.shape({}),
+  places: PropTypes.arrayOf(PropTypes.shape(placeShape)),
+  focusedPlaceId: PropTypes.number,
 };
 
 PlaceContainer.defaultProps = {
-  focusedPlace: null,
+  places: [],
+  focusedPlaceId: null,
 };
 
 const mapStateToProps = state => ({
-  focusedPlace: state.place.places.find(place => place.id === state.place.focusedPlaceId),
+  places: state.place.places,
+  focusedPlaceId: state.place.focusedPlaceId,
 });
 
 export default connect(mapStateToProps, null)(PlaceContainer);
