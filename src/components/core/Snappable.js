@@ -19,6 +19,11 @@ class Snappable extends React.Component {
       outputRange: [-30, -10, 0, 10, 30],
     });
 
+    this.expandedTransY = this.dragY.interpolate({
+      inputRange: [-100, -50, 0, 50, 100],
+      outputRange: [0, 0, 0, 10, 30],
+    });
+
     this.onGestureEvent = Animated.event(
       [{ nativeEvent: { translationY: this.dragY } }],
       { useNativeDriver: USE_NATIVE_DRIVER },
@@ -26,7 +31,7 @@ class Snappable extends React.Component {
   }
 
   onHandlerStateChange = (event) => {
-    if (event.nativeEvent.translationY < -120) {
+    if (event.nativeEvent.translationY < -120 && !this.props.isExpanded) {
       this.props.onSnapUp();
     }
 
@@ -46,7 +51,7 @@ class Snappable extends React.Component {
   };
 
   render() {
-    const { children } = this.props;
+    const { children, isExpanded } = this.props;
 
     return (
       <PanGestureHandler
@@ -54,7 +59,12 @@ class Snappable extends React.Component {
         onGestureEvent={this.onGestureEvent}
         onHandlerStateChange={this.onHandlerStateChange}
       >
-        <Animated.View style={{ transform: [{ translateY: this.transY }] }}>
+        <Animated.View style={{
+            transform: [{
+              translateY: isExpanded ? this.expandedTransY : this.transY,
+            }],
+          }}
+        >
           { children }
         </Animated.View>
       </PanGestureHandler>
@@ -67,6 +77,7 @@ Snappable.propTypes = {
     PropTypes.object,
     PropTypes.array,
   ]).isRequired,
+  isExpanded: PropTypes.bool.isRequired,
   onSnapUp: PropTypes.func.isRequired,
   onSnapDown: PropTypes.func.isRequired,
 };

@@ -127,6 +127,7 @@ class PlaceCard extends React.PureComponent {
         }]}
       >
         <Snappable
+          isExpanded={this.props.expandedPlaceId !== null}
           onSnapUp={this.handleSnapUp}
           onSnapDown={this.handleSnapDown}
         >
