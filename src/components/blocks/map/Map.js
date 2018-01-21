@@ -50,6 +50,24 @@ class Map extends React.Component {
         longitudeDelta: 0.05,
       });
     }
+
+    if (!this.props.expandedPlaceId && nextProps.expandedPlaceId) {
+      this.map.animateToRegion({
+        latitude: nextProps.region.latitude + 0.0005,
+        longitude: nextProps.region.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      });
+    }
+
+    if (this.props.expandedPlaceId && !nextProps.expandedPlaceId) {
+      this.map.animateToRegion({
+        latitude: nextProps.region.latitude,
+        longitude: nextProps.region.longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
+      });
+    }
   }
 
   getCurrentLocation = async () => {
@@ -67,13 +85,17 @@ class Map extends React.Component {
   }
 
   render() {
-    const { places, focusedPlaceId } = this.props;
+    const { places, focusedPlaceId, expandedPlaceId } = this.props;
 
     return (
       <MapView
         ref={(map) => { this.map = map; }}
         style={styles.map}
         showsUserLocation
+        scrollEnabled={expandedPlaceId === null}
+        zoomEnabled={expandedPlaceId === null}
+        rotateEnabled={expandedPlaceId === null}
+        pitchEnabled={expandedPlaceId === null}
       >
         {
           places.map(place => (
@@ -100,6 +122,7 @@ Map.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   places: PropTypes.arrayOf(PropTypes.shape(placeShape)).isRequired,
   focusedPlaceId: PropTypes.number,
+  expandedPlaceId: PropTypes.number,
   fetchNearyPlaces: PropTypes.func.isRequired,
   setRegion: PropTypes.func.isRequired,
   focusPlace: PropTypes.func.isRequired,
@@ -107,6 +130,7 @@ Map.propTypes = {
 
 Map.defaultProps = {
   focusedPlaceId: null,
+  expandedPlaceId: null,
 };
 
 const mapStateToProps = state => ({
@@ -114,6 +138,7 @@ const mapStateToProps = state => ({
   isLoading: state.place.isLoading,
   places: state.place.places,
   focusedPlaceId: state.place.focusedPlaceId,
+  expandedPlaceId: state.place.expandedPlaceId,
 });
 
 const mapDispatchToProps = dispatch => (

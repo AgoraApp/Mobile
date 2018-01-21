@@ -37,7 +37,7 @@ export const focusPlace = place => (dispatch) => {
   if (place.latitude && place.longitude) {
     dispatch({
       type: SET_REGION,
-      payload: { latitude: place.latitude, longitude: place.longitude },
+      payload: { latitude: place.latitude - 0.005, longitude: place.longitude },
     });
   }
 };
