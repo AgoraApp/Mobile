@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { StyleSheet, Dimensions, View, Text, Animated, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Dimensions, View, Text, Animated, TouchableOpacity } from 'react-native';
 
 import { FONT_GREY, MAIN_COLOR } from './../../../config/colors';
 import placeShape from './../../../config/shapes/placeShape';
@@ -13,6 +13,7 @@ import Icon from './../Icon';
 import Button from './../Button';
 import PlaceholderImage from './../PlaceholderImage';
 import Snappable from './../../core/Snappable';
+import PlaceCardContent from './PlaceCardContent';
 
 const styles = StyleSheet.create({
   image: {
@@ -32,10 +33,14 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    justifyContent: 'center',
     marginTop: -35,
-    padding: 15,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
     backgroundColor: '#ffffff',
+  },
+
+  header: {
+    marginBottom: 10,
   },
 
   name: {
@@ -54,6 +59,15 @@ const styles = StyleSheet.create({
   address: {
     fontSize: 10,
     color: FONT_GREY,
+  },
+
+  moreInfoButton: {
+    alignItems: 'flex-end',
+  },
+
+  moreInfoText: {
+    color: MAIN_COLOR,
+    fontSize: 10,
   },
 
   distanceContainer: {
@@ -141,46 +155,60 @@ class PlaceCard extends React.PureComponent {
     </Button>
   )
 
+  renderContent = () => {
+    if (this.props.expandedPlaceId) {
+      return <PlaceCardContent place={this.props.place} />;
+    }
+
+    return (
+      <TouchableOpacity style={styles.moreInfoButton} onPress={this.handleSnapUp}>
+        <Text style={styles.moreInfoText}>More information</Text>
+      </TouchableOpacity>
+    );
+  }
+
   render() {
+    const { place } = this.props;
     const {
       name,
       address,
       image,
       distance,
-    } = this.props.place;
+    } = place;
 
     return (
-      <TouchableWithoutFeedback onPress={this.handleSnapUp}>
-        <Animated.View style={[styles.container, {
-            width: this.state.cardWidth,
-          }]}
+      <Animated.View style={[styles.container, {
+          width: this.state.cardWidth,
+        }]}
+      >
+        <Snappable
+          isExpanded={this.props.expandedPlaceId !== null}
+          onSnapUp={this.handleSnapUp}
+          onSnapDown={this.handleSnapDown}
         >
-          <Snappable
-            isExpanded={this.props.expandedPlaceId !== null}
-            onSnapUp={this.handleSnapUp}
-            onSnapDown={this.handleSnapDown}
+          <PlaceholderImage style={styles.image} src={image} />
+          <View style={styles.actionsContainer}>
+            { this.renderCloseButton() }
+          </View>
+          <Animated.View style={[styles.content, {
+              height: this.state.contentHeight,
+            }]}
           >
-            <PlaceholderImage style={styles.image} src={image} />
-            <View style={styles.actionsContainer}>
-              { this.renderCloseButton() }
-            </View>
-            <Animated.View style={[styles.content, {
-                height: this.state.contentHeight,
-              }]}
-            >
+            <View style={styles.header}>
               <Text style={styles.name}>{ name }</Text>
               <View style={styles.addressContainer}>
                 <Icon style={styles.addressIcon} name="address" size={10} color={FONT_GREY} />
                 <Text style={styles.address}>{ address }</Text>
               </View>
-              <View style={styles.distanceContainer}>
-                <Icon style={styles.distanceIcon} name="location" size={10} color="#FFFFFF" />
-                <Text style={styles.distance}>{ transformKilometersToMeters(distance) }m</Text>
-              </View>
-            </Animated.View>
-          </Snappable>
-        </Animated.View>
-      </TouchableWithoutFeedback>
+            </View>
+            { this.renderContent() }
+            <View style={styles.distanceContainer}>
+              <Icon style={styles.distanceIcon} name="location" size={10} color="#FFFFFF" />
+              <Text style={styles.distance}>{ transformKilometersToMeters(distance) }m</Text>
+            </View>
+          </Animated.View>
+        </Snappable>
+      </Animated.View>
     );
   }
 }
