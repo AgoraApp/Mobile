@@ -4,16 +4,26 @@
     "name": "Agora",
     "version": "0.0.1",
     "slug": "agora",
+    "orientation": "portrait",
+    "scheme": "agora",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "backgroundColor": "#1374E4"
     },
     "ios": {
-      "bundleIdentifier": "com.bramvanosta.agora"
+      "bundleIdentifier": "com.bramvanosta.agora",
+      "config": {
+        "googleMapsApiKey": "AIzaSyA7J_GN5mn_9zJZG5RzLqn6jFbRwlX--E4"
+      }
     },
     "android": {
-      "package": "com.bramvanosta.agora"
+      "package": "com.bramvanosta.agora",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBL8QrFq7LVW4l2JAUaJRlOVogQposr6hE"
+        }
+      }
     }
   }
 }
