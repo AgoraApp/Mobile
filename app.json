@@ -15,7 +15,9 @@
       "bundleIdentifier": "com.bramvanosta.agora",
       "config": {
         "googleMapsApiKey": "AIzaSyA7J_GN5mn_9zJZG5RzLqn6jFbRwlX--E4"
-      }
+      },
+      "publishBundlePath": "ios/agora/Supporting/shell-app.bundle",
+      "publishManifestPath": "ios/agora/Supporting/shell-app-manifest.json"
     },
     "android": {
       "package": "com.bramvanosta.agora",
@@ -24,6 +26,12 @@
           "apiKey": "AIzaSyBL8QrFq7LVW4l2JAUaJRlOVogQposr6hE"
         }
       }
+    },
+    "isDetached": true,
+    "detach": {
+      "scheme": "exp91f3454496434c01af27c306dd65aed0",
+      "iosExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/ios-v2.1.4-sdk23.0.0-f67c5bc3-4a27-40f6-8686-91e8f868a145.tar.gz",
+      "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v2.1.2-sdk23.0.0-d47f172b-1ed3-4c8f-9e48-239052c678b6.tar.gz"
     }
   }
 }
