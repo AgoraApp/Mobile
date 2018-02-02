@@ -21,15 +21,9 @@ const styles = StyleSheet.create({
 
   editContainer: {
     position: 'absolute',
-    // top: 0,
-    // bottom: 0,
-    // left: 0,
-    // right: 0,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    // borderRadius: 60,
   },
 
   leftContainer: {
@@ -66,7 +60,7 @@ const styles = StyleSheet.create({
 class Avatar extends React.PureComponent {
   handleChooseImage = async () => {
     const response = await ImagePicker.launchImageLibraryAsync({
-      // mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
     });
 
@@ -82,6 +76,7 @@ class Avatar extends React.PureComponent {
   }
 
   renderEdit = () => {
+    console.log(ImagePicker);
     if (this.props.isEditMode) {
       return (
         <View style={styles.editContainer}>
