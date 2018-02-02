@@ -5,10 +5,12 @@ import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 
 import Overview from './../screens/profile/Overview';
 import AddSkill from './../screens/profile/AddSkill';
+import Edit from './../screens/profile/Edit';
 
 const screens = {
   Overview: { screen: Overview },
   AddSkill: { screen: AddSkill },
+  Edit: { screen: Edit },
 };
 
 const options = {

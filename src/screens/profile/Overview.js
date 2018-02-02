@@ -7,6 +7,7 @@ import { Constants } from 'expo';
 
 import { MAIN_COLOR } from './../../config/colors';
 import skillShape from './../../config/shapes/userShape';
+import navigationShape from './../../config/shapes/navigationShape';
 
 import { logout } from './../../actions/UserActions';
 
@@ -26,8 +27,21 @@ const styles = StyleSheet.create({
 
   actionsContainer: {
     position: 'absolute',
+    left: 15,
     right: 15,
     top: Constants.statusBarHeight + 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  actionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  actionText: {
+    marginLeft: 5,
+    color: '#FFFFFF',
   },
 
   avatarContainer: {
@@ -83,10 +97,18 @@ class Profile extends React.Component {
         <View style={styles.header}>
           <View style={styles.actionsContainer}>
             <TouchableOpacity
-              style={styles.logoutButton}
+              style={styles.actionButton}
+              onPress={() => this.props.navigation.navigate('Edit')}
+            >
+              <Icon name="edit" size={20} color="white" />
+              <Text style={styles.actionText}>Edit</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.actionButton}
               onPress={() => this.handleLogout()}
             >
               <Icon name="logout" size={20} color="white" />
+              <Text style={styles.actionText}>Logout</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.avatarContainer}>
@@ -112,6 +134,7 @@ Profile.propTypes = {
   expertise: PropTypes.string.isRequired,
   skills: PropTypes.arrayOf(PropTypes.shape(skillShape)).isRequired,
   logout: PropTypes.func.isRequired,
+  navigation: PropTypes.shape(navigationShape).isRequired,
 };
 
 const mapStateToProps = state => ({

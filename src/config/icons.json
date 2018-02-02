@@ -41,6 +41,12 @@
       "css": "arrow-down",
       "code": 59397,
       "src": "entypo"
+    },
+    {
+      "uid": "1e77a2yvsq3owssduo2lcgsiven57iv5",
+      "css": "edit",
+      "code": 59398,
+      "src": "typicons"
     }
   ]
 }
