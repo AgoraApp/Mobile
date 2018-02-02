@@ -31,10 +31,16 @@ class Map extends React.Component {
       this.getCurrentLocation()
         .then((location) => {
           if (location) {
-            // this.props.fetchNearyPlaces(location.coords.latitude, location.coords.longitude);
-            // this.props.setRegion(location.coords.latitude, location.coords.longitude);
+            // const { coords: { latitude, longitude } } = location;
+            // this.props.fetchNearyPlaces(latitude, longitude);
+            // this.props.setRegion(latitude, longitude);
             this.props.fetchNearyPlaces(44.825917, -0.556826);
             this.props.setRegion(44.825917, -0.556826);
+
+            // Location.watchPositionAsync({
+            //   timeInterval: 60000,
+            //   distanceInterval: 500,
+            // }, this.onLocationChange);
           }
         });
     }
@@ -68,6 +74,11 @@ class Map extends React.Component {
         longitudeDelta: 0.05,
       });
     }
+  }
+
+  onLocationChange = ({ coords: { latitude, longitude } }) => {
+    this.props.fetchNearyPlaces(latitude, longitude);
+    this.props.setRegion(latitude, longitude);
   }
 
   getCurrentLocation = async () => {
