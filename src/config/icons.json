@@ -43,10 +43,22 @@
       "src": "entypo"
     },
     {
-      "uid": "1e77a2yvsq3owssduo2lcgsiven57iv5",
+      "uid": "14017aae737730faeda4a6fd8fb3a5f0",
+      "css": "save",
+      "code": 59399,
+      "src": "entypo"
+    },
+    {
+      "uid": "c77fd2fd065b5fe16d6f2b41e190b266",
       "css": "edit",
+      "code": 59400,
+      "src": "entypo"
+    },
+    {
+      "uid": "85017ab6ca074831a8de771b40e9640c",
+      "css": "camera",
       "code": 59398,
-      "src": "typicons"
+      "src": "entypo"
     }
   ]
 }

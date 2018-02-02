@@ -1,19 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { Constants } from 'expo';
 
 import { MAIN_COLOR } from './../../config/colors';
 import skillShape from './../../config/shapes/userShape';
-import navigationShape from './../../config/shapes/navigationShape';
 
-import { logout } from './../../actions/UserActions';
-
-import Icon from './../../components/blocks/Icon';
 import Tag from './../../components/blocks/Tag';
 import SkillsList from './../../components/blocks/profile/SkillsList';
+import LogoutButton from '../../components/blocks/profile/LogoutButton';
+import EditModeButton from '../../components/blocks/profile/EditModeButton';
+import Avatar from '../../components/blocks/profile/Avatar';
 
 const styles = StyleSheet.create({
   container: {
@@ -34,29 +32,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 
-  actionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  actionText: {
-    marginLeft: 5,
-    color: '#FFFFFF',
-  },
-
   avatarContainer: {
     position: 'absolute',
     alignItems: 'center',
     left: 0,
     right: 0,
     bottom: -60,
-  },
-
-  avatar: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: '#FFFFFF',
   },
 
   userContainer: {
@@ -78,17 +59,12 @@ const styles = StyleSheet.create({
   },
 });
 
-class Profile extends React.Component {
-  handleLogout() {
-    this.props.logout();
-  }
-
+class Profile extends React.PureComponent {
   render() {
     const {
       firstName,
       lastName,
       expertise,
-      avatar,
       skills,
     } = this.props;
 
@@ -96,23 +72,11 @@ class Profile extends React.Component {
       <View style={styles.container}>
         <View style={styles.header}>
           <View style={styles.actionsContainer}>
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={() => this.props.navigation.navigate('Edit')}
-            >
-              <Icon name="edit" size={20} color="white" />
-              <Text style={styles.actionText}>Edit</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={() => this.handleLogout()}
-            >
-              <Icon name="logout" size={20} color="white" />
-              <Text style={styles.actionText}>Logout</Text>
-            </TouchableOpacity>
+            <LogoutButton />
+            <EditModeButton />
           </View>
           <View style={styles.avatarContainer}>
-            <Image style={styles.avatar} source={{ uri: avatar }} />
+            <Avatar />
           </View>
         </View>
         <View style={styles.userContainer}>
@@ -130,25 +94,15 @@ class Profile extends React.Component {
 Profile.propTypes = {
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
-  avatar: PropTypes.string.isRequired,
   expertise: PropTypes.string.isRequired,
   skills: PropTypes.arrayOf(PropTypes.shape(skillShape)).isRequired,
-  logout: PropTypes.func.isRequired,
-  navigation: PropTypes.shape(navigationShape).isRequired,
 };
 
 const mapStateToProps = state => ({
   firstName: state.user.firstName,
   lastName: state.user.lastName,
-  avatar: state.user.avatar,
   expertise: state.user.expertise,
   skills: state.user.skills,
 });
 
-const mapDispatchToProps = dispatch => (
-  bindActionCreators({
-    logout,
-  }, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, null)(Profile);

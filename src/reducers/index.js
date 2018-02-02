@@ -7,6 +7,7 @@ import userState from './UserReducers';
 import mapState from './MapReducers';
 import placeState from './PlaceReducers';
 import skillState from './SkillReducers';
+import profileState from './ProfileReducers';
 
 const state = combineReducers({
   rootNavigation: rootNavigationState,
@@ -16,6 +17,7 @@ const state = combineReducers({
   map: mapState,
   place: placeState,
   skill: skillState,
+  profile: profileState,
 });
 
 export default state;
