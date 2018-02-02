@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { StyleSheet, View, TouchableWithoutFeedback, Image } from 'react-native';
+import { StyleSheet, View, TouchableWithoutFeedback, Image, Text } from 'react-native';
+import { ImagePicker } from 'expo';
 
 import Icon from '../Icon';
 
@@ -20,30 +21,83 @@ const styles = StyleSheet.create({
 
   editContainer: {
     position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
+    // top: 0,
+    // bottom: 0,
+    // left: 0,
+    // right: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    // borderRadius: 60,
+  },
+
+  leftContainer: {
+    width: 60,
+    height: 120,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    borderRadius: 60,
+    borderTopLeftRadius: 60,
+    borderBottomLeftRadius: 60,
+    borderRightWidth: 1,
+    borderRightColor: 'rgba(255, 255, 255, 0.2)',
+  },
+
+  rightContainer: {
+    width: 60,
+    height: 120,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    borderTopRightRadius: 60,
+    borderBottomRightRadius: 60,
+    borderLeftWidth: 1,
+    borderLeftColor: 'rgba(255, 255, 255, 0.2)',
+  },
+
+  editText: {
+    color: '#FFFFFF',
+    marginTop: 4,
+    fontSize: 12,
   },
 });
 
 class Avatar extends React.PureComponent {
-  handlePress = () => {
-    console.log('PRESS');
+  handleChooseImage = async () => {
+    const response = await ImagePicker.launchImageLibraryAsync({
+      // mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+    });
+
+    console.log(response);
+  }
+
+  handleTakeImage = async () => {
+    const response = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+    });
+
+    console.log(response);
   }
 
   renderEdit = () => {
     if (this.props.isEditMode) {
       return (
-        <TouchableWithoutFeedback onPress={() => this.handlePress()}>
-          <View style={styles.editContainer}>
-            <Icon name="camera" size={30} color="white" />
-          </View>
-        </TouchableWithoutFeedback>
+        <View style={styles.editContainer}>
+          <TouchableWithoutFeedback onPress={() => this.handleChooseImage()}>
+            <View style={styles.leftContainer}>
+              <Icon name="picture" size={15} color="white" />
+              <Text style={styles.editText}>Choose</Text>
+            </View>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => this.handleTakeImage()}>
+            <View style={styles.rightContainer}>
+              <Icon name="camera" size={15} color="white" />
+              <Text style={styles.editText}>Take</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
       );
     }
 
@@ -52,13 +106,15 @@ class Avatar extends React.PureComponent {
 
   render() {
     return (
-      <View style={styles.avatarContainer}>
-        <Image
-          style={styles.avatar}
-          source={{ uri: this.props.avatar }}
-          blurRadius={this.props.isEditMode ? 4 : 0}
-        />
-        { this.renderEdit() }
+      <View style={{ alignItems: 'center' }}>
+        <View style={styles.avatarContainer}>
+          <Image
+            style={styles.avatar}
+            source={{ uri: this.props.avatar }}
+            blurRadius={this.props.isEditMode ? 4 : 0}
+          />
+          { this.renderEdit() }
+        </View>
       </View>
     );
   }

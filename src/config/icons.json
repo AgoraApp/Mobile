@@ -59,6 +59,12 @@
       "css": "camera",
       "code": 59398,
       "src": "entypo"
+    },
+    {
+      "uid": "3def559c3c39b8500882e02892b7daa8",
+      "css": "picture",
+      "code": 59401,
+      "src": "entypo"
     }
   ]
 }
