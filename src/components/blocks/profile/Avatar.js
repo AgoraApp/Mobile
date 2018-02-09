@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { StyleSheet, View, TouchableWithoutFeedback, Image, Text } from 'react-native';
 import { ImagePicker } from 'expo';
 
+import { setAvatar } from './../../../actions/ProfileActions';
+
 import Icon from '../Icon';
 
 const styles = StyleSheet.create({
@@ -64,7 +66,9 @@ class Avatar extends React.PureComponent {
       allowsEditing: true,
     });
 
-    console.log(response);
+    if (!response.cancelled) {
+      this.props.setAvatar(response.uri);
+    }
   }
 
   handleTakeImage = async () => {
@@ -72,11 +76,12 @@ class Avatar extends React.PureComponent {
       allowsEditing: true,
     });
 
-    console.log(response);
+    if (!response.cancelled) {
+      this.props.setAvatar(response.uri);
+    }
   }
 
   renderEdit = () => {
-    console.log(ImagePicker);
     if (this.props.isEditMode) {
       return (
         <View style={styles.editContainer}>
@@ -118,6 +123,7 @@ class Avatar extends React.PureComponent {
 Avatar.propTypes = {
   avatar: PropTypes.string.isRequired,
   isEditMode: PropTypes.bool.isRequired,
+  setAvatar: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -127,6 +133,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
+    setAvatar,
   }, dispatch)
 );
 

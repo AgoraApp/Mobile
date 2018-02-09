@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Constants } from 'expo';
 
 import { MAIN_COLOR } from './../../config/colors';
-import skillShape from './../../config/shapes/userShape';
 
-import Tag from './../../components/blocks/Tag';
 import SkillsList from './../../components/blocks/profile/SkillsList';
 import LogoutButton from '../../components/blocks/profile/LogoutButton';
 import EditModeButton from '../../components/blocks/profile/EditModeButton';
 import Avatar from '../../components/blocks/profile/Avatar';
+import Name from '../../components/blocks/profile/Name';
+import Expertise from '../../components/blocks/profile/Expertise';
+import SaveButton from '../../components/blocks/profile/SaveButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -50,30 +51,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 25,
   },
-
-  userName: {
-    color: MAIN_COLOR,
-    marginBottom: 10,
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
 });
 
 class Profile extends React.PureComponent {
   render() {
-    const {
-      firstName,
-      lastName,
-      expertise,
-      skills,
-    } = this.props;
+    const { isEditMode } = this.props;
 
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <View style={styles.actionsContainer}>
             <LogoutButton />
-            <EditModeButton />
+            {
+              !isEditMode ?
+                <EditModeButton />
+                : null
+            }
           </View>
           <View style={styles.avatarContainer}>
             <Avatar />
@@ -81,10 +74,14 @@ class Profile extends React.PureComponent {
         </View>
         <View style={styles.userContainer}>
           <View style={styles.userInformation}>
-            <Text style={styles.userName}>{ firstName } { lastName }</Text>
-            <Tag text={expertise.toUpperCase()} size="small" />
+            <Name />
+            <Expertise />
           </View>
-          <SkillsList skills={skills} />
+          {
+            isEditMode ?
+              <SaveButton />
+              : <SkillsList />
+          }
         </View>
       </View>
     );
@@ -92,17 +89,11 @@ class Profile extends React.PureComponent {
 }
 
 Profile.propTypes = {
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  expertise: PropTypes.string.isRequired,
-  skills: PropTypes.arrayOf(PropTypes.shape(skillShape)).isRequired,
+  isEditMode: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  firstName: state.user.firstName,
-  lastName: state.user.lastName,
-  expertise: state.user.expertise,
-  skills: state.user.skills,
+  isEditMode: state.profile.isEditMode,
 });
 
 export default connect(mapStateToProps, null)(Profile);

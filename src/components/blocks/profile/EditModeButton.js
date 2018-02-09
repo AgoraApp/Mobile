@@ -2,13 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 
 import { enableEditMode, disableEditMode } from './../../../actions/ProfileActions';
 
 import Icon from './../Icon';
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    flexDirection: 'row',
+  },
+
   button: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -18,52 +22,54 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     color: '#FFFFFF',
   },
+
+  cancelButton: {
+    marginRight: 10,
+  },
 });
 
 class EditModeButton extends React.PureComponent {
   handleEdit = () => {
-    if (this.props.isEditMode) {
-      this.props.disableEditMode();
-    } else {
-      this.props.enableEditMode();
-    }
+    this.props.enableEditMode({
+      firstName: this.props.firstName,
+      lastName: this.props.lastName,
+      expertise: this.props.expertise,
+      avatar: this.props.avatar,
+    });
   }
 
-  renderButtonContent = () => {
-    if (this.props.isEditMode) {
-      return (
-        <View style={styles.button}>
-          <Icon name="save" size={20} color="white" />
-          <Text style={styles.text}>Save</Text>
-        </View>
-      );
-    }
+  handleSave = () => {
 
-    return (
-      <View style={styles.button}>
-        <Icon name="edit" size={20} color="white" />
-        <Text style={styles.text}>Edit</Text>
-      </View>
-    );
+  }
+
+  handleCancel = () => {
+    this.props.disableEditMode();
   }
 
   render() {
     return (
-      <TouchableOpacity onPress={() => this.handleEdit()}>
-        { this.renderButtonContent() }
+      <TouchableOpacity onPress={() => this.handleEdit()} style={styles.button}>
+        <Icon name="edit" size={20} color="white" />
+        <Text style={styles.text}>Edit</Text>
       </TouchableOpacity>
     );
   }
 }
 
 EditModeButton.propTypes = {
-  isEditMode: PropTypes.bool.isRequired,
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  expertise: PropTypes.string.isRequired,
+  avatar: PropTypes.string.isRequired,
   enableEditMode: PropTypes.func.isRequired,
   disableEditMode: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isEditMode: state.profile.isEditMode,
+  firstName: state.user.firstName,
+  lastName: state.user.lastName,
+  expertise: state.user.expertise,
+  avatar: state.user.avatar,
 });
 
 const mapDispatchToProps = dispatch => (

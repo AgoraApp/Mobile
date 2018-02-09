@@ -1,10 +1,18 @@
 import {
   EDIT_MODE__ENABLE,
   EDIT_MODE__DISABLE,
+  SET_FIRST_NAME,
+  SET_LAST_NAME,
+  SET_EXPERTISE,
+  SET_AVATAR,
 } from './../actions/ProfileActions';
 
 const initialState = {
   isEditMode: false,
+  firstName: '',
+  lastName: '',
+  expertise: '',
+  avatar: '',
 };
 
 export default function profileState(state = initialState, action) {
@@ -19,6 +27,30 @@ export default function profileState(state = initialState, action) {
       return {
         ...state,
         isEditMode: false,
+      };
+
+    case SET_FIRST_NAME:
+      return {
+        ...state,
+        firstName: action.payload,
+      };
+
+    case SET_LAST_NAME:
+      return {
+        ...state,
+        lastName: action.payload,
+      };
+
+    case SET_EXPERTISE:
+      return {
+        ...state,
+        expertise: action.payload,
+      };
+
+    case SET_AVATAR:
+      return {
+        ...state,
+        avatar: action.payload,
       };
 
     default:

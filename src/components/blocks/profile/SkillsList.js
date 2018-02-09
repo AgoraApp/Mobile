@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { StyleSheet, View, FlatList, Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
@@ -81,16 +82,18 @@ class SkillsList extends React.PureComponent {
   );
 
   render() {
+    const { skills, navigation } = this.props;
+
     return (
       <View>
         <View style={styles.skillsContainer}>
           {
-            this.props.skills.length > 0 ?
+            skills.length > 0 ?
               <FlatList
                 data={this.createSkillGroups()}
                 keyExtractor={item => item[0].id}
                 renderItem={this.renderSkill}
-                scrollEnabled={this.props.skills.length > ITEMS_PER_GROUP}
+                scrollEnabled={skills.length > ITEMS_PER_GROUP}
                 horizontal
               />
               :
@@ -101,7 +104,7 @@ class SkillsList extends React.PureComponent {
         </View>
         <View style={styles.actionContainer}>
           <Button
-            onPress={() => this.props.navigation.navigate('AddSkill')}
+            onPress={() => navigation.navigate('AddSkill')}
           >
             <Icon style={styles.buttonIcon} name="plus" color={MAIN_COLOR} size={20} />
             <Text>Add a skill</Text>
@@ -121,4 +124,8 @@ SkillsList.defaultProps = {
   skills: [],
 };
 
-export default withNavigation(SkillsList);
+const mapStateToProps = state => ({
+  skills: state.user.skills,
+});
+
+export default withNavigation(connect(mapStateToProps, null)(SkillsList));
