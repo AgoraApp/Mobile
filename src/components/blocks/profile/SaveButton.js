@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { StyleSheet, View, Text } from 'react-native';
+import { Pulse } from 'react-native-loader';
 
 import { MAIN_COLOR } from './../../../config/colors';
+import { updateUser } from './../../../actions/UserActions';
 import { disableEditMode } from './../../../actions/ProfileActions';
 
 import Button from './../Button';
@@ -33,7 +35,12 @@ const styles = StyleSheet.create({
 
 class SaveButton extends React.PureComponent {
   handleSave = () => {
-
+    this.props.updateUser(
+      this.props.firstName,
+      this.props.lastName,
+      this.props.expertise,
+      this.props.avatar,
+    );
   }
 
   handleCancel = () => {
@@ -50,6 +57,11 @@ class SaveButton extends React.PureComponent {
         <Button onPress={() => this.handleSave()} color={MAIN_COLOR}>
           <Icon name="save" size={20} color="white" />
           <Text style={styles.text}>Save</Text>
+          {
+            this.props.isLoading ?
+              <Pulse size={10} color="#FFFFFF" />
+              : null
+          }
         </Button>
       </View>
     );
@@ -57,19 +69,27 @@ class SaveButton extends React.PureComponent {
 }
 
 SaveButton.propTypes = {
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  expertise: PropTypes.string.isRequired,
+  avatar: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   disableEditMode: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  firstName: state.user.firstName,
-  lastName: state.user.lastName,
-  expertise: state.user.expertise,
-  avatar: state.user.avatar,
+  firstName: state.profile.firstName,
+  lastName: state.profile.lastName,
+  expertise: state.profile.expertise,
+  avatar: state.profile.avatar,
+  isLoading: state.user.isLoading,
 });
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     disableEditMode,
+    updateUser,
   }, dispatch)
 );
 

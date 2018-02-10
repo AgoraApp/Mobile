@@ -8,6 +8,9 @@ import {
   FETCH_LOGIN__FAIL,
   FETCH_LOGOUT__SUCCESS,
   FETCH_ADD_SKILL__SUCCESS,
+  FETCH_UPDATE_USER,
+  FETCH_UPDATE_USER__SUCCESS,
+  FETCH_UPDATE_USER__FAIL,
 } from './../actions/UserActions';
 
 const initialState = {
@@ -93,6 +96,28 @@ export default function userState(state = initialState, action) {
       return {
         ...state,
         skills: action.payload,
+      };
+
+    case FETCH_UPDATE_USER:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case FETCH_UPDATE_USER__SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        firstName: action.payload.first_name,
+        lastName: action.payload.last_name,
+        avatar: action.payload.avatar,
+        expertise: action.payload.expertise,
+      };
+
+    case FETCH_UPDATE_USER__FAIL:
+      return {
+        ...state,
+        isLoading: false,
       };
 
     default:

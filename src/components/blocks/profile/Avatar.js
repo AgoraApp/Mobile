@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { StyleSheet, View, TouchableWithoutFeedback, Image, Text } from 'react-native';
 import { ImagePicker } from 'expo';
 
+import { API_BASE_URL } from './../../../config/api';
+
 import { setAvatar } from './../../../actions/ProfileActions';
 
 import Icon from '../Icon';
@@ -105,12 +107,14 @@ class Avatar extends React.PureComponent {
   }
 
   render() {
+    const url = this.props.avatar.length > 0 ? `${API_BASE_URL}/${this.props.avatar}` : 'Placeholder';
+
     return (
       <View style={{ alignItems: 'center' }}>
         <View style={styles.avatarContainer}>
           <Image
             style={styles.avatar}
-            source={{ uri: this.props.avatar }}
+            source={{ uri: url }}
             blurRadius={this.props.isEditMode ? 4 : 0}
           />
           { this.renderEdit() }

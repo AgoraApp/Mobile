@@ -2,6 +2,8 @@ import { AsyncStorage, Image } from 'react-native';
 
 import { API_BASE_URL } from './../config/api';
 
+import { disableEditMode } from './ProfileActions';
+
 export const VERIFY_TOKEN = '@@USER/VERIFY_TOKEN';
 export const VERIFY_TOKEN__SUCCESS = '@@USER/VERIFY_TOKEN__SUCCESS';
 export const VERIFY_TOKEN__FAIL = '@@USER/VERIFY_TOKEN__FAIL';
@@ -22,6 +24,10 @@ export const FETCH_LOGIN__FAIL = '@@USER/FETCH_LOGIN__FAIL';
 export const FETCH_LOGOUT = '@@USER/FETCH_LOGOUT';
 export const FETCH_LOGOUT__SUCCESS = '@@USER/FETCH_LOGOUT__SUCCESS';
 export const FETCH_LOGOUT__FAIL = '@@USER/FETCH_LOGOUT__FAIL';
+
+export const FETCH_UPDATE_USER = '@@USER/FETCH_UPDATE_USER';
+export const FETCH_UPDATE_USER__SUCCESS = '@@USER/FETCH_UPDATE_USER__SUCCESS';
+export const FETCH_UPDATE_USER__FAIL = '@@USER/FETCH_UPDATE_USER__FAIL';
 
 export const FETCH_ADD_SKILL = '@@USER/FETCH_ADD_SKILL';
 export const FETCH_ADD_SKILL__SUCCESS = '@@USER/FETCH_ADD_SKILL__SUCCESS';
@@ -108,11 +114,13 @@ export const login = (email, password) => (dispatch) => {
     .then(response => response.json())
     .then((data) => {
       AsyncStorage.setItem('@AgoraStore:authToken', data.token);
-      Image.prefetch(data.user.avatar).then(() => {
-        dispatch({
-          type: FETCH_LOGIN__SUCCESS,
-          payload: data,
-        });
+      if (data.user.avatar.length > 0) {
+        Image.prefetch(data.user.avatar);
+      }
+
+      dispatch({
+        type: FETCH_LOGIN__SUCCESS,
+        payload: data,
       });
     })
     .catch((error) => {
@@ -136,6 +144,38 @@ export const logout = () => (dispatch) => {
     .catch((error) => {
       dispatch({
         type: FETCH_LOGOUT__FAIL,
+        payload: error,
+      });
+    });
+};
+
+export const updateUser = (firstName, lastName, expertise, avatar) => (dispatch) => {
+  dispatch({ type: FETCH_UPDATE_USER });
+
+  const formData = new FormData();
+  formData.append('first_name', firstName);
+  formData.append('last_name', lastName);
+  formData.append('expertise', expertise);
+  formData.append('avatar', {
+    uri: avatar,
+    type: 'image/jpeg',
+    name: 'user-avatar',
+  });
+
+  fetch(`${API_BASE_URL}/me/update`, { method: 'POST', body: formData })
+    .then(response => response.json())
+    .then((data) => {
+      dispatch([
+        {
+          type: FETCH_UPDATE_USER__SUCCESS,
+          payload: data,
+        },
+        disableEditMode(),
+      ]);
+    })
+    .catch((error) => {
+      dispatch({
+        type: FETCH_UPDATE_USER__FAIL,
         payload: error,
       });
     });
