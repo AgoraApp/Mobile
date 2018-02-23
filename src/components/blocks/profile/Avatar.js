@@ -107,6 +107,8 @@ class Avatar extends React.PureComponent {
   }
 
   render() {
+    const { editAvatar, isEditMode } = this.props;
+
     const url = this.props.avatar.length > 0 ? `${API_BASE_URL}/${this.props.avatar}` : 'Placeholder';
 
     return (
@@ -114,8 +116,8 @@ class Avatar extends React.PureComponent {
         <View style={styles.avatarContainer}>
           <Image
             style={styles.avatar}
-            source={{ uri: url }}
-            blurRadius={this.props.isEditMode ? 4 : 0}
+            source={{ uri: isEditMode ? editAvatar : url }}
+            blurRadius={isEditMode ? 4 : 0}
           />
           { this.renderEdit() }
         </View>
@@ -126,12 +128,14 @@ class Avatar extends React.PureComponent {
 
 Avatar.propTypes = {
   avatar: PropTypes.string.isRequired,
+  editAvatar: PropTypes.string.isRequired,
   isEditMode: PropTypes.bool.isRequired,
   setAvatar: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   avatar: state.user.avatar,
+  editAvatar: state.profile.avatar,
   isEditMode: state.profile.isEditMode,
 });
 

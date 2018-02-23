@@ -16,6 +16,10 @@ import Button from './../Button';
 const ITEMS_PER_GROUP = 4;
 
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 35,
+  },
+
   skillsContainer: {
     alignItems: 'center',
     marginBottom: 20,
@@ -34,6 +38,11 @@ const styles = StyleSheet.create({
 
   tag: {
     marginBottom: 10,
+  },
+
+  removeTag: {
+    marginLeft: 'auto',
+    paddingLeft: 20,
   },
 
   actionContainer: {
@@ -85,7 +94,7 @@ class SkillsList extends React.PureComponent {
     const { skills, navigation } = this.props;
 
     return (
-      <View>
+      <View style={styles.container}>
         <View style={styles.skillsContainer}>
           {
             skills.length > 0 ?
@@ -95,6 +104,7 @@ class SkillsList extends React.PureComponent {
                 renderItem={this.renderSkill}
                 scrollEnabled={skills.length > ITEMS_PER_GROUP}
                 horizontal
+                showsHorizontalScrollIndicator={false}
               />
               :
               <Text style={styles.emptySkills}>

@@ -6,7 +6,7 @@ import { SET_TOKEN } from './../actions/UserActions';
 
 const unregister = fetchIntercept.register({
   request: (url, config) => {
-    console.log('FETCH REQUEST', url);
+    console.log('FETCH REQUEST', url, config);
     let copyConfig = config;
     const { user: { token } } = store.getState();
 

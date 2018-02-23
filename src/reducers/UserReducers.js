@@ -8,6 +8,7 @@ import {
   FETCH_LOGIN__FAIL,
   FETCH_LOGOUT__SUCCESS,
   FETCH_ADD_SKILL__SUCCESS,
+  FETCH_REMOVE_SKILL__SUCCESS,
   FETCH_UPDATE_USER,
   FETCH_UPDATE_USER__SUCCESS,
   FETCH_UPDATE_USER__FAIL,
@@ -93,6 +94,12 @@ export default function userState(state = initialState, action) {
       };
 
     case FETCH_ADD_SKILL__SUCCESS:
+      return {
+        ...state,
+        skills: action.payload,
+      };
+
+    case FETCH_REMOVE_SKILL__SUCCESS:
       return {
         ...state,
         skills: action.payload,

@@ -33,6 +33,10 @@ export const FETCH_ADD_SKILL = '@@USER/FETCH_ADD_SKILL';
 export const FETCH_ADD_SKILL__SUCCESS = '@@USER/FETCH_ADD_SKILL__SUCCESS';
 export const FETCH_ADD_SKILL__FAIL = '@@USER/FETCH_ADD_SKILL_FAIL';
 
+export const FETCH_REMOVE_SKILL = '@@USER/FETCH_REMOVE_SKILL';
+export const FETCH_REMOVE_SKILL__SUCCESS = '@@USER/FETCH_REMOVE_SKILL__SUCCESS';
+export const FETCH_REMOVE_SKILL__FAIL = '@@USER/FETCH_REMOVE_SKILL__FAIL';
+
 export const verifyUser = () => (dispatch) => {
   dispatch({ type: VERIFY_USER });
 
@@ -184,7 +188,7 @@ export const updateUser = (firstName, lastName, expertise, avatar) => (dispatch)
 export const addSkill = skill => (dispatch) => {
   dispatch({ type: FETCH_ADD_SKILL });
 
-  fetch(`${API_BASE_URL}/me/add-skill/${skill}`, { method: 'POST' })
+  fetch(`${API_BASE_URL}/me/skills/${skill}`, { method: 'POST' })
     .then(response => response.json())
     .then((data) => {
       dispatch({
@@ -195,6 +199,25 @@ export const addSkill = skill => (dispatch) => {
     .catch((error) => {
       dispatch({
         type: FETCH_ADD_SKILL__FAIL,
+        payload: error,
+      });
+    });
+};
+
+export const removeSkill = skill => (dispatch) => {
+  dispatch({ type: FETCH_REMOVE_SKILL });
+
+  fetch(`${API_BASE_URL}/me/skills/${skill}`, { method: 'DELETE' })
+    .then(response => response.json())
+    .then((data) => {
+      dispatch({
+        type: FETCH_REMOVE_SKILL__SUCCESS,
+        payload: data.user.skills,
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: FETCH_REMOVE_SKILL__FAIL,
         payload: error,
       });
     });

@@ -12,7 +12,7 @@ import skillShape from './../../config/shapes/userShape';
 import inputStyles from './../../styles/Input';
 
 import { fetchSkillAutocomplete, resetAutocomplete } from './../../actions/SkillActions';
-import { addSkill } from './../../actions/UserActions';
+import { addSkill, removeSkill } from './../../actions/UserActions';
 
 import Icon from './../../components/blocks/Icon';
 import Button from './../../components/blocks/Button';
@@ -65,39 +65,28 @@ class AddSkill extends React.PureComponent {
     this.props.fetchSkillAutocomplete(value.replace(/\s*$/, ''));
   }
 
-  handleSkillPress = (name) => {
-    this.props.addSkill(name);
+  handleSkillPress = (skill, userHasSkill) => {
+    if (userHasSkill) {
+      this.props.removeSkill(skill.id);
+    } else {
+      this.props.addSkill(skill.name);
+    }
   }
 
   renderSkill = ({ item }) => {
     const userHasSkill = this.props.userSkills.find(skill => skill.name === item.name);
 
-    if (userHasSkill) {
-      return (
-        <View style={styles.skillContainer}>
-          <Tag
-            style={styles.tag}
-            key={item.id}
-            text={item.name}
-            color={SECONDARY_COLOR}
-            fontColor="#FFFFFF"
-            size="large"
-          />
-        </View>
-      );
-    }
-
     return (
       <TouchableOpacity
         style={styles.skillContainer}
-        onPress={() => this.handleSkillPress(item.name, userHasSkill)}
+        onPress={() => this.handleSkillPress(item, userHasSkill)}
       >
         <Tag
           style={styles.tag}
           key={item.id}
           text={item.name}
-          color={COLOR_GREY}
-          fontColor={FONT_COLOR}
+          color={userHasSkill ? SECONDARY_COLOR : COLOR_GREY}
+          fontColor={userHasSkill ? '#FFFFFF' : FONT_COLOR}
           size="large"
         />
       </TouchableOpacity>
@@ -164,6 +153,7 @@ AddSkill.propTypes = {
   fetchSkillAutocomplete: PropTypes.func.isRequired,
   resetAutocomplete: PropTypes.func.isRequired,
   addSkill: PropTypes.func.isRequired,
+  removeSkill: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -177,6 +167,7 @@ const mapDispatchToProps = dispatch => (
     fetchSkillAutocomplete,
     resetAutocomplete,
     addSkill,
+    removeSkill,
   }, dispatch)
 );
 

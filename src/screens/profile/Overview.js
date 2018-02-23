@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { Constants } from 'expo';
 
 import { MAIN_COLOR } from './../../config/colors';
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   header: {
     height: 150,
     backgroundColor: MAIN_COLOR,
+    zIndex: 10,
   },
 
   actionsContainer: {
@@ -44,7 +45,8 @@ const styles = StyleSheet.create({
   userContainer: {
     flex: 1,
     flexGrow: 1,
-    marginTop: 60,
+    paddingTop: 60,
+    paddingBottom: 20,
   },
 
   userInformation: {
@@ -72,17 +74,23 @@ class Profile extends React.PureComponent {
             <Avatar />
           </View>
         </View>
-        <View style={styles.userContainer}>
-          <View style={styles.userInformation}>
-            <Name />
-            <Expertise />
+        <ScrollView
+          alwaysBounceVertical={false}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.userContainer}>
+            <View style={styles.userInformation}>
+              <Name />
+              <Expertise />
+            </View>
+            <SkillsList />
+            {
+              isEditMode ?
+                <SaveButton />
+                : null
+            }
           </View>
-          {
-            isEditMode ?
-              <SaveButton />
-              : <SkillsList />
-          }
-        </View>
+        </ScrollView>
       </View>
     );
   }

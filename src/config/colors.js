@@ -1,5 +1,6 @@
 export const MAIN_COLOR = '#1374E4';
 export const SECONDARY_COLOR = '#33D1AA';
+export const ALERT_COLOR = '#F44336';
 
 export const COLOR_GREY = '#F1F1F1';
 
