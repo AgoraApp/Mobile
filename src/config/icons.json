@@ -65,6 +65,18 @@
       "css": "picture",
       "code": 59401,
       "src": "entypo"
+    },
+    {
+      "uid": "513ac180ff85bd275f2b736720cbbf5e",
+      "css": "home",
+      "code": 59402,
+      "src": "entypo"
+    },
+    {
+      "uid": "86ee1fc7ff57e9c9c60d8a5e57183776",
+      "css": "user",
+      "code": 59403,
+      "src": "iconic"
     }
   ]
 }

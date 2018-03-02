@@ -6,3 +6,5 @@ export const COLOR_GREY = '#F1F1F1';
 
 export const FONT_COLOR = '#4A4A4A';
 export const FONT_GREY = '#C7C7C7';
+
+export const TABBAR_INACTIVE = '#D7D7D7';

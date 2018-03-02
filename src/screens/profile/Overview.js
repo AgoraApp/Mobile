@@ -83,11 +83,10 @@ class Profile extends React.PureComponent {
               <Name />
               <Expertise />
             </View>
-            <SkillsList />
             {
               isEditMode ?
                 <SaveButton />
-                : null
+                : <SkillsList />
             }
           </View>
         </ScrollView>
