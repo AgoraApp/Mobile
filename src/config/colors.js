@@ -8,3 +8,4 @@ export const FONT_COLOR = '#4A4A4A';
 export const FONT_GREY = '#C7C7C7';
 
 export const TABBAR_INACTIVE = '#D7D7D7';
+export const TABBAR_LABEL = '#6A6A6A';
