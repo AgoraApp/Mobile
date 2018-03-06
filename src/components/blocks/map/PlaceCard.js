@@ -6,7 +6,7 @@ import { StyleSheet, Dimensions, View, Text, Animated, TouchableOpacity } from '
 
 import { FONT_GREY, MAIN_COLOR } from './../../../config/colors';
 import placeShape from './../../../config/shapes/placeShape';
-import transformKilometersToMeters from './../../../helpers/generalHelpers';
+import { transformKilometersToMeters } from './../../../helpers/generalHelpers';
 import { expandPlace, focusPlace } from './../../../actions/PlaceActions';
 
 import Icon from './../Icon';

@@ -49,7 +49,7 @@ class Home extends React.PureComponent {
   handleIndexChange = index => this.setState({ index });
 
   renderPager = props => (
-    <TabViewPagerExperimental {...props} />
+    <TabViewPagerExperimental {...props} swipeEnabled={false} />
   );
 
   renderLabel = ({ route, focused }) => (
