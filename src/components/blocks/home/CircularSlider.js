@@ -3,19 +3,24 @@ import PropTypes from 'prop-types';
 import { PanResponder } from 'react-native';
 import { Svg } from 'expo';
 
-import { MAIN_COLOR, TERTIARY_COLOR } from '../../../config/colors';
+import { MAIN_COLOR, TERTIARY_COLOR } from './../../../config/colors';
+import { secondsToHoursAndMinutes } from './../../../helpers/generalHelpers';
 
-const { Path, Circle, G } = Svg;
+const {
+  Path,
+  Circle,
+  G,
+  Text,
+} = Svg;
 
 class CircularSlider extends React.Component {
   constructor(props) {
     super(props);
 
-    const { width, height, start } = props;
+    const { width, height } = props;
     const smallestSide = (Math.min(width, height));
 
     this.state = {
-      value: start,
       cx: width / 2,
       cy: height / 2,
       r: (smallestSide / 2) * 0.85,
@@ -46,20 +51,32 @@ class CircularSlider extends React.Component {
   }
 
   handlePanResponderMove = ({ nativeEvent: { locationX, locationY } }) => {
-    this.setState({ value: this.cartesianToPolar(locationX, locationY) });
+    this.props.onChange(this.cartesianToPolar(locationX, locationY));
+  }
+
+  handlePress = (value) => {
+    this.props.onPress(value);
+  }
+
+  renderDuration() {
+    const durationInSeconds = this.props.value * 80;
+
+    const { hours, minutes } = secondsToHoursAndMinutes(durationInSeconds);
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+    return `${hours}:${formattedMinutes}`;
   }
 
   render() {
     const {
       width,
       height,
+      value,
       backgroundColor,
       meterColor,
       buttonColor,
-      handlePress,
     } = this.props;
     const {
-      value,
       cx,
       cy,
       r,
@@ -76,13 +93,16 @@ class CircularSlider extends React.Component {
           fill="none"
           d={`M${startCoord.x} ${startCoord.y} A ${r} ${r} 0 ${value > 180 ? 1 : 0} 1 ${endCoord.x} ${endCoord.y}`}
         />
-        <Circle
-          cx={cx}
-          cy={cy}
-          r={r - 4.5}
-          fill={backgroundColor}
-          onPress={() => handlePress(value)}
-        />
+        <G onPress={() => this.handlePress()}>
+          <Circle
+            cx={cx}
+            cy={cy}
+            r={r - 4.5}
+            fill={backgroundColor}
+          />
+          <Text x={cx} y={height / 3} fontSize={25} fontWeight="bold" fill="#FFFFFF" textAnchor="middle">Start a session</Text>
+          <Text x={cx} y={cy} fontSize={50} fontWeight="bold" fill="#FFFFFF" textAnchor="middle">{this.renderDuration()}</Text>
+        </G>
         <G x={endCoord.x - 9} y={endCoord.y - 9}>
           <Circle cx={9} cy={9} r={18} fill={buttonColor} {...this.panResponder.panHandlers} />
         </G>
@@ -94,11 +114,12 @@ class CircularSlider extends React.Component {
 CircularSlider.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  start: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
   backgroundColor: PropTypes.string,
   meterColor: PropTypes.string,
   buttonColor: PropTypes.string,
-  handlePress: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onPress: PropTypes.func.isRequired,
 };
 
 CircularSlider.defaultProps = {

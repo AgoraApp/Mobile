@@ -8,6 +8,7 @@ import mapState from './MapReducers';
 import placeState from './PlaceReducers';
 import skillState from './SkillReducers';
 import profileState from './ProfileReducers';
+import sessionState from './SessionReducers';
 
 const state = combineReducers({
   rootNavigation: rootNavigationState,
@@ -18,6 +19,7 @@ const state = combineReducers({
   place: placeState,
   skill: skillState,
   profile: profileState,
+  session: sessionState,
 });
 
 export default state;
