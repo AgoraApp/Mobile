@@ -1,5 +1,6 @@
 import {
   SET_TOKEN,
+  SET_USER_LOCATION,
   VERIFY_USER__SUCCESS,
   VERIFY_USER__FAIL,
   FETCH_ME__SUCCESS,
@@ -23,6 +24,7 @@ const initialState = {
   lastName: '',
   avatar: '',
   expertise: '',
+  position: {},
   skills: [],
   favourites: [],
   token: '',
@@ -34,6 +36,12 @@ export default function userState(state = initialState, action) {
       return {
         ...state,
         token: action.payload,
+      };
+
+    case SET_USER_LOCATION:
+      return {
+        ...state,
+        position: action.payload,
       };
 
     case VERIFY_USER__SUCCESS:

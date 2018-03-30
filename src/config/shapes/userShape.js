@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
 
-const skillShape = {
+export const skillShape = {
   id: PropTypes.number,
   name: PropTypes.string,
 };
 
-export default skillShape;
+export const positionShape = {
+  latitude: PropTypes.number,
+  longitude: PropTypes.number,
+};

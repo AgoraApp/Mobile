@@ -10,6 +10,7 @@ import bluePin from './../../../../assets/pin_blue.png';
 
 import placeShape from './../../../config/shapes/placeShape';
 import regionShape from './../../../config/shapes/mapShape';
+import { setUserLocation } from './../../../actions/UserActions';
 import { fetchNearyPlaces, focusMapPlace } from './../../../actions/PlaceActions';
 import { setRegion } from './../../../actions/MapActions';
 
@@ -33,6 +34,8 @@ class Map extends React.Component {
           // const { coords: { latitude, longitude } } = location;
           // this.props.fetchNearyPlaces(latitude, longitude);
           // this.props.setRegion(latitude, longitude);
+          // this.props.setUserLocation(latitude, longitude);
+          this.props.setUserLocation(44.825917, -0.556826);
           this.props.fetchNearyPlaces(44.825917, -0.556826);
           this.props.setRegion(44.825917, -0.556826);
 
@@ -131,6 +134,7 @@ Map.propTypes = {
   places: PropTypes.arrayOf(PropTypes.shape(placeShape)).isRequired,
   focusedPlaceId: PropTypes.number,
   expandedPlaceId: PropTypes.number,
+  setUserLocation: PropTypes.func.isRequired,
   fetchNearyPlaces: PropTypes.func.isRequired,
   setRegion: PropTypes.func.isRequired,
   focusMapPlace: PropTypes.func.isRequired,
@@ -150,6 +154,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
+    setUserLocation,
     fetchNearyPlaces,
     setRegion,
     focusMapPlace,

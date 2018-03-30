@@ -6,7 +6,8 @@ import { StyleSheet, Dimensions, View, Text, Animated, TouchableOpacity } from '
 
 import { FONT_GREY, MAIN_COLOR } from './../../../config/colors';
 import placeShape from './../../../config/shapes/placeShape';
-import { transformKilometersToMeters } from './../../../helpers/generalHelpers';
+import { positionShape } from './../../../config/shapes/userShape';
+import { transformKilometersToMeters, calculateDistance } from './../../../helpers/generalHelpers';
 import { expandMapPlace, focusMapPlace } from './../../../actions/PlaceActions';
 
 import Icon from './../Icon';
@@ -167,14 +168,31 @@ class PlaceCard extends React.PureComponent {
     );
   }
 
+  renderDistance = () => {
+    const { place, position } = this.props;
+
+    if (Object.keys(position).length === 0) {
+      return null;
+    }
+
+    const distance = calculateDistance(
+      place.latitude,
+      place.longitude,
+      position.latitude,
+      position.longitude,
+    );
+
+    return (
+      <View style={styles.distanceContainer}>
+        <Icon style={styles.distanceIcon} name="location" size={10} color="#FFFFFF" />
+        <Text style={styles.distance}>{ transformKilometersToMeters(distance) }m</Text>
+      </View>
+    );
+  }
+
   render() {
     const { place } = this.props;
-    const {
-      name,
-      address,
-      image,
-      distance,
-    } = place;
+    const { name, address, image } = place;
 
     return (
       <Animated.View style={[styles.container, {
@@ -202,10 +220,7 @@ class PlaceCard extends React.PureComponent {
               </View>
             </View>
             { this.renderContent() }
-            <View style={styles.distanceContainer}>
-              <Icon style={styles.distanceIcon} name="location" size={10} color="#FFFFFF" />
-              <Text style={styles.distance}>{ transformKilometersToMeters(distance) }m</Text>
-            </View>
+            { this.renderDistance() }
           </Animated.View>
         </Snappable>
       </Animated.View>
@@ -215,17 +230,20 @@ class PlaceCard extends React.PureComponent {
 
 PlaceCard.propTypes = {
   place: PropTypes.shape(placeShape).isRequired,
+  position: PropTypes.shape(positionShape),
   expandedPlaceId: PropTypes.number,
   expandMapPlace: PropTypes.func.isRequired,
   focusMapPlace: PropTypes.func.isRequired,
 };
 
 PlaceCard.defaultProps = {
+  position: {},
   expandedPlaceId: null,
 };
 
 const mapStateToProps = state => ({
   expandedPlaceId: state.place.expandedMapPlaceId,
+  position: state.user.position,
 });
 
 const mapDispatchToProps = dispatch => (

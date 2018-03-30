@@ -6,7 +6,7 @@ import { withNavigation } from 'react-navigation';
 
 import { MAIN_COLOR, COLOR_GREY, FONT_COLOR } from './../../../config/colors';
 
-import skillShape from './../../../config/shapes/userShape';
+import { skillShape } from './../../../config/shapes/userShape';
 import navigationShape from './../../../config/shapes/navigationShape';
 
 import Tag from './../Tag';

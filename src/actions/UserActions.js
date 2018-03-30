@@ -25,6 +25,8 @@ export const FETCH_LOGOUT = '@@USER/FETCH_LOGOUT';
 export const FETCH_LOGOUT__SUCCESS = '@@USER/FETCH_LOGOUT__SUCCESS';
 export const FETCH_LOGOUT__FAIL = '@@USER/FETCH_LOGOUT__FAIL';
 
+export const SET_USER_LOCATION = '@@USER/SET_USER_LOCATION';
+
 export const FETCH_UPDATE_USER = '@@USER/FETCH_UPDATE_USER';
 export const FETCH_UPDATE_USER__SUCCESS = '@@USER/FETCH_UPDATE_USER__SUCCESS';
 export const FETCH_UPDATE_USER__FAIL = '@@USER/FETCH_UPDATE_USER__FAIL';
@@ -159,6 +161,13 @@ export const logout = () => (dispatch) => {
         payload: error,
       });
     });
+};
+
+export const setUserLocation = (latitude, longitude) => (dispatch) => {
+  dispatch({
+    type: SET_USER_LOCATION,
+    payload: { latitude, longitude },
+  });
 };
 
 export const updateUser = (firstName, lastName, expertise, avatar) => (dispatch) => {

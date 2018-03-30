@@ -81,7 +81,6 @@ class FavouritePlaceHeader extends React.PureComponent {
   }
 
   handlePress = () => {
-    console.log('test');
     const { place, expandedPlaceId } = this.props;
 
     if (place.id === expandedPlaceId) {

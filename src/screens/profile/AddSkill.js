@@ -8,7 +8,7 @@ import debounce from 'lodash.debounce';
 
 import { MAIN_COLOR, COLOR_GREY, FONT_COLOR, SECONDARY_COLOR } from './../../config/colors';
 import navigationShape from './../../config/shapes/navigationShape';
-import skillShape from './../../config/shapes/userShape';
+import { skillShape } from './../../config/shapes/userShape';
 import inputStyles from './../../styles/Input';
 
 import { fetchSkillAutocomplete, resetAutocomplete } from './../../actions/SkillActions';
