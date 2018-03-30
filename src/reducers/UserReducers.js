@@ -56,6 +56,7 @@ export default function userState(state = initialState, action) {
         avatar: action.payload.avatar,
         expertise: action.payload.expertise,
         skills: action.payload.skills,
+        favourites: action.payload.favourite_places,
       };
 
     case FETCH_LOGIN:

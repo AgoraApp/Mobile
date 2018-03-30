@@ -44,7 +44,7 @@ Favourites.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  places: state.place.favourites,
+  places: state.place.places.filter(place => state.user.favourites.includes(place.id)),
 });
 
 const mapDispatchToProps = dispatch => (

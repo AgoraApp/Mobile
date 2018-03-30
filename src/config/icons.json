@@ -101,6 +101,12 @@
       "css": "favourites-filled",
       "code": 59407,
       "src": "typicons"
+    },
+    {
+      "uid": "2cc73cc335f054682c04fe63439c4dcb",
+      "css": "trash",
+      "code": 59408,
+      "src": "linecons"
     }
   ]
 }

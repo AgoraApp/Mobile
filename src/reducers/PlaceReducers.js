@@ -12,6 +12,7 @@ import {
 
 const initialState = {
   isLoading: false,
+  places: [],
   nearby: [],
   favourites: [],
   focusedMapPlaceId: null,
@@ -19,7 +20,16 @@ const initialState = {
   expandedFavouritePlaceId: null,
 };
 
+// HELPER FUNCTIONS
+const removeDuplicatePlaces = places => (
+  places.filter((place, index, self) => (
+    self.findIndex(p => p.id === place.id) === index
+  ))
+);
+
 export default function placeState(state = initialState, action) {
+  let newPlaces = [];
+
   switch (action.type) {
     case FETCH_NEARBY_PLACES:
       return {
@@ -28,10 +38,13 @@ export default function placeState(state = initialState, action) {
       };
 
     case FETCH_NEARBY_PLACES__SUCCESS:
+      newPlaces = removeDuplicatePlaces([...state.places, ...action.payload]);
+
       return {
         ...state,
         isLoading: false,
-        nearby: action.payload,
+        places: newPlaces,
+        nearby: action.payload.map(place => place.id),
       };
 
     case FETCH_NEARBY_PLACES__FAIL:
@@ -47,10 +60,12 @@ export default function placeState(state = initialState, action) {
       };
 
     case FETCH_FAVOURITE_PLACES__SUCCESS:
+      newPlaces = removeDuplicatePlaces([...state.places, ...action.payload]);
+
       return {
         ...state,
         isLoading: false,
-        favourites: action.payload,
+        places: newPlaces,
       };
 
     case FETCH_FAVOURITE_PLACES__FAIL:

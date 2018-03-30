@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { StyleSheet, View, Text, TouchableWithoutFeedback, Animated, Easing } from 'react-native';
+import Swipeout from 'react-native-swipeout';
 
-import { MAIN_COLOR, FONT_GREY } from './../../../config/colors';
+import { MAIN_COLOR, FONT_GREY, ALERT_COLOR } from './../../../config/colors';
 import placeShape from './../../../config/shapes/placeShape';
 
 import { expandFavouritePlace } from './../../../actions/PlaceActions';
+import { removeFavouritePlace } from './../../../actions/UserActions';
 
 import Icon from './../Icon';
 import Button from './../Button';
@@ -79,6 +81,7 @@ class FavouritePlaceHeader extends React.PureComponent {
   }
 
   handlePress = () => {
+    console.log('test');
     const { place, expandedPlaceId } = this.props;
 
     if (place.id === expandedPlaceId) {
@@ -86,6 +89,10 @@ class FavouritePlaceHeader extends React.PureComponent {
     } else {
       this.props.expandFavouritePlace(place.id);
     }
+  }
+
+  removeFavourite = () => {
+    this.props.removeFavouritePlace(this.props.place.id);
   }
 
   render() {
@@ -96,33 +103,51 @@ class FavouritePlaceHeader extends React.PureComponent {
       outputRange: ['0deg', '180deg'],
     });
 
-    return (
-      <TouchableWithoutFeedback onPress={this.handlePress}>
-        <View style={styles.container}>
-          <PlaceholderImage style={styles.image} src={place.image} />
-          <View style={styles.content}>
-            <View>
-              <Text style={styles.name}>{ place.name }</Text>
-              <View style={styles.addressContainer}>
-                <Icon style={styles.addressIcon} name="address" size={10} color={FONT_GREY} />
-                <Text style={styles.address}>{ place.address }</Text>
-              </View>
-            </View>
-            <Button
-              style={styles.button}
-              onPress={this.handlePress}
-            >
-              <Animated.View style={{ transform: [{ rotate: spin }] }}>
-                <Icon
-                  name="arrow-down"
-                  color={MAIN_COLOR}
-                  size={16}
-                />
-              </Animated.View>
-            </Button>
+    const swipeoutBtns = [
+      {
+        component: (
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name="trash" color="#FFFFFF" size={22} />
           </View>
-        </View>
-      </TouchableWithoutFeedback>
+        ),
+        onPress: this.removeFavourite,
+        backgroundColor: ALERT_COLOR,
+      },
+    ];
+
+    return (
+      <Swipeout
+        right={swipeoutBtns}
+        autoClose
+        backgroundColor="#FFFFFF"
+      >
+        <TouchableWithoutFeedback onPress={this.handlePress}>
+          <View style={styles.container}>
+            <PlaceholderImage style={styles.image} src={place.image} />
+            <View style={styles.content}>
+              <View>
+                <Text style={styles.name}>{ place.name }</Text>
+                <View style={styles.addressContainer}>
+                  <Icon style={styles.addressIcon} name="address" size={10} color={FONT_GREY} />
+                  <Text style={styles.address}>{ place.address }</Text>
+                </View>
+              </View>
+              <Button
+                style={styles.button}
+                onPress={this.handlePress}
+              >
+                <Animated.View style={{ transform: [{ rotate: spin }] }}>
+                  <Icon
+                    name="arrow-down"
+                    color={MAIN_COLOR}
+                    size={16}
+                  />
+                </Animated.View>
+              </Button>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Swipeout>
     );
   }
 }
@@ -131,6 +156,7 @@ FavouritePlaceHeader.propTypes = {
   place: PropTypes.shape(placeShape).isRequired,
   expandedPlaceId: PropTypes.number,
   expandFavouritePlace: PropTypes.func.isRequired,
+  removeFavouritePlace: PropTypes.func.isRequired,
 };
 
 FavouritePlaceHeader.defaultProps = {
@@ -144,6 +170,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     expandFavouritePlace,
+    removeFavouritePlace,
   }, dispatch)
 );
 

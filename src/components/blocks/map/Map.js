@@ -143,7 +143,7 @@ Map.defaultProps = {
 
 const mapStateToProps = state => ({
   region: state.map.region,
-  places: state.place.nearby,
+  places: state.place.places.filter(place => state.place.nearby.includes(place.id)),
   focusedPlaceId: state.place.focusedMapPlaceId,
   expandedPlaceId: state.place.expandedMapPlaceId,
 });
