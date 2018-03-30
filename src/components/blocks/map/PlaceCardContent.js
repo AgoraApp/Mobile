@@ -4,6 +4,8 @@ import { Text, ScrollView } from 'react-native';
 
 import placeShape from './../../../config/shapes/placeShape';
 
+import PlaceFavouriteButton from './PlaceFavouriteButton';
+
 class PlaceCardContent extends React.PureComponent {
   render() {
     const { place } = this.props;
@@ -12,6 +14,7 @@ class PlaceCardContent extends React.PureComponent {
       <ScrollView
         showsVerticalScrollIndicator={false}
       >
+        <PlaceFavouriteButton place={place} />
         <Text>
           Mox dicta finierat, multitudo omnis ad, quae imperator voluit, promptior
           laudato consilio consensit in pacem ea ratione maxime percita, quod norat
@@ -38,7 +41,7 @@ class PlaceCardContent extends React.PureComponent {
           multiplices ac ruinas, vinculis membra ingenuorum adfligens et quosdam
           obterens manicis, crimina scilicet multa consarcinando a veritate longe
           discreta. unde admissum est facinus impium, quod Constanti tempus
-          nota inusserat sempiterna. { place.name }
+          nota inusserat sempiterna.
         </Text>
       </ScrollView>
     );

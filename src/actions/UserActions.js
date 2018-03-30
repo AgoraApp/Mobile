@@ -37,6 +37,14 @@ export const FETCH_REMOVE_SKILL = '@@USER/FETCH_REMOVE_SKILL';
 export const FETCH_REMOVE_SKILL__SUCCESS = '@@USER/FETCH_REMOVE_SKILL__SUCCESS';
 export const FETCH_REMOVE_SKILL__FAIL = '@@USER/FETCH_REMOVE_SKILL__FAIL';
 
+export const FETCH_ADD_FAVOURITE_PLACE = '@@USER/FETCH_ADD_FAVOURITE_PLACE';
+export const FETCH_ADD_FAVOURITE_PLACE__SUCCESS = '@@USER/FETCH_ADD_FAVOURITE_PLACE__SUCCESS';
+export const FETCH_ADD_FAVOURITE_PLACE__FAIL = '@@USER/FETCH_ADD_FAVOURITE_PLACE_FAIL';
+
+export const FETCH_REMOVE_FAVOURITE_PLACE = '@@USER/FETCH_REMOVE_FAVOURITE_PLACE';
+export const FETCH_REMOVE_FAVOURITE_PLACE__SUCCESS = '@@USER/FETCH_REMOVE_FAVOURITE_PLACE__SUCCESS';
+export const FETCH_REMOVE_FAVOURITE_PLACE__FAIL = '@@USER/FETCH_REMOVE_FAVOURITE_PLACE__FAIL';
+
 export const verifyUser = () => (dispatch) => {
   dispatch({ type: VERIFY_USER });
 
@@ -218,6 +226,44 @@ export const removeSkill = skill => (dispatch) => {
     .catch((error) => {
       dispatch({
         type: FETCH_REMOVE_SKILL__FAIL,
+        payload: error,
+      });
+    });
+};
+
+export const addFavouritePlace = placeId => (dispatch) => {
+  dispatch({ type: FETCH_ADD_FAVOURITE_PLACE });
+
+  fetch(`${API_BASE_URL}/me/places/favourite/${placeId}`, { method: 'POST' })
+    .then(response => response.json())
+    .then((data) => {
+      dispatch({
+        type: FETCH_ADD_FAVOURITE_PLACE__SUCCESS,
+        payload: data,
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: FETCH_ADD_FAVOURITE_PLACE__FAIL,
+        payload: error,
+      });
+    });
+};
+
+export const removeFavouritePlace = placeId => (dispatch) => {
+  dispatch({ type: FETCH_REMOVE_FAVOURITE_PLACE });
+
+  fetch(`${API_BASE_URL}/me/places/favourite/${placeId}`, { method: 'DELETE' })
+    .then(response => response.json())
+    .then((data) => {
+      dispatch({
+        type: FETCH_REMOVE_FAVOURITE_PLACE__SUCCESS,
+        payload: data,
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: FETCH_REMOVE_FAVOURITE_PLACE__FAIL,
         payload: error,
       });
     });

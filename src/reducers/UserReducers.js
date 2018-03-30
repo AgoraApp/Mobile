@@ -7,11 +7,13 @@ import {
   FETCH_LOGIN__SUCCESS,
   FETCH_LOGIN__FAIL,
   FETCH_LOGOUT__SUCCESS,
-  FETCH_ADD_SKILL__SUCCESS,
-  FETCH_REMOVE_SKILL__SUCCESS,
   FETCH_UPDATE_USER,
   FETCH_UPDATE_USER__SUCCESS,
   FETCH_UPDATE_USER__FAIL,
+  FETCH_ADD_SKILL__SUCCESS,
+  FETCH_REMOVE_SKILL__SUCCESS,
+  FETCH_ADD_FAVOURITE_PLACE__SUCCESS,
+  FETCH_REMOVE_FAVOURITE_PLACE__SUCCESS,
 } from './../actions/UserActions';
 
 const initialState = {
@@ -22,6 +24,7 @@ const initialState = {
   avatar: '',
   expertise: '',
   skills: [],
+  favourites: [],
   token: '',
 };
 
@@ -72,6 +75,7 @@ export default function userState(state = initialState, action) {
         avatar: action.payload.user.avatar,
         expertise: action.payload.user.expertise,
         skills: action.payload.user.skills,
+        favourites: action.payload.user.favourite_places,
       };
 
     case FETCH_LOGIN__FAIL:
@@ -91,18 +95,6 @@ export default function userState(state = initialState, action) {
         avatar: '',
         expertise: '',
         skills: [],
-      };
-
-    case FETCH_ADD_SKILL__SUCCESS:
-      return {
-        ...state,
-        skills: action.payload,
-      };
-
-    case FETCH_REMOVE_SKILL__SUCCESS:
-      return {
-        ...state,
-        skills: action.payload,
       };
 
     case FETCH_UPDATE_USER:
@@ -125,6 +117,30 @@ export default function userState(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+      };
+
+    case FETCH_ADD_SKILL__SUCCESS:
+      return {
+        ...state,
+        skills: action.payload,
+      };
+
+    case FETCH_REMOVE_SKILL__SUCCESS:
+      return {
+        ...state,
+        skills: action.payload,
+      };
+
+    case FETCH_ADD_FAVOURITE_PLACE__SUCCESS:
+      return {
+        ...state,
+        favourites: action.payload,
+      };
+
+    case FETCH_REMOVE_FAVOURITE_PLACE__SUCCESS:
+      return {
+        ...state,
+        favourites: action.payload,
       };
 
     default:

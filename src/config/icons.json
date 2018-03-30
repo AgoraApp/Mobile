@@ -95,6 +95,12 @@
       "css": "activity",
       "code": 59406,
       "src": "fontawesome"
+    },
+    {
+      "uid": "hi76m8qggwn5lbl286oeqp64q0n8kusy",
+      "css": "favourites-filled",
+      "code": 59407,
+      "src": "typicons"
     }
   ]
 }
