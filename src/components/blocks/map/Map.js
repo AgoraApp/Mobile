@@ -27,23 +27,21 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.isLoading && this.props.places.length === 0) {
-      this.getCurrentLocation()
-        .then((location) => {
-          if (location) {
-            // const { coords: { latitude, longitude } } = location;
-            // this.props.fetchNearyPlaces(latitude, longitude);
-            // this.props.setRegion(latitude, longitude);
-            this.props.fetchNearyPlaces(44.825917, -0.556826);
-            this.props.setRegion(44.825917, -0.556826);
+    this.getCurrentLocation()
+      .then((location) => {
+        if (location) {
+          // const { coords: { latitude, longitude } } = location;
+          // this.props.fetchNearyPlaces(latitude, longitude);
+          // this.props.setRegion(latitude, longitude);
+          this.props.fetchNearyPlaces(44.825917, -0.556826);
+          this.props.setRegion(44.825917, -0.556826);
 
-            // Location.watchPositionAsync({
-            //   timeInterval: 60000,
-            //   distanceInterval: 500,
-            // }, this.onLocationChange);
-          }
-        });
-    }
+          // Location.watchPositionAsync({
+          //   timeInterval: 60000,
+          //   distanceInterval: 500,
+          // }, this.onLocationChange);
+        }
+      });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -130,7 +128,6 @@ class Map extends React.Component {
 
 Map.propTypes = {
   region: PropTypes.shape(regionShape).isRequired,
-  isLoading: PropTypes.bool.isRequired,
   places: PropTypes.arrayOf(PropTypes.shape(placeShape)).isRequired,
   focusedPlaceId: PropTypes.number,
   expandedPlaceId: PropTypes.number,
@@ -146,8 +143,7 @@ Map.defaultProps = {
 
 const mapStateToProps = state => ({
   region: state.map.region,
-  isLoading: state.place.isLoading,
-  places: state.place.places,
+  places: state.place.nearby,
   focusedPlaceId: state.place.focusedPlaceId,
   expandedPlaceId: state.place.expandedPlaceId,
 });

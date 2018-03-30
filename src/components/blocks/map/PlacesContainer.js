@@ -90,7 +90,7 @@ PlaceContainer.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  places: state.place.places,
+  places: state.place.nearby,
   focusedPlaceId: state.place.focusedPlaceId,
 });
 

@@ -4,7 +4,7 @@ import { Text, ScrollView } from 'react-native';
 
 import placeShape from './../../../config/shapes/placeShape';
 
-import PlaceFavouriteButton from './PlaceFavouriteButton';
+import PlaceFavouriteButton from './../place/PlaceFavouriteButton';
 
 class PlaceCardContent extends React.PureComponent {
   render() {
