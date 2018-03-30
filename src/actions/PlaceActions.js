@@ -12,7 +12,7 @@ export const SET_EXPANDED_PLACE = '@@PLACE/SET_EXPANDED_PLACE';
 export const fetchNearyPlaces = (latitude, longitude) => (dispatch) => {
   dispatch({ type: FETCH_NEARBY_PLACES });
 
-  fetch(`${API_BASE_URL}/places/nearby?latitude=${latitude}&longitude=${longitude}`)
+  fetch(`${API_BASE_URL}/places/find/nearby?latitude=${latitude}&longitude=${longitude}`)
     .then(response => response.json())
     .then((data) => {
       dispatch({
