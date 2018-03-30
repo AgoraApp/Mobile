@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { StyleSheet, View, Text, Animated, Easing } from 'react-native';
+import { StyleSheet, View, Text, TouchableWithoutFeedback, Animated, Easing } from 'react-native';
 
 import { MAIN_COLOR, FONT_GREY } from './../../../config/colors';
 import placeShape from './../../../config/shapes/placeShape';
@@ -97,30 +97,32 @@ class FavouritePlaceHeader extends React.PureComponent {
     });
 
     return (
-      <View style={styles.container}>
-        <PlaceholderImage style={styles.image} src={place.image} />
-        <View style={styles.content}>
-          <View>
-            <Text style={styles.name}>{ place.name }</Text>
-            <View style={styles.addressContainer}>
-              <Icon style={styles.addressIcon} name="address" size={10} color={FONT_GREY} />
-              <Text style={styles.address}>{ place.address }</Text>
+      <TouchableWithoutFeedback onPress={this.handlePress}>
+        <View style={styles.container}>
+          <PlaceholderImage style={styles.image} src={place.image} />
+          <View style={styles.content}>
+            <View>
+              <Text style={styles.name}>{ place.name }</Text>
+              <View style={styles.addressContainer}>
+                <Icon style={styles.addressIcon} name="address" size={10} color={FONT_GREY} />
+                <Text style={styles.address}>{ place.address }</Text>
+              </View>
             </View>
+            <Button
+              style={styles.button}
+              onPress={this.handlePress}
+            >
+              <Animated.View style={{ transform: [{ rotate: spin }] }}>
+                <Icon
+                  name="arrow-down"
+                  color={MAIN_COLOR}
+                  size={16}
+                />
+              </Animated.View>
+            </Button>
           </View>
-          <Button
-            style={styles.button}
-            onPress={this.handlePress}
-          >
-            <Animated.View style={{ transform: [{ rotate: spin }] }}>
-              <Icon
-                name="arrow-down"
-                color={MAIN_COLOR}
-                size={16}
-              />
-            </Animated.View>
-          </Button>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
