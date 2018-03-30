@@ -5,9 +5,11 @@ import { TabViewAnimated, TabViewPagerExperimental, TabBar, SceneMap } from 'rea
 import { MAIN_COLOR, TABBAR_LABEL } from '../../config/colors';
 
 import Session from './../home/Session';
-import Notifications from './../home/Notifications';
+import Favourites from './../home/Favourites';
+import Activity from './../home/Activity';
 
-import Header from '../../components/blocks/home/Header';
+import Header from './../../components/blocks/home/Header';
+import Icon from './../../components/blocks/Icon';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,7 +21,13 @@ const styles = StyleSheet.create({
   },
 
   tabBarLabel: {
-    marginVertical: 5,
+    alignItems: 'center',
+    marginVertical: 2,
+  },
+
+  tabBarText: {
+    marginTop: 3,
+    fontSize: 10,
   },
 
   tabBarIndicator: {
@@ -40,8 +48,9 @@ class Home extends React.PureComponent {
     this.state = {
       index: 0,
       routes: [
-        { key: 'session', title: 'Session' },
-        { key: 'notifications', title: 'Notifications' },
+        { key: 'current_session', title: 'Current session' },
+        { key: 'favourites', title: 'Favourite places' },
+        { key: 'activity', title: 'Activity' },
       ],
     };
   }
@@ -53,9 +62,12 @@ class Home extends React.PureComponent {
   );
 
   renderLabel = ({ route, focused }) => (
-    <Text style={[styles.tabBarLabel, { color: focused ? MAIN_COLOR : TABBAR_LABEL }]}>
-      { route.title }
-    </Text>
+    <View style={styles.tabBarLabel}>
+      <Icon name={route.key} size={12} color={focused ? MAIN_COLOR : TABBAR_LABEL} />
+      <Text style={[styles.tabBarText, { color: focused ? MAIN_COLOR : TABBAR_LABEL }]}>
+        { route.title }
+      </Text>
+    </View>
   );
 
   renderHeader = props => (
@@ -70,8 +82,9 @@ class Home extends React.PureComponent {
 
 
   renderScene = SceneMap({
-    session: Session,
-    notifications: Notifications,
+    current_session: Session,
+    favourites: Favourites,
+    activity: Activity,
   });
 
   render() {

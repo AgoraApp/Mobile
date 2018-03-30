@@ -7,14 +7,14 @@ const styles = StyleSheet.create({
   },
 });
 
-class Notifications extends React.PureComponent {
+class Favourites extends React.PureComponent {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Notifications</Text>
+        <Text>Favourites</Text>
       </View>
     );
   }
 }
 
-export default Notifications;
+export default Favourites;

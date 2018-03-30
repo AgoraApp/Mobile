@@ -77,6 +77,24 @@
       "css": "user",
       "code": 59403,
       "src": "iconic"
+    },
+    {
+      "uid": "b99d736cef489a3150ba8aac7c4e8403",
+      "css": "current_session",
+      "code": 59404,
+      "src": "iconic"
+    },
+    {
+      "uid": "3b00728aa97ad1a2581d414bd9d650bc",
+      "css": "favourites",
+      "code": 59405,
+      "src": "typicons"
+    },
+    {
+      "uid": "cd21cbfb28ad4d903cede582157f65dc",
+      "css": "activity",
+      "code": 59406,
+      "src": "fontawesome"
     }
   ]
 }
