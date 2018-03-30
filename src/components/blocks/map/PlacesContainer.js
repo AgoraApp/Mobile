@@ -91,7 +91,7 @@ PlaceContainer.defaultProps = {
 
 const mapStateToProps = state => ({
   places: state.place.nearby,
-  focusedPlaceId: state.place.focusedPlaceId,
+  focusedPlaceId: state.place.focusedMapPlaceId,
 });
 
 export default connect(mapStateToProps, null)(PlaceContainer);

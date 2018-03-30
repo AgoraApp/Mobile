@@ -5,16 +5,18 @@ import {
   FETCH_FAVOURITE_PLACES,
   FETCH_FAVOURITE_PLACES__SUCCESS,
   FETCH_FAVOURITE_PLACES__FAIL,
-  SET_FOCUSED_PLACE,
-  SET_EXPANDED_PLACE,
+  SET_MAP_FOCUSED_PLACE,
+  SET_MAP_EXPANDED_PLACE,
+  SET_FAVOURITE_EXPANDED_PLACE,
 } from './../actions/PlaceActions';
 
 const initialState = {
   isLoading: false,
   nearby: [],
   favourites: [],
-  focusedPlaceId: null,
-  expandedPlaceId: null,
+  focusedMapPlaceId: null,
+  expandedMapPlaceId: null,
+  expandedFavouritePlaceId: null,
 };
 
 export default function placeState(state = initialState, action) {
@@ -57,16 +59,22 @@ export default function placeState(state = initialState, action) {
         isLoading: false,
       };
 
-    case SET_FOCUSED_PLACE:
+    case SET_MAP_FOCUSED_PLACE:
       return {
         ...state,
-        focusedPlaceId: action.payload,
+        focusedMapPlaceId: action.payload,
       };
 
-    case SET_EXPANDED_PLACE:
+    case SET_MAP_EXPANDED_PLACE:
       return {
         ...state,
-        expandedPlaceId: action.payload,
+        expandedMapPlaceId: action.payload,
+      };
+
+    case SET_FAVOURITE_EXPANDED_PLACE:
+      return {
+        ...state,
+        expandedFavouritePlaceId: action.payload,
       };
 
     default:

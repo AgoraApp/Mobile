@@ -10,7 +10,7 @@ import bluePin from './../../../../assets/pin_blue.png';
 
 import placeShape from './../../../config/shapes/placeShape';
 import regionShape from './../../../config/shapes/mapShape';
-import { fetchNearyPlaces, focusPlace } from './../../../actions/PlaceActions';
+import { fetchNearyPlaces, focusMapPlace } from './../../../actions/PlaceActions';
 import { setRegion } from './../../../actions/MapActions';
 
 const styles = StyleSheet.create({
@@ -90,7 +90,7 @@ class Map extends React.Component {
   }
 
   handleMarkerPress = (place) => {
-    this.props.focusPlace(place);
+    this.props.focusMapPlace(place);
   }
 
   render() {
@@ -133,7 +133,7 @@ Map.propTypes = {
   expandedPlaceId: PropTypes.number,
   fetchNearyPlaces: PropTypes.func.isRequired,
   setRegion: PropTypes.func.isRequired,
-  focusPlace: PropTypes.func.isRequired,
+  focusMapPlace: PropTypes.func.isRequired,
 };
 
 Map.defaultProps = {
@@ -144,15 +144,15 @@ Map.defaultProps = {
 const mapStateToProps = state => ({
   region: state.map.region,
   places: state.place.nearby,
-  focusedPlaceId: state.place.focusedPlaceId,
-  expandedPlaceId: state.place.expandedPlaceId,
+  focusedPlaceId: state.place.focusedMapPlaceId,
+  expandedPlaceId: state.place.expandedMapPlaceId,
 });
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     fetchNearyPlaces,
     setRegion,
-    focusPlace,
+    focusMapPlace,
   }, dispatch)
 );
 

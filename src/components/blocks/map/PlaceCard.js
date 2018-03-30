@@ -7,7 +7,7 @@ import { StyleSheet, Dimensions, View, Text, Animated, TouchableOpacity } from '
 import { FONT_GREY, MAIN_COLOR } from './../../../config/colors';
 import placeShape from './../../../config/shapes/placeShape';
 import { transformKilometersToMeters } from './../../../helpers/generalHelpers';
-import { expandPlace, focusPlace } from './../../../actions/PlaceActions';
+import { expandMapPlace, focusMapPlace } from './../../../actions/PlaceActions';
 
 import Icon from './../Icon';
 import Button from './../Button';
@@ -107,7 +107,7 @@ class PlaceCard extends React.PureComponent {
 
   handleSnapUp = () => {
     if (!this.props.expandedPlaceId) {
-      this.props.expandPlace(this.props.place);
+      this.props.expandMapPlace(this.props.place);
 
       Animated.stagger(250, [
         Animated.spring(this.state.contentHeight, {
@@ -124,7 +124,7 @@ class PlaceCard extends React.PureComponent {
 
   handleSnapDown = () => {
     if (this.props.expandedPlaceId) {
-      this.props.expandPlace({});
+      this.props.expandMapPlace({});
 
       Animated.stagger(250, [
         Animated.spring(this.state.contentHeight, {
@@ -137,7 +137,7 @@ class PlaceCard extends React.PureComponent {
         }),
       ]).start();
     } else {
-      this.props.focusPlace({});
+      this.props.focusMapPlace({});
     }
   }
 
@@ -216,8 +216,8 @@ class PlaceCard extends React.PureComponent {
 PlaceCard.propTypes = {
   place: PropTypes.shape(placeShape).isRequired,
   expandedPlaceId: PropTypes.number,
-  expandPlace: PropTypes.func.isRequired,
-  focusPlace: PropTypes.func.isRequired,
+  expandMapPlace: PropTypes.func.isRequired,
+  focusMapPlace: PropTypes.func.isRequired,
 };
 
 PlaceCard.defaultProps = {
@@ -225,13 +225,13 @@ PlaceCard.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  expandedPlaceId: state.place.expandedPlaceId,
+  expandedPlaceId: state.place.expandedMapPlaceId,
 });
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
-    expandPlace,
-    focusPlace,
+    expandMapPlace,
+    focusMapPlace,
   }, dispatch)
 );
 

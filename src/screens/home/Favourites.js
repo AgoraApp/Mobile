@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 
 import placeShape from './../../config/shapes/placeShape';
 
@@ -24,9 +24,12 @@ class Favourites extends React.PureComponent {
     const { places } = this.props;
 
     return (
-      <View style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
         { places.map(place => <FavouritePlace key={place.id} place={place} />) }
-      </View>
+      </ScrollView>
     );
   }
 }

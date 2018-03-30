@@ -10,8 +10,10 @@ export const FETCH_FAVOURITE_PLACES = '@@PLACE/FETCH_FAVOURITE_PLACES';
 export const FETCH_FAVOURITE_PLACES__SUCCESS = '@@PLACE/FETCH_FAVOURITE_PLACES__SUCCESS';
 export const FETCH_FAVOURITE_PLACES__FAIL = '@@PLACE/FETCH_FAVOURITE_PLACES_FAIL';
 
-export const SET_FOCUSED_PLACE = '@@PLACE/SET_FOCUSED_PLACE';
-export const SET_EXPANDED_PLACE = '@@PLACE/SET_EXPANDED_PLACE';
+export const SET_MAP_FOCUSED_PLACE = '@@PLACE/SET_MAP_FOCUSED_PLACE';
+export const SET_MAP_EXPANDED_PLACE = '@@PLACE/SET_MAP_EXPANDED_PLACE';
+
+export const SET_FAVOURITE_EXPANDED_PLACE = '@@PLACE/SET_FAVOURITE_EXPANDED_PLACE';
 
 export const fetchNearyPlaces = (latitude, longitude) => (dispatch) => {
   dispatch({ type: FETCH_NEARBY_PLACES });
@@ -51,9 +53,9 @@ export const fetchFavouritePlaces = () => (dispatch) => {
     });
 };
 
-export const focusPlace = place => (dispatch) => {
+export const focusMapPlace = place => (dispatch) => {
   dispatch({
-    type: SET_FOCUSED_PLACE,
+    type: SET_MAP_FOCUSED_PLACE,
     payload: place.id,
   });
 
@@ -65,9 +67,16 @@ export const focusPlace = place => (dispatch) => {
   }
 };
 
-export const expandPlace = place => (dispatch) => {
+export const expandMapPlace = place => (dispatch) => {
   dispatch({
-    type: SET_EXPANDED_PLACE,
+    type: SET_MAP_EXPANDED_PLACE,
     payload: place.id,
+  });
+};
+
+export const expandFavouritePlace = placeId => (dispatch) => {
+  dispatch({
+    type: SET_FAVOURITE_EXPANDED_PLACE,
+    payload: placeId,
   });
 };
