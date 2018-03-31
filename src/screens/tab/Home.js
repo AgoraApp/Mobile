@@ -80,7 +80,6 @@ class Home extends React.PureComponent {
     />
   );
 
-
   renderScene = SceneMap({
     current_session: Session,
     favourites: Favourites,

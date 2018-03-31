@@ -4,7 +4,12 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import placeShape from './../../../config/shapes/placeShape';
 
+import CreateSessionButton from './../session/CreateSessionButton';
+
 const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+  },
 });
 
 class FavouritePlaceContent extends React.PureComponent {
@@ -16,7 +21,7 @@ class FavouritePlaceContent extends React.PureComponent {
     const { place } = this.props;
 
     return (
-      <View>
+      <View style={styles.container}>
         <Text>
           Mox dicta finierat, multitudo omnis ad, quae imperator voluit, promptior
           laudato consilio consensit in pacem ea ratione maxime percita, quod norat
@@ -35,6 +40,7 @@ class FavouritePlaceContent extends React.PureComponent {
           satietates; veterrima quaeque, ut ea vina, quae vetustatem ferunt, esse
           debet suavissima;
         </Text>
+        <CreateSessionButton place={place} />
       </View>
     );
   }

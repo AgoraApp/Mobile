@@ -1,4 +1,6 @@
 import {
+  OPEN_SESSION,
+  CLOSE_SESSION,
   SET_DURATION,
   START_SESSION,
 } from './../actions/SessionActions';
@@ -6,10 +8,23 @@ import {
 const initialState = {
   start: null,
   duration: 3600,
+  placeId: null,
 };
 
 export default function skillState(state = initialState, action) {
   switch (action.type) {
+    case OPEN_SESSION:
+      return {
+        ...state,
+        placeId: action.payload,
+      };
+
+    case CLOSE_SESSION:
+      return {
+        ...state,
+        placeId: null,
+      };
+
     case SET_DURATION:
       return {
         ...state,

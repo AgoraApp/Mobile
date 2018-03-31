@@ -7,6 +7,9 @@ import { Constants } from 'expo';
 
 import { MAIN_COLOR } from './../../config/colors';
 import navigationShape from './../../config/shapes/navigationShape';
+import placeShape from '../../config/shapes/placeShape';
+
+import { closeSession } from './../../actions/SessionActions';
 
 import Icon from './../../components/blocks/Icon';
 import Button from './../../components/blocks/Button';
@@ -29,12 +32,17 @@ const styles = StyleSheet.create({
 });
 
 class Session extends React.PureComponent {
+  handlePress = () => {
+    this.props.navigation.goBack();
+    this.props.closeSession();
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.actionsContainer}>
           <Button
-            onPress={() => this.props.navigation.goBack()}
+            onPress={() => this.handlePress()}
           >
             <Icon style={styles.buttonIcon} name="cancel" color={MAIN_COLOR} size={20} />
             <Text>Close</Text>
@@ -46,16 +54,23 @@ class Session extends React.PureComponent {
 }
 
 Session.propTypes = {
+  place: PropTypes.shape(placeShape),
   navigation: PropTypes.shape(navigationShape).isRequired,
+  closeSession: PropTypes.func.isRequired,
 };
 
-// const mapStateToProps = state => ({
-// });
+Session.defaultProps = {
+  place: {},
+};
 
-// const mapDispatchToProps = dispatch => (
-//   bindActionCreators({
-//   }, dispatch)
-// );
+const mapStateToProps = state => ({
+  place: state.place.places.find(place => place.id === state.session.placeId),
+});
 
-// export default connect(mapStateToProps, mapDispatchToProps)(Session);
-export default Session;
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    closeSession,
+  }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Session);
