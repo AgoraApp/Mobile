@@ -27,6 +27,9 @@
         }
       }
     },
+    "assetBundlePatterns": [
+      "assets/**/**"
+    ],
     "isDetached": true,
     "detach": {
       "scheme": "exp91f3454496434c01af27c306dd65aed0",
