@@ -25,31 +25,21 @@ class PlaceContainer extends React.PureComponent {
     super();
 
     this.translateY = new Animated.Value(200);
-
-    this.state = {
-      focusedPlace: null,
-    };
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.focusedPlaceId !== this.props.focusedPlaceId) {
-      const focusedPlace = this.props.places.find(place => place.id === this.props.focusedPlaceId);
-
-      if (focusedPlace && !focusedPlace.zones) {
-        this.props.fetchPlace(focusedPlace.id);
+      if (this.props.focusedPlace && !this.props.focusedPlace.zones) {
+        this.props.fetchPlace(this.props.focusedPlace.id);
       }
 
       if (prevProps.focusedPlaceId) {
         this.hideCard().start(() => {
           if (this.props.focusedPlaceId) {
-            this.setState({ focusedPlace });
             this.showCard().start();
-          } else {
-            this.setState({ focusedPlace: null });
           }
         });
       } else {
-        this.setState({ focusedPlace });
         this.showCard().start();
       }
     }
@@ -70,7 +60,7 @@ class PlaceContainer extends React.PureComponent {
   )
 
   render() {
-    const { focusedPlace } = this.state;
+    const { focusedPlace } = this.props;
 
     return (
       <View style={styles.container}>
@@ -87,18 +77,18 @@ class PlaceContainer extends React.PureComponent {
 }
 
 PlaceContainer.propTypes = {
-  places: PropTypes.arrayOf(PropTypes.shape(placeShape)),
+  focusedPlace: PropTypes.shape(placeShape),
   focusedPlaceId: PropTypes.number,
   fetchPlace: PropTypes.func.isRequired,
 };
 
 PlaceContainer.defaultProps = {
-  places: [],
+  focusedPlace: null,
   focusedPlaceId: null,
 };
 
 const mapStateToProps = state => ({
-  places: state.place.places.filter(place => state.place.nearby.includes(place.id)),
+  focusedPlace: state.place.places.find(place => place.id === state.place.focusedMapPlaceId),
   focusedPlaceId: state.place.focusedMapPlaceId,
 });
 

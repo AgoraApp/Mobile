@@ -7,6 +7,8 @@ import { MapView, Permissions, Location } from 'expo';
 
 import redPin from './../../../../assets/pin_red.png';
 import bluePin from './../../../../assets/pin_blue.png';
+import redFavouritePin from './../../../../assets/pin_red_favourited.png';
+import blueFavouritePin from './../../../../assets/pin_blue_favourited.png';
 
 import placeShape from './../../../config/shapes/placeShape';
 import regionShape from './../../../config/shapes/mapShape';
@@ -92,12 +94,22 @@ class Map extends React.Component {
     return Location.getCurrentPositionAsync({});
   }
 
+  getMarkerImage = (id) => {
+    const { focusedPlaceId, favouritePlaces } = this.props;
+
+    if (focusedPlaceId === id) {
+      return favouritePlaces.includes(id) ? redFavouritePin : redPin;
+    }
+
+    return favouritePlaces.includes(id) ? blueFavouritePin : bluePin;
+  }
+
   handleMarkerPress = (place) => {
     this.props.focusMapPlace(place);
   }
 
   render() {
-    const { places, focusedPlaceId, expandedPlaceId } = this.props;
+    const { places, favouritePlaces, expandedPlaceId } = this.props;
 
     return (
       <MapView
@@ -118,8 +130,8 @@ class Map extends React.Component {
               onPress={() => this.handleMarkerPress(place)}
             >
               <Image
-                source={focusedPlaceId === place.id ? bluePin : redPin}
-                style={{ width: 30, height: 45 }}
+                source={this.getMarkerImage(place.id)}
+                style={{ width: 30, height: favouritePlaces.includes(place.id) ? 57 : 45 }}
               />
             </MapView.Marker>
           ))
@@ -132,6 +144,7 @@ class Map extends React.Component {
 Map.propTypes = {
   region: PropTypes.shape(regionShape).isRequired,
   places: PropTypes.arrayOf(PropTypes.shape(placeShape)).isRequired,
+  favouritePlaces: PropTypes.arrayOf(PropTypes.number),
   focusedPlaceId: PropTypes.number,
   expandedPlaceId: PropTypes.number,
   setUserLocation: PropTypes.func.isRequired,
@@ -141,6 +154,7 @@ Map.propTypes = {
 };
 
 Map.defaultProps = {
+  favouritePlaces: [],
   focusedPlaceId: null,
   expandedPlaceId: null,
 };
@@ -148,6 +162,7 @@ Map.defaultProps = {
 const mapStateToProps = state => ({
   region: state.map.region,
   places: state.place.places.filter(place => state.place.nearby.includes(place.id)),
+  favouritePlaces: state.user.favourites,
   focusedPlaceId: state.place.focusedMapPlaceId,
   expandedPlaceId: state.place.expandedMapPlaceId,
 });

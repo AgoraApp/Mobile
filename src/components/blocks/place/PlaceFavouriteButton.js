@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 
-import { TERTIARY_COLOR } from './../../../config/colors';
+import { QUATERNARY_COLOR } from './../../../config/colors';
 import placeShape from './../../../config/shapes/placeShape';
 
 import { addFavouritePlace, removeFavouritePlace } from './../../../actions/UserActions';
@@ -41,7 +41,7 @@ class PlaceFavouriteButton extends React.PureComponent {
 
     return (
       <TouchableOpacity style={styles.container} onPress={this.handlePress}>
-        <Icon name={favourites.includes(place.id) ? 'favourites-filled' : 'favourites'} size={12} color={TERTIARY_COLOR} />
+        <Icon name={favourites.includes(place.id) ? 'favourites-filled' : 'favourites'} size={12} color={QUATERNARY_COLOR} />
         {
           favourites.includes(place.id) ?
             <Text style={styles.label}>Remove from favourites</Text>

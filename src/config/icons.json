@@ -85,28 +85,28 @@
       "src": "iconic"
     },
     {
-      "uid": "3b00728aa97ad1a2581d414bd9d650bc",
-      "css": "favourites",
-      "code": 59405,
-      "src": "typicons"
-    },
-    {
       "uid": "cd21cbfb28ad4d903cede582157f65dc",
       "css": "activity",
       "code": 59406,
       "src": "fontawesome"
     },
     {
-      "uid": "hi76m8qggwn5lbl286oeqp64q0n8kusy",
-      "css": "favourites-filled",
-      "code": 59407,
-      "src": "typicons"
-    },
-    {
       "uid": "2cc73cc335f054682c04fe63439c4dcb",
       "css": "trash",
       "code": 59408,
       "src": "linecons"
+    },
+    {
+      "uid": "bcdc294bb787b15203b82f2be8096548",
+      "css": "favourites",
+      "code": 59409,
+      "src": "typicons"
+    },
+    {
+      "uid": "vyuzsm6wijlfwtjo4ifkoblfmsepk6g8",
+      "css": "favourites-filled",
+      "code": 59410,
+      "src": "typicons"
     }
   ]
 }
