@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { StyleSheet, Animated, View } from 'react-native';
 
 import placeShape from '../../../config/shapes/placeShape';
+
+import { fetchPlace } from '../../../actions/PlaceActions';
 
 import PlaceCard from './PlaceCard';
 
@@ -28,13 +31,17 @@ class PlaceContainer extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.focusedPlaceId !== nextProps.focusedPlaceId) {
-      const focusedPlace = nextProps.places.find(place => place.id === nextProps.focusedPlaceId);
+  componentDidUpdate(prevProps) {
+    if (prevProps.focusedPlaceId !== this.props.focusedPlaceId) {
+      const focusedPlace = this.props.places.find(place => place.id === this.props.focusedPlaceId);
 
-      if (this.props.focusedPlaceId) {
+      if (focusedPlace && !focusedPlace.zones) {
+        this.props.fetchPlace(focusedPlace.id);
+      }
+
+      if (prevProps.focusedPlaceId) {
         this.hideCard().start(() => {
-          if (nextProps.focusedPlaceId) {
+          if (this.props.focusedPlaceId) {
             this.setState({ focusedPlace });
             this.showCard().start();
           } else {
@@ -82,6 +89,7 @@ class PlaceContainer extends React.PureComponent {
 PlaceContainer.propTypes = {
   places: PropTypes.arrayOf(PropTypes.shape(placeShape)),
   focusedPlaceId: PropTypes.number,
+  fetchPlace: PropTypes.func.isRequired,
 };
 
 PlaceContainer.defaultProps = {
@@ -94,4 +102,10 @@ const mapStateToProps = state => ({
   focusedPlaceId: state.place.focusedMapPlaceId,
 });
 
-export default connect(mapStateToProps, null)(PlaceContainer);
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    fetchPlace,
+  }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlaceContainer);

@@ -1,4 +1,7 @@
 import {
+  FETCH_PLACE,
+  FETCH_PLACE__SUCCESS,
+  FETCH_PLACE__FAIL,
   FETCH_NEARBY_PLACES,
   FETCH_NEARBY_PLACES__SUCCESS,
   FETCH_NEARBY_PLACES__FAIL,
@@ -11,7 +14,9 @@ import {
 } from './../actions/PlaceActions';
 
 const initialState = {
-  isLoading: false,
+  isDetailLoading: false,
+  isNearbyLoading: false,
+  isfavouritesLoading: false,
   places: [],
   nearby: [],
   favourites: [],
@@ -31,10 +36,37 @@ export default function placeState(state = initialState, action) {
   let newPlaces = [];
 
   switch (action.type) {
+    case FETCH_PLACE:
+      return {
+        ...state,
+        isDetailLoading: true,
+      };
+
+    case FETCH_PLACE__SUCCESS:
+      newPlaces = state.places.map((place) => {
+        if (place.id === action.payload.id) {
+          return action.payload;
+        }
+
+        return place;
+      });
+
+      return {
+        ...state,
+        isDetailLoading: false,
+        places: newPlaces,
+      };
+
+    case FETCH_PLACE__FAIL:
+      return {
+        ...state,
+        isDetailLoading: false,
+      };
+
     case FETCH_NEARBY_PLACES:
       return {
         ...state,
-        isLoading: true,
+        isNearbyLoading: true,
       };
 
     case FETCH_NEARBY_PLACES__SUCCESS:
@@ -42,7 +74,7 @@ export default function placeState(state = initialState, action) {
 
       return {
         ...state,
-        isLoading: false,
+        isNearbyLoading: false,
         places: newPlaces,
         nearby: action.payload.map(place => place.id),
       };
@@ -50,13 +82,13 @@ export default function placeState(state = initialState, action) {
     case FETCH_NEARBY_PLACES__FAIL:
       return {
         ...state,
-        isLoading: false,
+        isNearbyLoading: false,
       };
 
     case FETCH_FAVOURITE_PLACES:
       return {
         ...state,
-        isLoading: true,
+        isfavouritesLoading: true,
       };
 
     case FETCH_FAVOURITE_PLACES__SUCCESS:
@@ -64,14 +96,14 @@ export default function placeState(state = initialState, action) {
 
       return {
         ...state,
-        isLoading: false,
+        isfavouritesLoading: false,
         places: newPlaces,
       };
 
     case FETCH_FAVOURITE_PLACES__FAIL:
       return {
         ...state,
-        isLoading: false,
+        isfavouritesLoading: false,
       };
 
     case SET_MAP_FOCUSED_PLACE:

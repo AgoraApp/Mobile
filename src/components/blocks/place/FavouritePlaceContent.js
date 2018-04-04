@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { StyleSheet, View, Text } from 'react-native';
 
 import placeShape from './../../../config/shapes/placeShape';
+
+import { fetchPlace } from './../../../actions/PlaceActions';
 
 import CreateSessionButton from './../session/CreateSessionButton';
 
@@ -13,8 +17,10 @@ const styles = StyleSheet.create({
 });
 
 class FavouritePlaceContent extends React.PureComponent {
-  handlePress = () => {
-
+  componentDidUpdate(prevProps) {
+    if (!prevProps.visible && this.props.visible && !this.props.place.zones) {
+      this.props.fetchPlace(this.props.place.id);
+    }
   }
 
   render() {
@@ -48,6 +54,14 @@ class FavouritePlaceContent extends React.PureComponent {
 
 FavouritePlaceContent.propTypes = {
   place: PropTypes.shape(placeShape).isRequired,
+  visible: PropTypes.bool.isRequired,
+  fetchPlace: PropTypes.func.isRequired,
 };
 
-export default FavouritePlaceContent;
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    fetchPlace,
+  }, dispatch)
+);
+
+export default connect(null, mapDispatchToProps)(FavouritePlaceContent);

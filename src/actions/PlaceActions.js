@@ -2,6 +2,10 @@ import { API_BASE_URL } from './../config/api';
 
 import { SET_REGION } from './MapActions';
 
+export const FETCH_PLACE = '@@PLACE/FETCH_PLACE';
+export const FETCH_PLACE__SUCCESS = '@@PLACE/FETCH_PLACE__SUCCESS';
+export const FETCH_PLACE__FAIL = '@@PLACE/FETCH_PLACE_FAIL';
+
 export const FETCH_NEARBY_PLACES = '@@PLACE/FETCH_NEARBY_PLACES';
 export const FETCH_NEARBY_PLACES__SUCCESS = '@@PLACE/FETCH_NEARBY_PLACES__SUCCESS';
 export const FETCH_NEARBY_PLACES__FAIL = '@@PLACE/FETCH_NEARBY_PLACES_FAIL';
@@ -14,6 +18,25 @@ export const SET_MAP_FOCUSED_PLACE = '@@PLACE/SET_MAP_FOCUSED_PLACE';
 export const SET_MAP_EXPANDED_PLACE = '@@PLACE/SET_MAP_EXPANDED_PLACE';
 
 export const SET_FAVOURITE_EXPANDED_PLACE = '@@PLACE/SET_FAVOURITE_EXPANDED_PLACE';
+
+export const fetchPlace = id => (dispatch) => {
+  dispatch({ type: FETCH_PLACE });
+
+  fetch(`${API_BASE_URL}/places/${id}`)
+    .then(response => response.json())
+    .then((data) => {
+      dispatch({
+        type: FETCH_PLACE__SUCCESS,
+        payload: data,
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: FETCH_PLACE__FAIL,
+        payload: error,
+      });
+    });
+};
 
 export const fetchNearyPlaces = (latitude, longitude) => (dispatch) => {
   dispatch({ type: FETCH_NEARBY_PLACES });
