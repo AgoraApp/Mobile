@@ -46,7 +46,7 @@ class Home extends React.PureComponent {
     super();
 
     this.state = {
-      index: 0,
+      index: 1,
       routes: [
         { key: 'current_session', title: 'Current session' },
         { key: 'favourites', title: 'Favourite places' },

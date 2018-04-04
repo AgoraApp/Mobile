@@ -10,8 +10,6 @@ class PlaceCardContent extends React.PureComponent {
   render() {
     const { place } = this.props;
 
-    console.log(place);
-
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}

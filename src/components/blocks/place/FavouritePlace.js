@@ -34,10 +34,10 @@ class FavouritePlace extends React.PureComponent {
   }
 
   render() {
-    const { place, expandedPlaceId } = this.props;
+    const { place, index, expandedPlaceId } = this.props;
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { marginTop: index === 0 ? 5 : 0 }]}>
         <FavouritePlaceHeader place={place} />
         <Collapsible collapsed={place.id !== expandedPlaceId}>
           <FavouritePlaceContent place={place} />
@@ -49,6 +49,7 @@ class FavouritePlace extends React.PureComponent {
 
 FavouritePlace.propTypes = {
   place: PropTypes.shape(placeShape).isRequired,
+  index: PropTypes.number.isRequired,
   expandedPlaceId: PropTypes.number,
 };
 

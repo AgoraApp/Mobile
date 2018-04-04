@@ -16,7 +16,7 @@ import {
 const initialState = {
   isDetailLoading: false,
   isNearbyLoading: false,
-  isfavouritesLoading: false,
+  isFavouritesLoading: false,
   places: [],
   nearby: [],
   favourites: [],
@@ -88,7 +88,7 @@ export default function placeState(state = initialState, action) {
     case FETCH_FAVOURITE_PLACES:
       return {
         ...state,
-        isfavouritesLoading: true,
+        isFavouritesLoading: true,
       };
 
     case FETCH_FAVOURITE_PLACES__SUCCESS:
@@ -96,14 +96,14 @@ export default function placeState(state = initialState, action) {
 
       return {
         ...state,
-        isfavouritesLoading: false,
+        isFavouritesLoading: false,
         places: newPlaces,
       };
 
     case FETCH_FAVOURITE_PLACES__FAIL:
       return {
         ...state,
-        isfavouritesLoading: false,
+        isFavouritesLoading: false,
       };
 
     case SET_MAP_FOCUSED_PLACE:
