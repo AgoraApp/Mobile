@@ -2,17 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { StyleSheet, StatusBar, View } from 'react-native';
 import { AppLoading, Font, Asset } from 'expo';
 
 import agoraIcons from './../assets/fonts/agora-icons.ttf';
 import splashImage from './../assets/splash.png';
 import redPin from './../assets/pin_red.png';
 import bluePin from './../assets/pin_blue.png';
+import redFavouritePin from './../assets/pin_red_favourited.png';
+import blueFavouritePin from './../assets/pin_blue_favourited.png';
+
+import { MAIN_COLOR } from './config/colors';
 
 import { verifyToken, verifyUser, fetchUserData } from './actions/UserActions';
 
 import RootRouter from './navigation/RootNavigation';
 import AuthRouter from './navigation/AuthNavigation';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 class App extends React.Component {
   constructor() {
@@ -44,6 +55,8 @@ class App extends React.Component {
       splashImage,
       redPin,
       bluePin,
+      redFavouritePin,
+      blueFavouritePin,
     ];
 
     const cacheFonts = fonts.map(font => Font.loadAsync(font));
@@ -65,7 +78,15 @@ class App extends React.Component {
       );
     }
 
-    return isLogged ? <RootRouter /> : <AuthRouter />;
+    return (
+      <View style={styles.container}>
+        <StatusBar
+          backgroundColor={MAIN_COLOR}
+          barStyle="light-content"
+        />
+        { isLogged ? <RootRouter /> : <AuthRouter /> }
+      </View>
+    );
   }
 }
 
