@@ -40,7 +40,7 @@ class FavouritePlace extends React.PureComponent {
       <View style={styles.container}>
         <FavouritePlaceHeader place={place} />
         <Collapsible collapsed={place.id !== expandedPlaceId}>
-          <FavouritePlaceContent place={place} visible={place.id === expandedPlaceId} />
+          <FavouritePlaceContent place={place} />
         </Collapsible>
       </View>
     );

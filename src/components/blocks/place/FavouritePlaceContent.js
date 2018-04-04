@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
 });
 
 class FavouritePlaceContent extends React.PureComponent {
-  componentDidUpdate(prevProps) {
-    if (!prevProps.visible && this.props.visible && !this.props.place.zones) {
+  componentDidMount() {
+    if (!this.props.place.zones) {
       this.props.fetchPlace(this.props.place.id);
     }
   }
@@ -37,7 +37,6 @@ class FavouritePlaceContent extends React.PureComponent {
 
 FavouritePlaceContent.propTypes = {
   place: PropTypes.shape(placeShape).isRequired,
-  visible: PropTypes.bool.isRequired,
   fetchPlace: PropTypes.func.isRequired,
 };
 
