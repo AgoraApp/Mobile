@@ -13,6 +13,8 @@ import { closeSession } from './../../actions/SessionActions';
 
 import Icon from './../../components/blocks/Icon';
 import Button from './../../components/blocks/Button';
+import SessionButton from '../../components/blocks/session/SessionButton';
+import SessionSelectZone from '../../components/blocks/session/SessionSelectZone';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,6 +30,12 @@ const styles = StyleSheet.create({
 
   buttonIcon: {
     marginRight: 10,
+  },
+
+  content: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
@@ -47,6 +55,10 @@ class Session extends React.PureComponent {
             <Icon style={styles.buttonIcon} name="cancel" color={MAIN_COLOR} size={20} />
             <Text>Close</Text>
           </Button>
+        </View>
+        <View style={styles.content}>
+          <SessionSelectZone />
+          <SessionButton />
         </View>
       </View>
     );

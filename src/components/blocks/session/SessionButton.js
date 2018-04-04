@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Dimensions } from 'react-native';
 import moment from 'moment';
 
-import { setDuration, startSession } from './../../../actions/SessionActions';
+import { setDuration } from './../../../actions/SessionActions';
 
 import CircularSlider from './CircularSlider';
 
@@ -41,12 +41,6 @@ class SessionButton extends React.PureComponent {
     this.setState({ value: difference });
   }
 
-  handlePress = () => {
-    if (!this.props.start) {
-      this.props.startSession();
-    }
-  }
-
   handleChange = (value) => {
     if (!this.props.start) {
       this.props.setDuration(Math.ceil((value * 80) / 300) * 300);
@@ -62,7 +56,6 @@ class SessionButton extends React.PureComponent {
         height={Dimensions.get('window').width * (2 / 3)}
         value={value / 80}
         onChange={this.handleChange}
-        onPress={this.handlePress}
       />
     );
   }
@@ -72,7 +65,6 @@ SessionButton.propTypes = {
   duration: PropTypes.number.isRequired,
   start: PropTypes.shape({}),
   setDuration: PropTypes.func.isRequired,
-  startSession: PropTypes.func.isRequired,
 };
 
 SessionButton.defaultProps = {
@@ -87,7 +79,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     setDuration,
-    startSession,
   }, dispatch)
 );
 

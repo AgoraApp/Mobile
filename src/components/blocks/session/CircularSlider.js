@@ -54,10 +54,6 @@ class CircularSlider extends React.Component {
     this.props.onChange(this.cartesianToPolar(locationX, locationY));
   }
 
-  handlePress = (value) => {
-    this.props.onPress(value);
-  }
-
   renderDuration() {
     const durationInSeconds = this.props.value * 80;
 
@@ -93,15 +89,14 @@ class CircularSlider extends React.Component {
           fill="none"
           d={`M${startCoord.x} ${startCoord.y} A ${r} ${r} 0 ${value > 180 ? 1 : 0} 1 ${endCoord.x} ${endCoord.y}`}
         />
-        <G onPress={() => this.handlePress()}>
+        <G>
           <Circle
             cx={cx}
             cy={cy}
             r={r - 4.5}
             fill={backgroundColor}
           />
-          <Text x={cx} y={height / 3} fontSize={25} fontWeight="bold" fill="#FFFFFF" textAnchor="middle">Start a session</Text>
-          <Text x={cx} y={cy} fontSize={50} fontWeight="bold" fill="#FFFFFF" textAnchor="middle">{this.renderDuration()}</Text>
+          <Text x={cx} y={cy - (50 / 2)} dy={50 * -0.25} fontSize={50} fontWeight="bold" fill="#FFFFFF" textAnchor="middle">{this.renderDuration()}</Text>
         </G>
         <G x={endCoord.x - 9} y={endCoord.y - 9}>
           <Circle cx={9} cy={9} r={18} fill={buttonColor} {...this.panResponder.panHandlers} />
@@ -119,7 +114,6 @@ CircularSlider.propTypes = {
   meterColor: PropTypes.string,
   buttonColor: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  onPress: PropTypes.func.isRequired,
 };
 
 CircularSlider.defaultProps = {
