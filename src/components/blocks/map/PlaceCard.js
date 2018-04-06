@@ -36,12 +36,11 @@ const styles = StyleSheet.create({
   content: {
     marginTop: -35,
     paddingHorizontal: 15,
-    paddingVertical: 10,
     backgroundColor: '#ffffff',
   },
 
   header: {
-    marginBottom: 10,
+    marginVertical: 10,
   },
 
   name: {

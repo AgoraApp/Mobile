@@ -1,10 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, Text } from 'react-native';
 
 import placeShape from './../../../config/shapes/placeShape';
 
 import PlaceFavouriteButton from './../place/PlaceFavouriteButton';
+import CreateSessionButton from './../session/CreateSessionButton';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingVertical: 10,
+  },
+
+  content: {
+    flexGrow: 1,
+  },
+});
 
 class PlaceCardContent extends React.PureComponent {
   render() {
@@ -12,10 +24,14 @@ class PlaceCardContent extends React.PureComponent {
 
     return (
       <ScrollView
+        contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}
       >
         <PlaceFavouriteButton place={place} />
-        <Text>{ place.description }</Text>
+        <View style={styles.content}>
+          <Text>{ place.description }</Text>
+        </View>
+        <CreateSessionButton place={place} />
       </ScrollView>
     );
   }
