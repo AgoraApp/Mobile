@@ -25,7 +25,7 @@ class Favourites extends React.PureComponent {
   render() {
     const { places, isFavouritesLoading } = this.props;
 
-    if (!isFavouritesLoading) {
+    if (isFavouritesLoading) {
       return (
         <View style={styles.container}>
           {
