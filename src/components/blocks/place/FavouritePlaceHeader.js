@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { StyleSheet, View, Text, TouchableWithoutFeedback, Animated, Easing } from 'react-native';
-import { LinearGradient } from 'expo';
 import Swipeout from 'react-native-swipeout';
 
 import { MAIN_COLOR, FONT_GREY, ALERT_COLOR } from './../../../config/colors';
