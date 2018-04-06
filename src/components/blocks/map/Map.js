@@ -131,7 +131,7 @@ class Map extends React.Component {
             >
               <Image
                 source={this.getMarkerImage(place.id)}
-                style={{ width: 30, height: favouritePlaces.includes(place.id) ? 57 : 45 }}
+                style={{ width: 30, height: favouritePlaces.includes(place.id) ? 50 : 45 }}
               />
             </MapView.Marker>
           ))
