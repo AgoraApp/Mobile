@@ -82,7 +82,7 @@ class CircularSlider extends React.Component {
     const endCoord = this.polarToCartesian(value);
 
     return (
-      <Svg width={width} height={height}>
+      <Svg width={width} height={height} style={{ paddingVertical: 36 }}>
         <Path
           stroke={meterColor}
           strokeWidth={10}
@@ -96,8 +96,7 @@ class CircularSlider extends React.Component {
             r={r - 4.5}
             fill={backgroundColor}
           />
-          <Text x={cx} y={cy - 40} dy={12 * -0.25} fontSize={12} fontWeight="bold" fill="#FFFFFF" textAnchor="middle">Set the session duration</Text>
-          <Text x={cx} y={cy - (50 / 2)} dy={12 * -0.25} fontSize={50} fontWeight="bold" fill="#FFFFFF" textAnchor="middle">{ this.renderDuration() }</Text>
+          <Text x={cx} y={cy - (50 / 2)} dy={50 * -0.25} fontSize={50} fontWeight="bold" fill="#FFFFFF" textAnchor="middle">{ this.renderDuration() }</Text>
         </G>
         <G x={endCoord.x - 9} y={endCoord.y - 9}>
           <Circle cx={9} cy={9} r={18} fill={buttonColor} {...this.panResponder.panHandlers} />

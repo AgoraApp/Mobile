@@ -8,7 +8,8 @@ import Tag from './../Tag';
 
 const styles = StyleSheet.create({
   container: {
-    margin: 10,
+    marginHorizontal: 10,
+    marginBottom: 10,
   },
 });
 
