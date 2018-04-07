@@ -38,6 +38,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
     "react-native-collapsible": "^0.10.0",
     "react-native-loader": "^1.2.1",
+    "react-native-popup-dialog": "^0.11.46",
     "react-native-svg-animated-linear-gradient": "^0.1.9",
     "react-native-swipeout": "^2.3.3",
     "react-native-tab-view": "^0.0.74",
