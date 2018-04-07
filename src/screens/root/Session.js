@@ -4,24 +4,21 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Dimensions, StyleSheet, View, Text } from 'react-native';
 import { Constants } from 'expo';
-import PopupDialog, { ScaleAnimation, SlideAnimation } from 'react-native-popup-dialog';
+import PopupDialog, { ScaleAnimation } from 'react-native-popup-dialog';
 
 import { MAIN_COLOR } from './../../config/colors';
 import navigationShape from './../../config/shapes/navigationShape';
 import placeShape from '../../config/shapes/placeShape';
 
-import { closeSession } from './../../actions/SessionActions';
+import { closeSession, setZone, setDuration } from './../../actions/SessionActions';
 
 import Icon from './../../components/blocks/Icon';
 import Button from './../../components/blocks/Button';
-import SessionButton from '../../components/blocks/session/SessionButton';
-import SessionSelectZone from '../../components/blocks/session/SessionSelectZone';
+import SelectZone from '../../components/blocks/session/SelectZone';
+import CircularSlider from '../../components/blocks/session/CircularSlider';
+import ZoneList from '../../components/blocks/session/ZoneList';
 
 const scaleAnimation = new ScaleAnimation();
-
-const slideAnimation = new SlideAnimation({
-  slideFrom: 'bottom',
-});
 
 const styles = StyleSheet.create({
   container: {
@@ -46,7 +43,11 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    marginVertical: 35,
+  },
+
+  zoneContainer: {
+    marginBottom: 35,
   },
 });
 
@@ -59,15 +60,31 @@ class Session extends React.PureComponent {
 
   handleClosePress = () => {
     this.props.navigation.goBack();
-    this.props.closeSession();
+
+    setTimeout(() => {
+      this.props.closeSession();
+    }, 1000);
   }
 
   handleZonePress = () => {
     this.popupDialog.show();
   }
 
+  handleZoneSelect = (zoneId) => {
+    this.props.setZone(zoneId);
+    this.popupDialog.dismiss();
+  }
+
+  handleDurationChange = (value) => {
+    this.props.setDuration(Math.ceil((value * 80) / 300) * 300);
+  }
+
   render() {
-    const { place } = this.props;
+    const {
+      place,
+      selectedZoneId,
+      duration,
+    } = this.props;
 
     return (
       <View style={styles.container}>
@@ -81,14 +98,18 @@ class Session extends React.PureComponent {
             </Button>
           </View>
           <View style={styles.content}>
-            {
-              place.zones && place.zones.length > 0 ?
-                <Button onPress={this.handleZonePress}>
-                  <Text>Select the zone</Text>
-                </Button>
-                : null
-              }
-            <SessionButton />
+            <SelectZone
+              style={styles.zoneContainer}
+              zones={place.zones}
+              selectedZoneId={selectedZoneId}
+              onPress={this.handleZonePress}
+            />
+            <CircularSlider
+              width={Dimensions.get('window').width * (2 / 3)}
+              height={Dimensions.get('window').width * (2 / 3)}
+              value={duration / 80}
+              onChange={this.handleDurationChange}
+            />
           </View>
         </View>
         <PopupDialog
@@ -96,7 +117,11 @@ class Session extends React.PureComponent {
           width={Dimensions.get('window').width - 50}
           dialogAnimation={scaleAnimation}
         >
-          <SessionSelectZone zones={place.zones} />
+          <ZoneList
+            zones={place.zones}
+            selectedZoneId={selectedZoneId}
+            onSelect={this.handleZoneSelect}
+          />
         </PopupDialog>
       </View>
     );
@@ -105,21 +130,30 @@ class Session extends React.PureComponent {
 
 Session.propTypes = {
   place: PropTypes.shape(placeShape),
+  selectedZoneId: PropTypes.number,
+  duration: PropTypes.number.isRequired,
   navigation: PropTypes.shape(navigationShape).isRequired,
   closeSession: PropTypes.func.isRequired,
+  setZone: PropTypes.func.isRequired,
+  setDuration: PropTypes.func.isRequired,
 };
 
 Session.defaultProps = {
   place: {},
+  selectedZoneId: null,
 };
 
 const mapStateToProps = state => ({
   place: state.place.places.find(place => place.id === state.session.placeId),
+  selectedZoneId: state.session.zoneId,
+  duration: state.session.duration,
 });
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     closeSession,
+    setZone,
+    setDuration,
   }, dispatch)
 );
 

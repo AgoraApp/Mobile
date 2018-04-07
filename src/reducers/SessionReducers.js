@@ -1,6 +1,7 @@
 import {
   OPEN_SESSION,
   CLOSE_SESSION,
+  SET_ZONE,
   SET_DURATION,
   START_SESSION,
 } from './../actions/SessionActions';
@@ -23,6 +24,13 @@ export default function skillState(state = initialState, action) {
       return {
         ...state,
         placeId: null,
+        zoneId: null,
+      };
+
+    case SET_ZONE:
+      return {
+        ...state,
+        zoneId: action.payload,
       };
 
     case SET_DURATION:

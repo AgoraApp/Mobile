@@ -1,15 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import { Dimensions } from 'react-native';
 import moment from 'moment';
 
-import { setDuration } from './../../../actions/SessionActions';
-
 import CircularSlider from './CircularSlider';
 
-class SessionButton extends React.PureComponent {
+class Countdown extends React.PureComponent {
   constructor(props) {
     super();
 
@@ -43,7 +39,7 @@ class SessionButton extends React.PureComponent {
 
   handleChange = (value) => {
     if (!this.props.start) {
-      this.props.setDuration(Math.ceil((value * 80) / 300) * 300);
+      this.props.onChange(Math.ceil((value * 80) / 300) * 300);
     }
   }
 
@@ -61,25 +57,14 @@ class SessionButton extends React.PureComponent {
   }
 }
 
-SessionButton.propTypes = {
+Countdown.propTypes = {
   duration: PropTypes.number.isRequired,
   start: PropTypes.shape({}),
-  setDuration: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
-SessionButton.defaultProps = {
+Countdown.defaultProps = {
   start: null,
 };
 
-const mapStateToProps = state => ({
-  duration: state.session.duration,
-  start: state.session.start,
-});
-
-const mapDispatchToProps = dispatch => (
-  bindActionCreators({
-    setDuration,
-  }, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(SessionButton);
+export default Countdown;

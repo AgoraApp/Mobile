@@ -4,6 +4,7 @@ import moment from 'moment';
 
 export const OPEN_SESSION = '@@SESSION/OPEN_SESSION';
 export const CLOSE_SESSION = '@@SESSION/CLOSE_SESSION';
+export const SET_ZONE = '@@SESSION/SET_ZONE';
 export const SET_DURATION = '@@SESSION/SET_DURATION';
 export const START_SESSION = '@@SESSION/START_SESSION';
 
@@ -19,6 +20,13 @@ export const openSession = placeId => (dispatch) => {
 export const closeSession = () => (dispatch) => {
   dispatch({
     type: CLOSE_SESSION,
+  });
+};
+
+export const setZone = zoneId => (dispatch) => {
+  dispatch({
+    type: SET_ZONE,
+    payload: zoneId,
   });
 };
 
