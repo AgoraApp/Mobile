@@ -39,6 +39,7 @@
     "react-native-collapsible": "^0.10.0",
     "react-native-loader": "^1.2.1",
     "react-native-popup-dialog": "^0.11.46",
+    "react-native-snap-carousel": "^3.6.0",
     "react-native-svg-animated-linear-gradient": "^0.1.9",
     "react-native-swipeout": "^2.3.3",
     "react-native-tab-view": "^0.0.74",

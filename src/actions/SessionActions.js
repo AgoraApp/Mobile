@@ -1,4 +1,4 @@
-import { NavigationActions } from 'react-navigation';
+// import { NavigationActions } from 'react-navigation';
 
 import moment from 'moment';
 
@@ -9,8 +9,7 @@ export const SET_DURATION = '@@SESSION/SET_DURATION';
 export const START_SESSION = '@@SESSION/START_SESSION';
 
 export const openSession = placeId => (dispatch) => {
-  dispatch(NavigationActions.navigate({ routeName: 'Session' }));
-
+  // dispatch(NavigationActions.navigate({ routeName: 'Session' }));
   dispatch({
     type: OPEN_SESSION,
     payload: placeId,

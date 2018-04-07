@@ -16,7 +16,7 @@ import { MAIN_COLOR } from './config/colors';
 
 import { verifyToken, verifyUser, fetchUserData } from './actions/UserActions';
 
-import RootRouter from './navigation/RootNavigation';
+import Root from './screens/root/Root';
 import AuthRouter from './navigation/AuthNavigation';
 
 const styles = StyleSheet.create({
@@ -84,7 +84,7 @@ class App extends React.Component {
           backgroundColor={MAIN_COLOR}
           barStyle="light-content"
         />
-        { isLogged ? <RootRouter /> : <AuthRouter /> }
+        { isLogged ? <Root /> : <AuthRouter /> }
       </View>
     );
   }
