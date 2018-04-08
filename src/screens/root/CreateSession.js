@@ -10,7 +10,7 @@ import Swiper from 'react-native-swiper';
 import { MAIN_COLOR, COLOR_GREY, FONT_COLOR } from './../../config/colors';
 import placeShape from '../../config/shapes/placeShape';
 
-import { closeSession, setZone, setDuration, createSession } from './../../actions/SessionActions';
+import { closeCreateSession, setZone, setDuration, createSession } from './../../actions/SessionActions';
 
 import Icon from './../../components/blocks/Icon';
 import Button from './../../components/blocks/Button';
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class Session extends React.PureComponent {
+class CreateSession extends React.PureComponent {
   constructor() {
     super();
 
@@ -108,12 +108,12 @@ class Session extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.selectedPlaceId && nextProps.selectedPlaceId) {
-      this.popupDialog.show();
-    }
-
-    if (this.props.selectedPlaceId && !nextProps.selectedPlaceId) {
-      this.popupDialog.dismiss();
+    if (this.props.showCreate !== nextProps.showCreate) {
+      if (nextProps.showCreate) {
+        this.popupDialog.show();
+      } else {
+        this.popupDialog.dismiss();
+      }
     }
   }
 
@@ -144,16 +144,12 @@ class Session extends React.PureComponent {
   }
 
   handleDismiss = () => {
-    this.props.closeSession();
+    this.props.closeCreateSession();
 
     if (this.state.index !== 0) {
       this.swiper.scrollBy(this.state.index * -1);
       this.setState({ index: 0 });
     }
-  }
-
-  handleZonePress = () => {
-    this.popupDialog.show();
   }
 
   handleZoneSelect = (zoneId) => {
@@ -293,24 +289,26 @@ class Session extends React.PureComponent {
   }
 }
 
-Session.propTypes = {
+CreateSession.propTypes = {
+  showCreate: PropTypes.bool.isRequired,
   place: PropTypes.shape(placeShape),
   selectedPlaceId: PropTypes.number,
   selectedZoneId: PropTypes.number,
   duration: PropTypes.number.isRequired,
-  closeSession: PropTypes.func.isRequired,
+  closeCreateSession: PropTypes.func.isRequired,
   setZone: PropTypes.func.isRequired,
   setDuration: PropTypes.func.isRequired,
   createSession: PropTypes.func.isRequired,
 };
 
-Session.defaultProps = {
+CreateSession.defaultProps = {
   place: {},
   selectedPlaceId: null,
   selectedZoneId: null,
 };
 
 const mapStateToProps = state => ({
+  showCreate: state.session.showCreate,
   place: state.place.places.find(place => place.id === state.session.placeId),
   selectedPlaceId: state.session.placeId,
   selectedZoneId: state.session.zoneId,
@@ -319,11 +317,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
-    closeSession,
+    closeCreateSession,
     setZone,
     setDuration,
     createSession,
   }, dispatch)
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Session);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateSession);

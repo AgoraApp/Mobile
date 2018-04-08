@@ -1,7 +1,14 @@
 import { API_BASE_URL } from './../config/api';
 
-export const OPEN_SESSION = '@@SESSION/OPEN_SESSION';
-export const CLOSE_SESSION = '@@SESSION/CLOSE_SESSION';
+export const OPEN_CREATE_SESSION = '@@SESSION/OPEN_CREATE_SESSION';
+export const CLOSE_CREATE_SESSION = '@@SESSION/CLOSE_CREATE_SESSION';
+
+export const OPEN_UPDATE_ZONE = '@@SESSION/OPEN_UPDATE_ZONE';
+export const CLOSE_UPDATE_ZONE = '@@SESSION/CLOSE_UPDATE_ZONE';
+
+export const OPEN_UPDATE_DURATION = '@@SESSION/OPEN_UPDATE_DURATION';
+export const CLOSE_UPDATE_DURATION = '@@SESSION/CLOSE_UPDATE_DURATION';
+
 export const SET_ZONE = '@@SESSION/SET_ZONE';
 export const SET_DURATION = '@@SESSION/SET_DURATION';
 
@@ -17,16 +24,46 @@ export const STOP_SESSION__FAIL = '@@SESSION/STOP_SESSION__FAIL';
 
 export const REMOVE_CURRENT_SESSION = '@@SESSION/REMOVE_CURRENT_SESSION';
 
-export const openSession = placeId => (dispatch) => {
+export const UPDATE_SESSION = '@@SESSION/UPDATE_SESSION';
+export const UPDATE_SESSION__SUCCESS = '@@SESSION/UPDATE_SESSION__SUCCESS';
+export const UPDATE_SESSION__FAIL = '@@SESSION/UPDATE_SESSION__FAIL';
+
+export const openCreateSession = placeId => (dispatch) => {
   dispatch({
-    type: OPEN_SESSION,
+    type: OPEN_CREATE_SESSION,
     payload: placeId,
   });
 };
 
-export const closeSession = () => (dispatch) => {
+export const closeCreateSession = () => (dispatch) => {
   dispatch({
-    type: CLOSE_SESSION,
+    type: CLOSE_CREATE_SESSION,
+  });
+};
+
+export const openUpdateZone = zoneId => (dispatch) => {
+  dispatch({
+    type: OPEN_UPDATE_ZONE,
+    payload: zoneId,
+  });
+};
+
+export const closeUpdateZone = () => (dispatch) => {
+  dispatch({
+    type: CLOSE_UPDATE_ZONE,
+  });
+};
+
+export const openUpdateDuration = duration => (dispatch) => {
+  dispatch({
+    type: OPEN_UPDATE_DURATION,
+    payload: duration,
+  });
+};
+
+export const closeUpdateDuration = () => (dispatch) => {
+  dispatch({
+    type: CLOSE_UPDATE_DURATION,
   });
 };
 
@@ -67,7 +104,7 @@ export const createSession = (placeId, zoneId, duration) => (dispatch) => {
           type: CREATE_SESSION__SUCCESS,
           payload: data,
         },
-        closeSession(),
+        closeCreateSession(),
       ]);
     })
     .catch((error) => {
@@ -96,4 +133,26 @@ export const stopSession = sessionId => (dispatch) => {
 
 export const removeCurrentSessions = () => (dispatch) => {
   dispatch({ type: REMOVE_CURRENT_SESSION });
+};
+
+export const updateZone = (sessionId, zoneId) => (dispatch) => {
+  dispatch({ type: UPDATE_SESSION });
+
+  fetch(`${API_BASE_URL}/me/sessions/${sessionId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ zone_id: zoneId }) })
+    .then(response => response.json())
+    .then((data) => {
+      dispatch([
+        {
+          type: UPDATE_SESSION__SUCCESS,
+          payload: data,
+        },
+        closeUpdateZone(),
+      ]);
+    })
+    .catch((error) => {
+      dispatch({
+        type: UPDATE_SESSION__FAIL,
+        payload: error,
+      });
+    });
 };

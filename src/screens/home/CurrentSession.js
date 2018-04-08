@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { StyleSheet, View, Text } from 'react-native';
 
-import { MAIN_COLOR } from './../../config/colors';
+import { MAIN_COLOR, ALERT_COLOR } from './../../config/colors';
 import placeShape from './../../config/shapes/placeShape';
 import sessionShape from './../../config/shapes/sessionShape';
 
 import { fetchPlace } from './../../actions/PlaceActions';
-import { stopSession, removeCurrentSessions } from './../../actions/SessionActions';
+import { stopSession, removeCurrentSessions, openUpdateZone, openUpdateDuration } from './../../actions/SessionActions';
 
 import Button from './../../components/blocks/Button';
 import Description from './../../components/blocks/session/Description';
@@ -25,7 +25,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  button: {
+  actionsContainer: {
+    flexDirection: 'row',
+    marginTop: 20,
+  },
+
+  updateButton: {
+    marginHorizontal: 10,
+  },
+
+  deleteButton: {
     marginTop: 20,
   },
 
@@ -65,9 +74,25 @@ class CurrentSession extends React.PureComponent {
             end={currentSession.end_at}
             onDone={this.handleDone}
           />
+          <View style={styles.actionsContainer}>
+            <Button
+              style={styles.updateButton}
+              color={MAIN_COLOR}
+              onPress={() => this.props.openUpdateZone(currentSession.zone_id)}
+            >
+              <Text style={styles.buttonText}>Change the zone</Text>
+            </Button>
+            <Button
+              style={styles.updateButton}
+              color={MAIN_COLOR}
+              onPress={() => this.props.stopSession()}
+            >
+              <Text style={styles.buttonText}>Change the duration</Text>
+            </Button>
+          </View>
           <Button
-            style={styles.button}
-            color={MAIN_COLOR}
+            style={styles.deleteButton}
+            color={ALERT_COLOR}
             onPress={() => this.props.stopSession(currentSession.id)}
           >
             <Text style={styles.buttonText}>Stop this session</Text>
@@ -90,6 +115,8 @@ CurrentSession.propTypes = {
   fetchPlace: PropTypes.func.isRequired,
   stopSession: PropTypes.func.isRequired,
   removeCurrentSessions: PropTypes.func.isRequired,
+  openUpdateZone: PropTypes.func.isRequired,
+  openUpdateDuration: PropTypes.func.isRequired,
 };
 
 CurrentSession.defaultProps = {
@@ -109,6 +136,8 @@ const mapDispatchToProps = dispatch => (
     fetchPlace,
     stopSession,
     removeCurrentSessions,
+    openUpdateZone,
+    openUpdateDuration,
   }, dispatch)
 );
 

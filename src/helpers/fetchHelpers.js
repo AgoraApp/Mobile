@@ -6,18 +6,22 @@ import { SET_TOKEN } from './../actions/UserActions';
 
 const unregister = fetchIntercept.register({
   request: (url, config) => {
-    console.log('FETCH REQUEST', url, config);
     let copyConfig = config;
     const { user: { token } } = store.getState();
 
     if (token) {
+      const headers = config && config.headers ? config.headers : {};
+
       copyConfig = {
         ...config,
-        headers: new Headers({
+        headers: {
+          ...headers,
           Authorization: `Bearer ${token}`,
-        }),
+        },
       };
     }
+
+    console.log('FETCH REQUEST', url, copyConfig);
 
     return [url, copyConfig];
   },

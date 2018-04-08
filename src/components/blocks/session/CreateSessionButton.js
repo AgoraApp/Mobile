@@ -8,7 +8,7 @@ import { MAIN_COLOR } from './../../../config/colors';
 import placeShape from './../../../config/shapes/placeShape';
 import sessionShape from './../../../config/shapes/sessionShape';
 
-import { openSession } from './../../../actions/SessionActions';
+import { openCreateSession } from './../../../actions/SessionActions';
 
 import Button from './../Button';
 
@@ -33,7 +33,7 @@ class CreateSessionButton extends React.PureComponent {
       <View style={styles.container}>
         <Button
           color={MAIN_COLOR}
-          onPress={() => this.props.openSession(this.props.place.id)}
+          onPress={() => this.props.openCreateSession(this.props.place.id)}
         >
           <Text style={styles.text}>Create a session</Text>
         </Button>
@@ -45,7 +45,7 @@ class CreateSessionButton extends React.PureComponent {
 CreateSessionButton.propTypes = {
   place: PropTypes.shape(placeShape).isRequired,
   currentSession: PropTypes.shape(sessionShape),
-  openSession: PropTypes.func.isRequired,
+  openCreateSession: PropTypes.func.isRequired,
 };
 
 CreateSessionButton.defaultProps = {
@@ -58,7 +58,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
-    openSession,
+    openCreateSession,
   }, dispatch)
 );
 
