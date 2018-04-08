@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Text } from 'react-native';
+import { Dimensions, StyleSheet, View, Text } from 'react-native';
+import { Svg } from 'expo';
+import SvgAnimatedLinearGradient from 'react-native-svg-animated-linear-gradient';
 import moment from 'moment';
 
 import sessionShape from './../../../config/shapes/sessionShape';
@@ -81,8 +83,29 @@ class Description extends React.PureComponent {
       );
     }
 
+    const { width } = Dimensions.get('window');
+
     return (
       <View style={styles.container}>
+        <View style={styles.item}>
+          <SvgAnimatedLinearGradient height={55} width={width}>
+            <Svg.Rect x={(width / 2) - 50} y="0" width="100" height="16" />
+            <Svg.Rect x={(width / 2) - 75} y="26" width="150" height="14" />
+            <Svg.Rect x={(width / 2) - 50} y="45" width="100" height="10" />
+          </SvgAnimatedLinearGradient>
+        </View>
+        <View style={styles.item}>
+          <SvgAnimatedLinearGradient height={40} width={width}>
+            <Svg.Rect x={(width / 2) - 35} y="0" width="70" height="16" />
+            <Svg.Rect x={(width / 2) - 60} y="26" width="120" height="14" />
+          </SvgAnimatedLinearGradient>
+        </View>
+        <View style={styles.item}>
+          <SvgAnimatedLinearGradient height={40} width={width}>
+            <Svg.Rect x={(width / 2) - 45} y="0" width="90" height="16" />
+            <Svg.Rect x={(width / 2) - 70} y="26" width="140" height="14" />
+          </SvgAnimatedLinearGradient>
+        </View>
       </View>
     );
   }

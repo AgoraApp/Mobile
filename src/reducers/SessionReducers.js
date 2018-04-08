@@ -13,9 +13,11 @@ import {
   REMOVE_CURRENT_SESSION,
 } from './../actions/SessionActions';
 
+const START_DURATION = 3600;
+
 const initialState = {
   loading: false,
-  duration: 3600,
+  duration: START_DURATION,
   placeId: null,
   zoneId: null,
   currentSession: null,
@@ -32,6 +34,7 @@ export default function skillState(state = initialState, action) {
     case CLOSE_SESSION:
       return {
         ...state,
+        duration: START_DURATION,
         placeId: null,
         zoneId: null,
       };
