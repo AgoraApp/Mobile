@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { StyleSheet, View, Text } from 'react-native';
+import moment from 'moment';
 
 import { MAIN_COLOR, ALERT_COLOR } from './../../config/colors';
 import placeShape from './../../config/shapes/placeShape';
@@ -58,6 +59,15 @@ class CurrentSession extends React.PureComponent {
     this.props.removeCurrentSessions();
   }
 
+  handleOpenUpdateDuration = () => {
+    const now = moment();
+    const end = moment(this.props.currentSession.end_at);
+
+    const reaminingDuration = end.diff(now, 'seconds');
+
+    this.props.openUpdateDuration(reaminingDuration);
+  }
+
   render() {
     const { currentSession, place } = this.props;
 
@@ -85,7 +95,7 @@ class CurrentSession extends React.PureComponent {
             <Button
               style={styles.updateButton}
               color={MAIN_COLOR}
-              onPress={() => this.props.stopSession()}
+              onPress={this.handleOpenUpdateDuration}
             >
               <Text style={styles.buttonText}>Change the duration</Text>
             </Button>

@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import { API_BASE_URL } from './../config/api';
 
 export const OPEN_CREATE_SESSION = '@@SESSION/OPEN_CREATE_SESSION';
@@ -147,6 +149,30 @@ export const updateZone = (sessionId, zoneId) => (dispatch) => {
           payload: data,
         },
         closeUpdateZone(),
+      ]);
+    })
+    .catch((error) => {
+      dispatch({
+        type: UPDATE_SESSION__FAIL,
+        payload: error,
+      });
+    });
+};
+
+export const updateDuration = (sessionId, duration) => (dispatch) => {
+  dispatch({ type: UPDATE_SESSION });
+
+  const end = moment().add(duration, 'seconds').format('YYYY-MM-DD HH:mm:ss');
+
+  fetch(`${API_BASE_URL}/me/sessions/${sessionId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ end_at: end }) })
+    .then(response => response.json())
+    .then((data) => {
+      dispatch([
+        {
+          type: UPDATE_SESSION__SUCCESS,
+          payload: data,
+        },
+        closeUpdateDuration(),
       ]);
     })
     .catch((error) => {

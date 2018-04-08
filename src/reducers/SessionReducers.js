@@ -76,7 +76,7 @@ export default function skillState(state = initialState, action) {
       return {
         ...state,
         showUpdateDuration: false,
-        duration: null,
+        duration: START_DURATION,
       };
 
     case SET_ZONE:

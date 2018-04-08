@@ -7,20 +7,20 @@ import { Constants } from 'expo';
 import PopupDialog, { SlideAnimation } from 'react-native-popup-dialog';
 
 import { MAIN_COLOR } from './../../config/colors';
-import placeShape from '../../config/shapes/placeShape';
 import sessionShape from '../../config/shapes/sessionShape';
 
-import { closeUpdateZone, setZone, updateZone } from './../../actions/SessionActions';
+import { closeUpdateDuration, setDuration, updateDuration } from './../../actions/SessionActions';
 
 import Icon from './../../components/blocks/Icon';
 import Button from './../../components/blocks/Button';
-import ZoneList from '../../components/blocks/session/ZoneList';
+import CircularSlider from '../../components/blocks/session/CircularSlider';
 
 const slideAnimation = new SlideAnimation({
   slideFrom: 'bottom',
 });
 
 const DIALOG_HEIGT = Dimensions.get('window').height * 0.65;
+const SLIDER_SIZE = Dimensions.get('window').width * 0.65;
 const IS_IPHONE_X = Platform.OS === 'ios' && Constants.platform.ios.model.toLowerCase() === 'iphone x';
 
 const styles = StyleSheet.create({
@@ -80,10 +80,10 @@ const styles = StyleSheet.create({
   },
 });
 
-class UpdateSession extends React.PureComponent {
+class UpdateDuration extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
-    if (this.props.showUpdateZone !== nextProps.showUpdateZone) {
-      if (nextProps.showUpdateZone) {
+    if (this.props.showUpdateDuration !== nextProps.showUpdateDuration) {
+      if (nextProps.showUpdateDuration) {
         this.popupDialog.show();
       } else {
         this.popupDialog.dismiss();
@@ -96,19 +96,15 @@ class UpdateSession extends React.PureComponent {
   }
 
   handleDismiss = () => {
-    this.props.closeUpdateZone();
+    this.props.closeUpdateDuration();
   }
 
-  handleZoneSelect = (zoneId) => {
-    if (zoneId === this.props.selectedZoneId) {
-      this.props.setZone(null);
-    } else {
-      this.props.setZone(zoneId);
-    }
+  handleDurationChange = (value) => {
+    this.props.setDuration(Math.ceil((value * 80) / 300) * 300);
   }
 
   render() {
-    const { currentSession, place, selectedZoneId } = this.props;
+    const { currentSession, duration } = this.props;
 
     return (
       <PopupDialog
@@ -132,21 +128,22 @@ class UpdateSession extends React.PureComponent {
           <View style={styles.content}>
             <View style={styles.stepContainer}>
               <View style={styles.titleContainer}>
-                <Text style={styles.titleStep}>Update zone</Text>
-                <Text>Select where you&#39;re sitting now</Text>
+                <Text style={styles.titleStep}>Update duration</Text>
+                <Text>Select how long you&#39;re planning to stay</Text>
               </View>
-              <ZoneList
-                zones={place.zones}
-                selectedZoneId={selectedZoneId}
-                onSelect={this.handleZoneSelect}
+              <CircularSlider
+                width={SLIDER_SIZE}
+                height={SLIDER_SIZE}
+                value={duration / 80}
+                onChange={this.handleDurationChange}
               />
             </View>
             <Button
               style={styles.updateButton}
               color={MAIN_COLOR}
-              onPress={() => this.props.updateZone(currentSession.id, selectedZoneId)}
+              onPress={() => this.props.updateDuration(currentSession.id, duration)}
             >
-              <Text style={styles.buttonText}>Update the zone</Text>
+              <Text style={styles.buttonText}>Update the duration</Text>
             </Button>
           </View>
         </View>
@@ -155,37 +152,32 @@ class UpdateSession extends React.PureComponent {
   }
 }
 
-UpdateSession.propTypes = {
-  showUpdateZone: PropTypes.bool.isRequired,
+UpdateDuration.propTypes = {
+  showUpdateDuration: PropTypes.bool.isRequired,
   currentSession: PropTypes.shape(sessionShape),
-  place: PropTypes.shape(placeShape),
-  selectedZoneId: PropTypes.number,
-  closeUpdateZone: PropTypes.func.isRequired,
-  setZone: PropTypes.func.isRequired,
-  updateZone: PropTypes.func.isRequired,
+  duration: PropTypes.number,
+  closeUpdateDuration: PropTypes.func.isRequired,
+  setDuration: PropTypes.func.isRequired,
+  updateDuration: PropTypes.func.isRequired,
 };
 
-UpdateSession.defaultProps = {
+UpdateDuration.defaultProps = {
   currentSession: {},
-  place: {},
-  selectedZoneId: null,
+  duration: null,
 };
 
 const mapStateToProps = state => ({
-  showUpdateZone: state.session.showUpdateZone,
+  showUpdateDuration: state.session.showUpdateDuration,
   currentSession: state.session.currentSession,
-  place: state.session.currentSession ?
-    state.place.places.find(place => place.id === state.session.currentSession.place_id)
-    : {},
-  selectedZoneId: state.session.zoneId,
+  duration: state.session.duration,
 });
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
-    closeUpdateZone,
-    setZone,
-    updateZone,
+    closeUpdateDuration,
+    setDuration,
+    updateDuration,
   }, dispatch)
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateSession);
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateDuration);

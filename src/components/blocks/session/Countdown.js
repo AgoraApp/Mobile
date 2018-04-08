@@ -38,6 +38,22 @@ class Countdown extends React.PureComponent {
     this.refreshInterval = setInterval(this.setRemainingSeconds, 1000);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.end !== this.props.end) {
+      const now = moment();
+      const start = moment(this.props.start);
+      const end = moment(this.props.end);
+
+      const totalDuration = end.diff(start, 'seconds');
+      const elapsedDuration = now.diff(start, 'seconds');
+
+      this.setState({
+        totalDuration,
+        elapsedDuration,
+      });
+    }
+  }
+
   componentWillUnmount() {
     clearInterval(this.refreshInterval);
   }
@@ -94,8 +110,8 @@ class Countdown extends React.PureComponent {
 
     let value = ((totalDuration - elapsedDuration) / totalDuration) * 360;
 
-    if (value === 360) {
-      value = 360 - 0.01;
+    if (value >= 360) {
+      value = 359.9;
     }
 
     const startCoord = this.polarToCartesian(0);

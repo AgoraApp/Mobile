@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import RootTabRouter from './../../navigation/RootTabNavigation';
 import CreateSession from './CreateSession';
 import UpdateZone from './UpdateZone';
+import UpdateDuration from './UpdateDuration';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,6 +17,7 @@ const Root = () => (
     <RootTabRouter />
     <CreateSession />
     <UpdateZone />
+    <UpdateDuration />
   </View>
 );
 
