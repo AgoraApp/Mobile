@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, ScrollView, View } from 'react-native';
 
+import zoneShape from './../../../config/shapes/zoneShape';
+
 import Zone from './Zone';
 
 const styles = StyleSheet.create({
@@ -27,7 +29,11 @@ class ZoneList extends React.PureComponent {
         {
           zones.map(zone => (
             <View style={styles.item} key={zone.id}>
-              <Zone zone={zone} selected={selectedZoneId === zone.id} onSelect={() => onSelect(zone.id)} />
+              <Zone
+                zone={zone}
+                selected={selectedZoneId === zone.id}
+                onSelect={() => onSelect(zone.id)}
+              />
             </View>
           ))
         }
@@ -37,7 +43,7 @@ class ZoneList extends React.PureComponent {
 }
 
 ZoneList.propTypes = {
-  zones: PropTypes.arrayOf(PropTypes.shape({})),
+  zones: PropTypes.arrayOf(PropTypes.shape(zoneShape)),
   selectedZoneId: PropTypes.number,
   onSelect: PropTypes.func.isRequired,
 };

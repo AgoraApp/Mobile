@@ -7,14 +7,10 @@ const styles = StyleSheet.create({
   },
 });
 
-class Activity extends React.PureComponent {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Activity</Text>
-      </View>
-    );
-  }
-}
+const Activity = () => (
+  <View style={styles.container}>
+    <Text>Activity</Text>
+  </View>
+);
 
 export default Activity;

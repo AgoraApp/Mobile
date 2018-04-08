@@ -2,7 +2,7 @@ export const transformKilometersToMeters = distance => Math.floor(distance * 100
 
 export const secondsToHoursAndMinutes = (seconds) => {
   const hours = (seconds - (seconds % 3600)) / 3600;
-  const minutes = (seconds - (hours * 3600)) / 60;
+  const minutes = (((seconds % 3600) - ((seconds % 3600) % 60))) / 60;
 
   return { hours, minutes };
 };

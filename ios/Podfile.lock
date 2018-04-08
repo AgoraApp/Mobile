@@ -34,8 +34,8 @@ PODS:
   - CocoaLumberjack/Default (3.2.1)
   - CocoaLumberjack/Extensions (3.2.1):
     - CocoaLumberjack/Default
-  - Crashlytics (3.9.3):
-    - Fabric (~> 1.7.2)
+  - Crashlytics (3.10.1):
+    - Fabric (~> 1.7.5)
   - DoubleConversion (1.1.5)
   - ExpoKit/Core (2.3.3):
     - Amplitude-iOS (~> 3.8)
@@ -57,14 +57,14 @@ PODS:
     - lottie-ios (~> 2.1.3)
   - ExpoKit/CPP (2.3.3):
     - ExpoKit/Core
-  - Fabric (1.7.2)
-  - FBAudienceNetwork (4.27.2)
-  - FBSDKCoreKit (4.29.0):
+  - Fabric (1.7.6)
+  - FBAudienceNetwork (4.28.0)
+  - FBSDKCoreKit (4.31.1):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.29.0):
+  - FBSDKLoginKit (4.31.1):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.29.0):
-    - FBSDKCoreKit
+  - FBSDKShareKit (4.31.1):
+    - FBSDKCoreKit (~> 4.31.1)
   - Folly (2016.09.26.00):
     - boost
     - DoubleConversion
@@ -191,14 +191,14 @@ SPEC CHECKSUMS:
   boost: 30a15ffb6d9aa4646dd3caffc960753f4cb4ca4e
   Branch: f63d9cf82ac09747349a73184a0b739d28781c4d
   CocoaLumberjack: 2800c03334042fe80589423c8d80e582dcaec482
-  Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
+  Crashlytics: aee1a064cbbf99b32efa3f056a5f458d846bc8ff
   DoubleConversion: ebb6747c5b66026ad4f97b789c3ceac6f18e57a6
   ExpoKit: b322775eb089a18e60ddc2b785d00a0aa08ad316
-  Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
-  FBAudienceNetwork: 84fc420e262ae16b30586861fa11dd9c779336a8
-  FBSDKCoreKit: 6f139173dc63a1deaff4430a55f2fe5bb222d2af
-  FBSDKLoginKit: 56a057ca6822535ea0faa25f57a7c41edb697fd4
-  FBSDKShareKit: 18a2cd118aef11dd657fe7e8b64bae5c719088b2
+  Fabric: f8d42c893bb187326a7968b62abe55c36a987a46
+  FBAudienceNetwork: 25decde0ee5bfee9573d1d729ace66a66827de41
+  FBSDKCoreKit: e08ccfcefa7bc1347a07c276dac9bf6c7fe57024
+  FBSDKLoginKit: 99797ac39252fef6f72600b886f6ee60b4b29cab
+  FBSDKShareKit: e640c41c9fcd61929eeb3d0c21ad335103e7cb62
   Folly: b7255b29f1d693c375d642d0f04f0592181156d9
   GLog: 3e4e4ae9746ce6bf6e9420c7fc1e08ad59c8ba1a
   Google-Mobile-Ads-SDK: 1bdf1a4244d0553b1840239874c209c01aef055f
@@ -212,9 +212,9 @@ SPEC CHECKSUMS:
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
   JKBigInteger2: e91672035c42328c48b7dd015b66812ddf40ca9b
   lottie-ios: 836cdbba92f62f3c6a00e37a4ce485321fe317cf
-  React: 61a6bdf17a9ff16875c230e6ff278d9de274e16c
-  yoga: 646606bf554d54a16711f35596178522fbc00480
+  React: 43e97926f429d846050880666de1809e22dd5cc5
+  yoga: 55da126afc384965b96bff46652464373b330add
 
 PODFILE CHECKSUM: ddc0aef3b54a92571543d8b0c621c75b4b4fe9f0
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.4.0

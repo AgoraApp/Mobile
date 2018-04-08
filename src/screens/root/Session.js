@@ -10,7 +10,7 @@ import Swiper from 'react-native-swiper';
 import { MAIN_COLOR, COLOR_GREY, FONT_COLOR } from './../../config/colors';
 import placeShape from '../../config/shapes/placeShape';
 
-import { closeSession, setZone, setDuration } from './../../actions/SessionActions';
+import { closeSession, setZone, setDuration, createSession } from './../../actions/SessionActions';
 
 import Icon from './../../components/blocks/Icon';
 import Button from './../../components/blocks/Button';
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 35,
     paddingTop: 10,
-    paddingBottom: IS_IPHONE_X ? 35 : 10,
+    paddingBottom: IS_IPHONE_X ? 35 : 20,
     borderTopWidth: 1,
     borderColor: COLOR_GREY,
     backgroundColor: '#FFFFFF',
@@ -110,6 +110,10 @@ class Session extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     if (!this.props.selectedPlaceId && nextProps.selectedPlaceId) {
       this.popupDialog.show();
+    }
+
+    if (this.props.selectedPlaceId && !nextProps.selectedPlaceId) {
+      this.popupDialog.dismiss();
     }
   }
 
@@ -166,7 +170,11 @@ class Session extends React.PureComponent {
   }
 
   handleValidation = () => {
-    console.log('validate');
+    this.props.createSession(
+      this.props.selectedPlaceId,
+      this.props.selectedZoneId,
+      this.props.duration,
+    );
   }
 
   handlePrevious = () => {
@@ -293,6 +301,7 @@ Session.propTypes = {
   closeSession: PropTypes.func.isRequired,
   setZone: PropTypes.func.isRequired,
   setDuration: PropTypes.func.isRequired,
+  createSession: PropTypes.func.isRequired,
 };
 
 Session.defaultProps = {
@@ -313,6 +322,7 @@ const mapDispatchToProps = dispatch => (
     closeSession,
     setZone,
     setDuration,
+    createSession,
   }, dispatch)
 );
 

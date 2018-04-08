@@ -5,6 +5,7 @@ import { addNavigationHelpers, TabNavigator } from 'react-navigation';
 import Icon from './../components/blocks/Icon';
 
 import { MAIN_COLOR, TABBAR_INACTIVE } from './../config/colors';
+import navigationShape from './../config/shapes/navigationShape';
 
 import Home from './../screens/tab/Home';
 import Places from './../screens/tab/Places';
@@ -63,7 +64,7 @@ const RootTabRouter = ({ dispatch, rootTabNavigation }) => (
 
 RootTabRouter.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  rootTabNavigation: PropTypes.shape({}).isRequired,
+  rootTabNavigation: PropTypes.shape(navigationShape).isRequired,
 };
 
 const mapStateToProps = state => ({

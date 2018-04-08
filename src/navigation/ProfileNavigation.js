@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 
+import navigationShape from './../config/shapes/navigationShape';
+
 import Overview from './../screens/profile/Overview';
 import AddSkill from './../screens/profile/AddSkill';
 
@@ -30,7 +32,7 @@ const ProfileRouter = ({ dispatch, profileNavigation }) => (
 
 ProfileRouter.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  profileNavigation: PropTypes.shape({}).isRequired,
+  profileNavigation: PropTypes.shape(navigationShape).isRequired,
 };
 
 const mapStateToProps = state => ({

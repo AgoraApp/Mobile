@@ -3,6 +3,7 @@ import { AsyncStorage, Image } from 'react-native';
 import { API_BASE_URL } from './../config/api';
 
 import { disableEditMode } from './ProfileActions';
+import { setSession } from './SessionActions';
 
 export const VERIFY_TOKEN = '@@USER/VERIFY_TOKEN';
 export const VERIFY_TOKEN__SUCCESS = '@@USER/VERIFY_TOKEN__SUCCESS';
@@ -98,6 +99,10 @@ export const fetchUserData = () => (dispatch) => {
   return fetch(`${API_BASE_URL}/me`)
     .then(response => response.json())
     .then((user) => {
+      if (user.current_session) {
+        dispatch(setSession(user.current_session));
+      }
+
       dispatch({
         type: FETCH_ME__SUCCESS,
         payload: user,
@@ -130,6 +135,10 @@ export const login = (email, password) => (dispatch) => {
       AsyncStorage.setItem('@AgoraStore:authToken', data.token);
       if (data.user.avatar.length > 0) {
         Image.prefetch(data.user.avatar);
+      }
+
+      if (data.user.current_session) {
+        dispatch(setSession(data.user.current_session));
       }
 
       dispatch({

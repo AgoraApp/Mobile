@@ -3,13 +3,18 @@ import {
   CLOSE_SESSION,
   SET_ZONE,
   SET_DURATION,
-  START_SESSION,
+  SET_SESSION,
+  CREATE_SESSION,
+  CREATE_SESSION__SUCCESS,
+  CREATE_SESSION__FAIL,
 } from './../actions/SessionActions';
 
 const initialState = {
-  start: null,
+  loading: false,
   duration: 3600,
   placeId: null,
+  zoneId: null,
+  currentSession: null,
 };
 
 export default function skillState(state = initialState, action) {
@@ -39,10 +44,29 @@ export default function skillState(state = initialState, action) {
         duration: action.payload,
       };
 
-    case START_SESSION:
+    case SET_SESSION:
       return {
         ...state,
-        start: action.payload,
+        currentSession: action.payload,
+      };
+
+    case CREATE_SESSION:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case CREATE_SESSION__SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        currentSession: action.payload,
+      };
+
+    case CREATE_SESSION__FAIL:
+      return {
+        ...state,
+        loading: false,
       };
 
     default:

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import { SECONDARY_COLOR, COLOR_GREY, FONT_COLOR } from './../../../config/colors';
+import zoneShape from './../../../config/shapes/zoneShape';
 
 import Tag from './../Tag';
 
@@ -31,7 +32,7 @@ class Zone extends React.PureComponent {
 }
 
 Zone.propTypes = {
-  zone: PropTypes.shape({}).isRequired,
+  zone: PropTypes.shape(zoneShape).isRequired,
   selected: PropTypes.bool.isRequired,
   onSelect: PropTypes.func.isRequired,
 };

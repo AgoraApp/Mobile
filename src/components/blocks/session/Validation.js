@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View, Text } from 'react-native';
 
 import { MAIN_COLOR } from './../../../config/colors';
+import placeShape from './../../../config/shapes/placeShape';
+import zoneShape from './../../../config/shapes/zoneShape';
 import { secondsToHoursAndMinutes } from './../../../helpers/generalHelpers';
 
 import Icon from './../Icon';
@@ -97,8 +99,8 @@ class Validation extends React.PureComponent {
 }
 
 Validation.propTypes = {
-  place: PropTypes.shape({}).isRequired,
-  zone: PropTypes.shape({}),
+  place: PropTypes.shape(placeShape).isRequired,
+  zone: PropTypes.shape(zoneShape),
   duration: PropTypes.number.isRequired,
   onValidate: PropTypes.func.isRequired,
 };

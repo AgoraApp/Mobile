@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 
+import navigationShape from './../config/shapes/navigationShape';
+
 import Auth from './../screens/auth/Auth';
 import Login from './../screens/auth/Login';
 
@@ -30,7 +32,7 @@ const AuthRouter = ({ dispatch, authNavigation }) => (
 
 AuthRouter.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  authNavigation: PropTypes.shape({}).isRequired,
+  authNavigation: PropTypes.shape(navigationShape).isRequired,
 };
 
 const mapStateToProps = state => ({

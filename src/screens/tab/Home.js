@@ -4,7 +4,7 @@ import { TabViewAnimated, TabViewPagerExperimental, TabBar, SceneMap } from 'rea
 
 import { MAIN_COLOR, TABBAR_LABEL } from '../../config/colors';
 
-import Session from './../home/Session';
+import CurrentSession from './../home/CurrentSession';
 import Favourites from './../home/Favourites';
 import Activity from './../home/Activity';
 
@@ -81,7 +81,7 @@ class Home extends React.PureComponent {
   );
 
   renderScene = SceneMap({
-    current_session: Session,
+    current_session: CurrentSession,
     favourites: Favourites,
     activity: Activity,
   });

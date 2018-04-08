@@ -10,15 +10,11 @@ const styles = StyleSheet.create({
   },
 });
 
-class Root extends React.PureComponent {
-  render() {
-    return (
-      <View style={styles.container}>
-        <RootTabRouter />
-        <Session />
-      </View>
-    )
-  }
-}
+const Root = () => (
+  <View style={styles.container}>
+    <RootTabRouter />
+    <Session />
+  </View>
+);
 
 export default Root;

@@ -6,6 +6,7 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import { MAIN_COLOR } from './../../../config/colors';
 import placeShape from './../../../config/shapes/placeShape';
+import sessionShape from './../../../config/shapes/sessionShape';
 
 import { openSession } from './../../../actions/SessionActions';
 
@@ -24,6 +25,10 @@ const styles = StyleSheet.create({
 
 class CreateSessionButton extends React.PureComponent {
   render() {
+    if (this.props.currentSession) {
+      return null;
+    }
+
     return (
       <View style={styles.container}>
         <Button
@@ -39,8 +44,17 @@ class CreateSessionButton extends React.PureComponent {
 
 CreateSessionButton.propTypes = {
   place: PropTypes.shape(placeShape).isRequired,
+  currentSession: PropTypes.shape(sessionShape),
   openSession: PropTypes.func.isRequired,
 };
+
+CreateSessionButton.defaultProps = {
+  currentSession: null,
+};
+
+const mapStateToProps = state => ({
+  currentSession: state.session.currentSession,
+});
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
@@ -48,4 +62,4 @@ const mapDispatchToProps = dispatch => (
   }, dispatch)
 );
 
-export default connect(null, mapDispatchToProps)(CreateSessionButton);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateSessionButton);
