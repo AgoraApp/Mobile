@@ -144,6 +144,7 @@ class Session extends React.PureComponent {
 
     if (this.state.index !== 0) {
       this.swiper.scrollBy(this.state.index * -1);
+      this.setState({ index: 0 });
     }
   }
 

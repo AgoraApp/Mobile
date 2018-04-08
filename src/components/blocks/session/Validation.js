@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
 
   actionContainer: {
-    marginTop: 25,
+    marginTop: 10,
     alignItems: 'center',
   },
 
