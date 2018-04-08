@@ -20,9 +20,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    marginVertical: 35,
   },
 
   emptyContainer: {
+    justifyContent: 'center',
+  },
+
+  countdown: {
+    flex: 1,
     justifyContent: 'center',
   },
 
@@ -79,11 +85,13 @@ class CurrentSession extends React.PureComponent {
             place={place}
             zoneId={currentSession.zone_id}
           />
-          <Countdown
-            start={currentSession.created_at}
-            end={currentSession.end_at}
-            onDone={this.handleDone}
-          />
+          <View style={styles.countdown}>
+            <Countdown
+              start={currentSession.created_at}
+              end={currentSession.end_at}
+              onDone={this.handleDone}
+            />
+          </View>
           <View style={styles.actionsContainer}>
             <Button
               style={styles.updateButton}

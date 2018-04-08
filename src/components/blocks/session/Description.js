@@ -11,10 +11,6 @@ import placeShape from './../../../config/shapes/placeShape';
 import Icon from './../Icon';
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 35,
-  },
-
   item: {
     marginBottom: 20,
     alignItems: 'center',
@@ -29,6 +25,14 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 18,
     fontWeight: 'bold',
+  },
+
+  row: {
+    flexDirection: 'row',
+  },
+
+  column: {
+    flexBasis: '50%',
   },
 
   addressContainer: {
@@ -62,18 +66,20 @@ class Description extends React.PureComponent {
       const selectedZone = place.zones.find(zone => zone.id === zoneId);
 
       return (
-        <View style={styles.container}>
-          <View style={styles.item}>
-            <Text style={styles.title}>Place</Text>
-            <Text>{ place.name }</Text>
-            <View style={styles.addressContainer}>
-              <Icon style={styles.addressIcon} name="address" size={10} color="#000000" />
-              <Text style={styles.address}>{ place.address }</Text>
+        <View>
+          <View style={styles.row}>
+            <View style={[styles.item, styles.column]}>
+              <Text style={styles.title}>Place</Text>
+              <Text>{ place.name }</Text>
+              <View style={styles.addressContainer}>
+                <Icon style={styles.addressIcon} name="address" size={10} color="#000000" />
+                <Text style={styles.address}>{ place.address }</Text>
+              </View>
             </View>
-          </View>
-          <View style={styles.item}>
-            <Text style={styles.title}>Zone</Text>
-            <Text>{ selectedZone.name }</Text>
+            <View style={[styles.item, styles.column]}>
+              <Text style={styles.title}>Zone</Text>
+              <Text>{ selectedZone.name }</Text>
+            </View>
           </View>
           <View style={styles.item}>
             <Text style={styles.title}>Started</Text>
@@ -86,7 +92,7 @@ class Description extends React.PureComponent {
     const { width } = Dimensions.get('window');
 
     return (
-      <View style={styles.container}>
+      <View>
         <View style={styles.item}>
           <SvgAnimatedLinearGradient height={55} width={width}>
             <Svg.Rect x={(width / 2) - 50} y="0" width="100" height="16" />

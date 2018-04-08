@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
 
   content: {
     flex: 1,
-    alignItems: 'center',
     paddingVertical: 10,
     paddingHorizontal: 25,
     backgroundColor: '#FFFFFF',
@@ -57,8 +56,14 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 15,
   },
 
-  stepContainer: {
+  sliderContainer: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  buttomContainer: {
+    alignItems: 'center',
   },
 
   titleContainer: {
@@ -126,11 +131,11 @@ class UpdateDuration extends React.PureComponent {
             </Button>
           </View>
           <View style={styles.content}>
-            <View style={styles.stepContainer}>
-              <View style={styles.titleContainer}>
-                <Text style={styles.titleStep}>Update duration</Text>
-                <Text>Select how long you&#39;re planning to stay</Text>
-              </View>
+            <View style={styles.titleContainer}>
+              <Text style={styles.titleStep}>Update duration</Text>
+              <Text>Select how long you&#39;re planning to stay</Text>
+            </View>
+            <View style={styles.sliderContainer}>
               <CircularSlider
                 width={SLIDER_SIZE}
                 height={SLIDER_SIZE}
@@ -138,13 +143,15 @@ class UpdateDuration extends React.PureComponent {
                 onChange={this.handleDurationChange}
               />
             </View>
-            <Button
-              style={styles.updateButton}
-              color={MAIN_COLOR}
-              onPress={() => this.props.updateDuration(currentSession.id, duration)}
-            >
-              <Text style={styles.buttonText}>Update the duration</Text>
-            </Button>
+            <View style={styles.buttomContainer}>
+              <Button
+                style={styles.updateButton}
+                color={MAIN_COLOR}
+                onPress={() => this.props.updateDuration(currentSession.id, duration)}
+              >
+                <Text style={styles.buttonText}>Update the duration</Text>
+              </Button>
+            </View>
           </View>
         </View>
       </PopupDialog>
