@@ -15,6 +15,8 @@ export const STOP_SESSION = '@@SESSION/STOP_SESSION';
 export const STOP_SESSION__SUCCESS = '@@SESSION/STOP_SESSION__SUCCESS';
 export const STOP_SESSION__FAIL = '@@SESSION/STOP_SESSION__FAIL';
 
+export const REMOVE_CURRENT_SESSION = '@@SESSION/REMOVE_CURRENT_SESSION';
+
 export const openSession = placeId => (dispatch) => {
   dispatch({
     type: OPEN_SESSION,
@@ -90,4 +92,8 @@ export const stopSession = sessionId => (dispatch) => {
         payload: error,
       });
     });
+};
+
+export const removeCurrentSessions = () => (dispatch) => {
+  dispatch({ type: REMOVE_CURRENT_SESSION });
 };

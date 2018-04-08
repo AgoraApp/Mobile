@@ -9,10 +9,11 @@ import placeShape from './../../config/shapes/placeShape';
 import sessionShape from './../../config/shapes/sessionShape';
 
 import { fetchPlace } from './../../actions/PlaceActions';
-import { stopSession } from './../../actions/SessionActions';
+import { stopSession, removeCurrentSessions } from './../../actions/SessionActions';
 
 import Button from './../../components/blocks/Button';
 import Description from './../../components/blocks/session/Description';
+import Countdown from './../../components/blocks/session/Countdown';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,8 +21,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  text: {
+  emptyContainer: {
+    justifyContent: 'center',
+  },
+
+  button: {
+    marginTop: 20,
+  },
+
+  buttonText: {
     color: '#FFFFFF',
+  },
+
+  emptyText: {
+    color: 'rgba(0, 0, 0, 0.35)',
   },
 });
 
@@ -30,6 +43,10 @@ class CurrentSession extends React.PureComponent {
     if (this.props.currentSession && !this.props.place) {
       this.props.fetchPlace(this.props.currentSession.place_id);
     }
+  }
+
+  handleDone = () => {
+    this.props.removeCurrentSessions();
   }
 
   render() {
@@ -43,19 +60,25 @@ class CurrentSession extends React.PureComponent {
             place={place}
             zoneId={currentSession.zone_id}
           />
+          <Countdown
+            start={currentSession.created_at}
+            end={currentSession.end_at}
+            onDone={this.handleDone}
+          />
           <Button
+            style={styles.button}
             color={MAIN_COLOR}
             onPress={() => this.props.stopSession(currentSession.id)}
           >
-            <Text style={styles.text}>Stop this session</Text>
+            <Text style={styles.buttonText}>Stop this session</Text>
           </Button>
         </View>
       );
     }
 
     return (
-      <View style={styles.container}>
-        <Text>You have no running session.</Text>
+      <View style={[styles.container, styles.emptyContainer]}>
+        <Text style={styles.emptyText}>You have no running session.</Text>
       </View>
     );
   }
@@ -66,6 +89,7 @@ CurrentSession.propTypes = {
   place: PropTypes.shape(placeShape),
   fetchPlace: PropTypes.func.isRequired,
   stopSession: PropTypes.func.isRequired,
+  removeCurrentSessions: PropTypes.func.isRequired,
 };
 
 CurrentSession.defaultProps = {
@@ -84,6 +108,7 @@ const mapDispatchToProps = dispatch => (
   bindActionCreators({
     fetchPlace,
     stopSession,
+    removeCurrentSessions,
   }, dispatch)
 );
 

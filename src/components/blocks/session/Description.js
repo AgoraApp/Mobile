@@ -7,7 +7,6 @@ import sessionShape from './../../../config/shapes/sessionShape';
 import placeShape from './../../../config/shapes/placeShape';
 
 import Icon from './../Icon';
-import Countdown from './Coundown';
 
 const styles = StyleSheet.create({
   container: {
@@ -77,9 +76,6 @@ class Description extends React.PureComponent {
           <View style={styles.item}>
             <Text style={styles.title}>Started</Text>
             <Text>{ moment(currentSession.created_at).format('L LT') }</Text>
-          </View>
-          <View style={styles.item}>
-            <Countdown start={currentSession.created_at} end={currentSession.end_at} />
           </View>
         </View>
       );

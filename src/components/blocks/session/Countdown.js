@@ -7,8 +7,6 @@ import moment from 'moment';
 import { MAIN_COLOR, TERTIARY_COLOR } from './../../../config/colors';
 import { secondsToHoursAndMinutes } from './../../../helpers/generalHelpers';
 
-// import CircularSlider from './CircularSlider';
-
 const {
   Path,
   Circle,
@@ -16,7 +14,7 @@ const {
   Text,
 } = Svg;
 
-const COUNTDOWN_SIZE = Dimensions.get('window').width * 0.65;
+const COUNTDOWN_SIZE = Dimensions.get('window').width * 0.55;
 
 class Countdown extends React.PureComponent {
   constructor(props) {
@@ -37,7 +35,7 @@ class Countdown extends React.PureComponent {
       elapsedDuration,
     };
 
-    this.refreshInterval = setInterval(this.setRemainingSeconds, 60000);
+    this.refreshInterval = setInterval(this.setRemainingSeconds, 1000);
   }
 
   componentWillUnmount() {
@@ -49,7 +47,11 @@ class Countdown extends React.PureComponent {
     const start = moment(this.props.start);
     const elapsedDuration = now.diff(start, 'seconds');
 
-    this.setState({ elapsedDuration });
+    if (elapsedDuration >= this.state.totalDuration) {
+      this.props.onDone();
+    } else {
+      this.setState({ elapsedDuration });
+    }
   }
 
   polarToCartesian = (angle) => {
@@ -74,7 +76,11 @@ class Countdown extends React.PureComponent {
     const { hours, minutes } = secondsToHoursAndMinutes(remainingDuration);
     const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
 
-    return `${hours}h ${formattedMinutes}min`;
+    if (hours > 0) {
+      return formattedMinutes > 0 ? `${hours}h ${formattedMinutes}min` : `${hours}h`;
+    }
+
+    return formattedMinutes > 0 ? `${formattedMinutes}min` : '< 1min';
   }
 
   render() {
@@ -110,8 +116,8 @@ class Countdown extends React.PureComponent {
             r={r - 4.5}
             fill={MAIN_COLOR}
           />
-          <Text x={cx} y={cy - (35 + 14)} fontSize={14} fontWeight="bold" fill="#FFFFFF" textAnchor="middle">Time remaining</Text>
-          <Text x={cx} y={cy - (35 / 2)} dy={35 * -0.25} fontSize={35} fontWeight="bold" fill="#FFFFFF" textAnchor="middle">{ this.renderDuration() }</Text>
+          <Text x={cx} y={cy - (30 + 7)} fontSize={14} fontWeight="bold" fill="#FFFFFF" textAnchor="middle">Time remaining</Text>
+          <Text x={cx} y={cy} dy={30 * -0.25} fontSize={30} fontWeight="bold" fill="#FFFFFF" textAnchor="middle">{ this.renderDuration() }</Text>
         </G>
       </Svg>
     );
@@ -121,6 +127,7 @@ class Countdown extends React.PureComponent {
 Countdown.propTypes = {
   start: PropTypes.string.isRequired,
   end: PropTypes.string.isRequired,
+  onDone: PropTypes.func.isRequired,
 };
 
 export default Countdown;

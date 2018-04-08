@@ -34,6 +34,7 @@ const removeDuplicatePlaces = places => (
 
 export default function placeState(state = initialState, action) {
   let newPlaces = [];
+  let hasReplacedPlace = false;
 
   switch (action.type) {
     case FETCH_PLACE:
@@ -45,11 +46,16 @@ export default function placeState(state = initialState, action) {
     case FETCH_PLACE__SUCCESS:
       newPlaces = state.places.map((place) => {
         if (place.id === action.payload.id) {
+          hasReplacedPlace = true;
           return action.payload;
         }
 
         return place;
       });
+
+      if (!hasReplacedPlace) {
+        newPlaces.push(action.payload);
+      }
 
       return {
         ...state,

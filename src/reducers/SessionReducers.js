@@ -10,6 +10,7 @@ import {
   STOP_SESSION,
   STOP_SESSION__SUCCESS,
   STOP_SESSION__FAIL,
+  REMOVE_CURRENT_SESSION,
 } from './../actions/SessionActions';
 
 const initialState = {
@@ -89,6 +90,12 @@ export default function skillState(state = initialState, action) {
       return {
         ...state,
         loading: false,
+      };
+
+    case REMOVE_CURRENT_SESSION:
+      return {
+        ...state,
+        currentSession: null,
       };
 
     default:
