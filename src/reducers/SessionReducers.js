@@ -8,6 +8,9 @@ import {
   SET_ZONE,
   SET_DURATION,
   SET_SESSION,
+  FETCH_SESSIONS,
+  FETCH_SESSIONS__SUCCESS,
+  FETCH_SESSIONS__FAIL,
   CREATE_SESSION,
   CREATE_SESSION__SUCCESS,
   CREATE_SESSION__FAIL,
@@ -27,10 +30,12 @@ const initialState = {
   showUpdateZone: false,
   showUpdateDuration: false,
   loading: false,
+  isSessionsLoading: false,
   duration: START_DURATION,
   placeId: null,
   zoneId: null,
   currentSession: null,
+  sessions: [],
 };
 
 export default function skillState(state = initialState, action) {
@@ -95,6 +100,25 @@ export default function skillState(state = initialState, action) {
       return {
         ...state,
         currentSession: action.payload,
+      };
+
+    case FETCH_SESSIONS:
+      return {
+        ...state,
+        isSessionsLoading: true,
+      };
+
+    case FETCH_SESSIONS__SUCCESS:
+      return {
+        ...state,
+        isSessionsLoading: false,
+        sessions: action.payload,
+      };
+
+    case FETCH_SESSIONS__FAIL:
+      return {
+        ...state,
+        isSessionsLoading: false,
       };
 
     case CREATE_SESSION:

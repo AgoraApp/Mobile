@@ -16,6 +16,10 @@ export const SET_DURATION = '@@SESSION/SET_DURATION';
 
 export const SET_SESSION = '@@SESSION/SET_SESSION';
 
+export const FETCH_SESSIONS = '@@SESSION/FETCH_SESSIONS';
+export const FETCH_SESSIONS__SUCCESS = '@@SESSION/FETCH_SESSIONS__SUCCESS';
+export const FETCH_SESSIONS__FAIL = '@@SESSION/FETCH_SESSIONS__FAIL';
+
 export const CREATE_SESSION = '@@SESSION/CREATE_SESSION';
 export const CREATE_SESSION__SUCCESS = '@@SESSION/CREATE_SESSION__SUCCESS';
 export const CREATE_SESSION__FAIL = '@@SESSION/CREATE_SESSION__FAIL';
@@ -88,6 +92,28 @@ export const setSession = session => (dispatch) => {
     type: SET_SESSION,
     payload: session,
   });
+};
+
+export const fetchSessions = () => (dispatch) => {
+  dispatch({ type: FETCH_SESSIONS });
+
+  fetch(`${API_BASE_URL}/me/sessions`)
+    .then(response => response.json())
+    .then((data) => {
+      dispatch([
+        {
+          type: FETCH_SESSIONS__SUCCESS,
+          payload: data,
+        },
+        closeCreateSession(),
+      ]);
+    })
+    .catch((error) => {
+      dispatch({
+        type: FETCH_SESSIONS__FAIL,
+        payload: error,
+      });
+    });
 };
 
 export const createSession = (placeId, zoneId, duration) => (dispatch) => {
