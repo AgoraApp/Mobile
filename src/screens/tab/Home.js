@@ -1,8 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { StyleSheet, Dimensions, View, Text } from 'react-native';
 import { TabViewAnimated, TabViewPagerExperimental, TabBar, SceneMap } from 'react-native-tab-view';
 
 import { MAIN_COLOR, TABBAR_LABEL } from '../../config/colors';
+import sessionShape from '../../config/shapes/navigationShape';
 
 import CurrentSession from './../home/CurrentSession';
 import Favourites from './../home/Favourites';
@@ -42,11 +45,11 @@ const initialLayout = {
 
 /* eslint-disable react/no-unused-state */
 class Home extends React.PureComponent {
-  constructor() {
+  constructor(props) {
     super();
 
     this.state = {
-      index: 1,
+      index: props.currentSession ? 0 : 1,
       routes: [
         { key: 'current_session', title: 'Current session' },
         { key: 'favourites', title: 'Favourite places' },
@@ -105,4 +108,16 @@ class Home extends React.PureComponent {
   }
 }
 
-export default Home;
+Home.propTypes = {
+  currentSession: PropTypes.shape(sessionShape),
+};
+
+Home.defaultProps = {
+  currentSession: null,
+};
+
+const mapStateToProps = state => ({
+  currentSession: state.session.currentSession,
+});
+
+export default connect(mapStateToProps, null)(Home);

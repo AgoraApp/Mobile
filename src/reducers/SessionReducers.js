@@ -7,6 +7,9 @@ import {
   CREATE_SESSION,
   CREATE_SESSION__SUCCESS,
   CREATE_SESSION__FAIL,
+  STOP_SESSION,
+  STOP_SESSION__SUCCESS,
+  STOP_SESSION__FAIL,
 } from './../actions/SessionActions';
 
 const initialState = {
@@ -64,6 +67,25 @@ export default function skillState(state = initialState, action) {
       };
 
     case CREATE_SESSION__FAIL:
+      return {
+        ...state,
+        loading: false,
+      };
+
+    case STOP_SESSION:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case STOP_SESSION__SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        currentSession: null,
+      };
+
+    case STOP_SESSION__FAIL:
       return {
         ...state,
         loading: false,

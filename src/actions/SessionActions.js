@@ -11,6 +11,10 @@ export const CREATE_SESSION = '@@SESSION/CREATE_SESSION';
 export const CREATE_SESSION__SUCCESS = '@@SESSION/CREATE_SESSION__SUCCESS';
 export const CREATE_SESSION__FAIL = '@@SESSION/CREATE_SESSION__FAIL';
 
+export const STOP_SESSION = '@@SESSION/STOP_SESSION';
+export const STOP_SESSION__SUCCESS = '@@SESSION/STOP_SESSION__SUCCESS';
+export const STOP_SESSION__FAIL = '@@SESSION/STOP_SESSION__FAIL';
+
 export const openSession = placeId => (dispatch) => {
   dispatch({
     type: OPEN_SESSION,
@@ -67,6 +71,22 @@ export const createSession = (placeId, zoneId, duration) => (dispatch) => {
     .catch((error) => {
       dispatch({
         type: CREATE_SESSION__FAIL,
+        payload: error,
+      });
+    });
+};
+
+export const stopSession = sessionId => (dispatch) => {
+  dispatch({ type: STOP_SESSION });
+
+  fetch(`${API_BASE_URL}/me/sessions/${sessionId}`, { method: 'DELETE' })
+    .then(response => response.json())
+    .then(() => {
+      dispatch({ type: STOP_SESSION__SUCCESS });
+    })
+    .catch((error) => {
+      dispatch({
+        type: STOP_SESSION__FAIL,
         payload: error,
       });
     });

@@ -4,17 +4,24 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { StyleSheet, View, Text } from 'react-native';
 
-import { fetchPlace } from './../../actions/PlaceActions';
+import { MAIN_COLOR } from './../../config/colors';
 import placeShape from './../../config/shapes/placeShape';
 import sessionShape from './../../config/shapes/sessionShape';
 
-import Countdown from './../../components/blocks/session/Coundown';
+import { fetchPlace } from './../../actions/PlaceActions';
+import { stopSession } from './../../actions/SessionActions';
+
+import Button from './../../components/blocks/Button';
+import Description from './../../components/blocks/session/Description';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+
+  text: {
+    color: '#FFFFFF',
   },
 });
 
@@ -31,17 +38,17 @@ class CurrentSession extends React.PureComponent {
     if (currentSession) {
       return (
         <View style={styles.container}>
-          <View>
-            {
-              place ?
-                <View>
-                  <Text>Place</Text>
-                  <Text>{ place.name }</Text>
-                </View>
-                : null
-            }
-          </View>
-          <Countdown start={currentSession.created_at} end={currentSession.end_at} />
+          <Description
+            currentSession={currentSession}
+            place={place}
+            zoneId={currentSession.zone_id}
+          />
+          <Button
+            color={MAIN_COLOR}
+            onPress={() => this.props.stopSession(currentSession.id)}
+          >
+            <Text style={styles.text}>Stop this session</Text>
+          </Button>
         </View>
       );
     }
@@ -58,6 +65,7 @@ CurrentSession.propTypes = {
   currentSession: PropTypes.shape(sessionShape),
   place: PropTypes.shape(placeShape),
   fetchPlace: PropTypes.func.isRequired,
+  stopSession: PropTypes.func.isRequired,
 };
 
 CurrentSession.defaultProps = {
@@ -67,12 +75,15 @@ CurrentSession.defaultProps = {
 
 const mapStateToProps = state => ({
   currentSession: state.session.currentSession,
-  place: state.place.places.find(place => place.id === state.session.currentSession.place_id),
+  place: state.session.currentSession ?
+    state.place.places.find(place => place.id === state.session.currentSession.place_id)
+    : null,
 });
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     fetchPlace,
+    stopSession,
   }, dispatch)
 );
 

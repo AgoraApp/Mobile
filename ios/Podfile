@@ -38,6 +38,7 @@ target 'agora' do
   pod 'GLog',
     :podspec => "../node_modules/react-native/third-party-podspecs/GLog.podspec",
     :inhibit_warnings => true
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
 
   post_install do |installer|

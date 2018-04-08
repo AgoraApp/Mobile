@@ -85,7 +85,13 @@ class Countdown extends React.PureComponent {
       totalDuration,
       elapsedDuration,
     } = this.state;
-    const value = ((totalDuration - elapsedDuration) / totalDuration) * 360;
+
+    let value = ((totalDuration - elapsedDuration) / totalDuration) * 360;
+
+    if (value === 360) {
+      value = 360 - 0.01;
+    }
+
     const startCoord = this.polarToCartesian(0);
     const endCoord = this.polarToCartesian(value);
 
@@ -104,6 +110,7 @@ class Countdown extends React.PureComponent {
             r={r - 4.5}
             fill={MAIN_COLOR}
           />
+          <Text x={cx} y={cy - (35 + 14)} fontSize={14} fontWeight="bold" fill="#FFFFFF" textAnchor="middle">Time remaining</Text>
           <Text x={cx} y={cy - (35 / 2)} dy={35 * -0.25} fontSize={35} fontWeight="bold" fill="#FFFFFF" textAnchor="middle">{ this.renderDuration() }</Text>
         </G>
       </Svg>
