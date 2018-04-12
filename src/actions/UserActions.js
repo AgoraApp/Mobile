@@ -108,7 +108,11 @@ export const fetchUserData = () => (dispatch) => {
         payload: user,
       });
 
-      return Image.prefetch(user.avatar);
+      if (user.avatar.length > 0) {
+        return Image.prefetch(`${API_BASE_URL}/${user.avatar}`);
+      }
+
+      return Promise.resolve();
     })
     .catch((error) => {
       dispatch({
