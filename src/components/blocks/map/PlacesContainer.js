@@ -25,6 +25,10 @@ class PlaceContainer extends React.PureComponent {
     super();
 
     this.translateY = new Animated.Value(200);
+
+    this.state = {
+      focusedPlace: null,
+    };
   }
 
   componentDidUpdate(prevProps) {
@@ -35,11 +39,13 @@ class PlaceContainer extends React.PureComponent {
 
       if (prevProps.focusedPlaceId) {
         this.hideCard().start(() => {
+          this.setState({ focusedPlace: this.props.focusedPlace });
           if (this.props.focusedPlaceId) {
             this.showCard().start();
           }
         });
       } else {
+        this.setState({ focusedPlace: this.props.focusedPlace });
         this.showCard().start();
       }
     }
@@ -60,7 +66,7 @@ class PlaceContainer extends React.PureComponent {
   )
 
   render() {
-    const { focusedPlace } = this.props;
+    const { focusedPlace } = this.state;
 
     return (
       <View style={styles.container}>
