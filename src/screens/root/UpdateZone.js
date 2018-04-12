@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Platform, Dimensions, StyleSheet, View, Text } from 'react-native';
-import { Constants } from 'expo';
+import { Dimensions, StyleSheet, View, Text } from 'react-native';
 import PopupDialog, { SlideAnimation } from 'react-native-popup-dialog';
 
 import { MAIN_COLOR } from './../../config/colors';
@@ -21,7 +20,6 @@ const slideAnimation = new SlideAnimation({
 });
 
 const DIALOG_HEIGT = Dimensions.get('window').height * 0.65;
-const IS_IPHONE_X = Platform.OS === 'ios' && Constants.platform.ios.model.toLowerCase() === 'iphone x';
 
 const styles = StyleSheet.create({
   container: {
@@ -70,9 +68,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  deleteButton: {
+  updateButton: {
     marginTop: 20,
-    marginBottom: IS_IPHONE_X ? 10 : 0,
+    marginBottom: 10,
   },
 
   buttonText: {
