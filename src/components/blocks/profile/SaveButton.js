@@ -28,6 +28,10 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
 
+  loader: {
+    marginLeft: 10,
+  },
+
   cancelButton: {
     marginRight: 10,
   },
@@ -58,8 +62,10 @@ class SaveButton extends React.PureComponent {
           <Icon name="save" size={20} color="white" />
           <Text style={styles.text}>Save</Text>
           {
-            this.props.isLoading ?
-              <Pulse size={10} color="#FFFFFF" />
+            !this.props.isLoading ?
+              <View style={styles.loader}>
+                <Pulse size={10} color="#FFFFFF" />
+              </View>
               : null
           }
         </Button>
