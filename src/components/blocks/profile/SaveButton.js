@@ -62,7 +62,7 @@ class SaveButton extends React.PureComponent {
           <Icon name="save" size={20} color="white" />
           <Text style={styles.text}>Save</Text>
           {
-            !this.props.isLoading ?
+            this.props.isLoading ?
               <View style={styles.loader}>
                 <Pulse size={10} color="#FFFFFF" />
               </View>
