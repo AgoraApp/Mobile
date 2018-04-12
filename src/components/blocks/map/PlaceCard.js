@@ -17,6 +17,13 @@ import Snappable from './../../core/Snappable';
 import PlaceCardContent from './PlaceCardContent';
 
 const styles = StyleSheet.create({
+  imageContainer: {
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 5,
+  },
+
   image: {
     height: 125,
     marginHorizontal: -10,
@@ -37,6 +44,10 @@ const styles = StyleSheet.create({
     marginTop: -35,
     paddingHorizontal: 15,
     backgroundColor: '#ffffff',
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 5,
   },
 
   header: {
@@ -79,6 +90,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     backgroundColor: MAIN_COLOR,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
   },
 
   distanceIcon: {
@@ -203,7 +218,9 @@ class PlaceCard extends React.PureComponent {
           onSnapUp={this.handleSnapUp}
           onSnapDown={this.handleSnapDown}
         >
-          <PlaceholderImage style={styles.image} src={image} />
+          <View style={styles.imageContainer}>
+            <PlaceholderImage style={styles.image} src={image} />
+          </View>
           <View style={styles.actionsContainer}>
             { this.renderCloseButton() }
           </View>
