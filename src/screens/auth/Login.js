@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
   Keyboard,
 } from 'react-native';
-import { DoubleBounce } from 'react-native-loader';
+import { Pulse } from 'react-native-loader';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from './../../config/colors';
 import splashImage from './../../../assets/splash.png';
@@ -142,8 +142,10 @@ class Login extends React.Component {
             >
               <Text style={styles.buttonText}>Se connecter</Text>
               {
-                isLoading ?
-                  <View style={styles.loader}><DoubleBounce size={10} color="#FFFFFF" /></View>
+                !isLoading ?
+                  <View style={styles.loader}>
+                    <Pulse size={10} color="#FFFFFF" />
+                  </View>
                   : null
               }
             </TouchableOpacity>
