@@ -142,7 +142,7 @@ class Login extends React.Component {
             >
               <Text style={styles.buttonText}>Se connecter</Text>
               {
-                !isLoading ?
+                isLoading ?
                   <View style={styles.loader}>
                     <Pulse size={10} color="#FFFFFF" />
                   </View>
