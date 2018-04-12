@@ -31,7 +31,7 @@ class SessionDay extends React.PureComponent {
     const { index, sessions, date } = this.props;
 
     const orderedSessions = sessions.sort((a, b) => (
-      new Date(b.created_at) - new Date(a.created_at)
+      moment(b.created_at).diff(a.created_at)
     ));
 
     return (
