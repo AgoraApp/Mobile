@@ -116,7 +116,7 @@ class Avatar extends React.PureComponent {
         <View style={styles.avatarContainer}>
           <Image
             style={styles.avatar}
-            source={{ uri: isEditMode ? editAvatar : url }}
+            source={{ uri: isEditMode && editAvatar ? editAvatar : url }}
             blurRadius={isEditMode ? 4 : 0}
           />
           { this.renderEdit() }
@@ -128,9 +128,13 @@ class Avatar extends React.PureComponent {
 
 Avatar.propTypes = {
   avatar: PropTypes.string.isRequired,
-  editAvatar: PropTypes.string.isRequired,
+  editAvatar: PropTypes.string,
   isEditMode: PropTypes.bool.isRequired,
   setAvatar: PropTypes.func.isRequired,
+};
+
+Avatar.defaultProps = {
+  editAvatar: null,
 };
 
 const mapStateToProps = state => ({

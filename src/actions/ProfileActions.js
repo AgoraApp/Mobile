@@ -31,7 +31,6 @@ export const enableEditMode = user => ([
   setFirstName(user.firstName),
   setLastName(user.lastName),
   setExpertise(user.expertise),
-  setAvatar(user.avatar),
 ]);
 
 export const disableEditMode = () => ({

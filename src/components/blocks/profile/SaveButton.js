@@ -78,10 +78,14 @@ SaveButton.propTypes = {
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   expertise: PropTypes.string.isRequired,
-  avatar: PropTypes.string.isRequired,
+  avatar: PropTypes.string,
   isLoading: PropTypes.bool.isRequired,
   disableEditMode: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
+};
+
+SaveButton.defaultProps = {
+  avatar: null,
 };
 
 const mapStateToProps = state => ({

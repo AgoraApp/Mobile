@@ -12,7 +12,7 @@ const initialState = {
   firstName: '',
   lastName: '',
   expertise: '',
-  avatar: '',
+  avatar: null,
 };
 
 export default function profileState(state = initialState, action) {
@@ -27,6 +27,10 @@ export default function profileState(state = initialState, action) {
       return {
         ...state,
         isEditMode: false,
+        firstName: '',
+        lastName: '',
+        expertise: '',
+        avatar: null,
       };
 
     case SET_FIRST_NAME:

@@ -190,11 +190,14 @@ export const updateUser = (firstName, lastName, expertise, avatar) => (dispatch)
   formData.append('first_name', firstName);
   formData.append('last_name', lastName);
   formData.append('expertise', expertise);
-  formData.append('avatar', {
-    uri: avatar,
-    type: 'image/jpeg',
-    name: 'user-avatar',
-  });
+
+  if (avatar) {
+    formData.append('avatar', {
+      uri: avatar,
+      type: 'image/jpeg',
+      name: 'user-avatar',
+    });
+  }
 
   fetch(`${API_BASE_URL}/me/update`, { method: 'POST', body: formData })
     .then(response => response.json())
