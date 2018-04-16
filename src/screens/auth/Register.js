@@ -14,7 +14,7 @@ import { Pulse } from 'react-native-loader';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from './../../config/colors';
 
-import { login } from './../../actions/UserActions';
+import { register } from './../../actions/UserActions';
 
 const styles = StyleSheet.create({
   container: {
@@ -63,13 +63,15 @@ const styles = StyleSheet.create({
   },
 });
 
-class Login extends React.Component {
+class Register extends React.Component {
   constructor() {
     super();
 
-    this.emailInputReference = null;
+    this.firstNameInputReference = null;
 
     this.state = {
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
     };
@@ -77,7 +79,7 @@ class Login extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.isVisible && this.props.isVisible) {
-      this.emailInputReference.focus();
+      this.firstNameInputReference.focus();
     }
 
     if (prevProps.isVisible && !this.props.isVisible) {
@@ -86,19 +88,46 @@ class Login extends React.Component {
   }
 
   handleLogin = () => {
-    const { email, password } = this.state;
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+    } = this.state;
 
-    this.props.login(email, password);
+    this.props.register(firstName, lastName, email, password);
   }
 
   render() {
     const { isLoading } = this.props;
-    const { email, password } = this.state;
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+    } = this.state;
 
     return (
       <View style={styles.container}>
         <TextInput
-          ref={(input) => { this.emailInputReference = input; }}
+          ref={(input) => { this.firstNameInputReference = input; }}
+          style={styles.input}
+          autoCapitalize="none"
+          autoCorrect={false}
+          placeholder="First name"
+          value={firstName}
+          onChangeText={value => this.setState({ firstName: value })}
+        />
+        <TextInput
+          style={styles.input}
+          autoCapitalize="none"
+          autoCorrect={false}
+          secureTextEntry
+          placeholder="Last name"
+          value={lastName}
+          onChangeText={value => this.setState({ lastName: value })}
+        />
+        <TextInput
           style={styles.input}
           autoCapitalize="none"
           autoCorrect={false}
@@ -117,9 +146,9 @@ class Login extends React.Component {
         />
         <TouchableOpacity
           style={styles.button}
-          onPress={this.handleLogin}
+          onPress={this.handleRegister}
         >
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>Register</Text>
           {
             isLoading ?
               <View style={styles.loader}>
@@ -139,10 +168,10 @@ class Login extends React.Component {
   }
 }
 
-Login.propTypes = {
+Register.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  login: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
 };
 
@@ -152,8 +181,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
-    login,
+    register,
   }, dispatch)
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

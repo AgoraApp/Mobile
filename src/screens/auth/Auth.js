@@ -15,6 +15,7 @@ import { wait } from '../../helpers/generalHelpers';
 import splashImage from './../../../assets/splash.png';
 
 import Login from './Login';
+import Register from './Register';
 
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 
@@ -73,6 +74,7 @@ class Auth extends React.Component {
 
     this.navigationTop = new Animated.Value(DEVICE_HEIGHT);
     this.loginTop = new Animated.Value(DEVICE_HEIGHT);
+    this.registerTop = new Animated.Value(DEVICE_HEIGHT);
     this.backgroundOpacity = new Animated.Value(1);
 
     this.state = {
@@ -136,6 +138,32 @@ class Auth extends React.Component {
     this.setState({ page: 'login' });
   }
 
+  hideRegister = async () => {
+    this.setState({ page: '' });
+
+    Animated.spring(this.registerTop, {
+      toValue: DEVICE_HEIGHT,
+      duration: 500,
+    }).start();
+
+    await wait(550);
+
+    this.showNavigation(300).start();
+  }
+
+  showRegister = async () => {
+    this.hideNavigation(300).start();
+
+    await wait(350);
+
+    Animated.spring(this.registerTop, {
+      toValue: 100,
+      duration: 500,
+    }).start();
+
+    this.setState({ page: 'register' });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -145,13 +173,13 @@ class Auth extends React.Component {
         <Animated.View style={[styles.overlayContainer, { top: this.navigationTop }]}>
           <TouchableOpacity
             style={[styles.button, styles.loginButton]}
-            onPress={() => this.showLogin()}
+            onPress={this.showLogin}
           >
             <Text style={[styles.buttonText, styles.loginButtonText]}>Login</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, styles.registerButton]}
-            // onPress={() => navigation.navigate('Login')}
+            onPress={this.showRegister}
           >
             <Text style={[styles.buttonText, styles.registerButtonText]}>Register</Text>
           </TouchableOpacity>
@@ -160,6 +188,12 @@ class Auth extends React.Component {
           <Login
             isVisible={this.state.page === 'login'}
             onBack={this.hideLogin}
+          />
+        </Animated.View>
+        <Animated.View style={[styles.overlayContainer, { top: this.registerTop }]}>
+          <Register
+            isVisible={this.state.page === 'register'}
+            onBack={this.hideRegister}
           />
         </Animated.View>
       </View>

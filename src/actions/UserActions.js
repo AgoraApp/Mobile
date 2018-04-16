@@ -22,6 +22,10 @@ export const FETCH_LOGIN = '@@USER/FETCH_LOGIN';
 export const FETCH_LOGIN__SUCCESS = '@@USER/FETCH_LOGIN__SUCCESS';
 export const FETCH_LOGIN__FAIL = '@@USER/FETCH_LOGIN__FAIL';
 
+export const FETCH_REGISTER = '@@USER/FETCH_REGISTER';
+export const FETCH_REGISTER__SUCCESS = '@@USER/FETCH_REGISTER__SUCCESS';
+export const FETCH_REGISTER__FAIL = '@@USER/FETCH_REGISTER__FAIL';
+
 export const FETCH_LOGOUT = '@@USER/FETCH_LOGOUT';
 export const FETCH_LOGOUT__SUCCESS = '@@USER/FETCH_LOGOUT__SUCCESS';
 export const FETCH_LOGOUT__FAIL = '@@USER/FETCH_LOGOUT__FAIL';
@@ -153,6 +157,41 @@ export const login = (email, password) => (dispatch) => {
     .catch((error) => {
       dispatch({
         type: FETCH_LOGIN__FAIL,
+        payload: error,
+      });
+    });
+};
+
+export const register = (firstName, lastName, email, password) => (dispatch) => {
+  dispatch({ type: FETCH_REGISTER });
+
+  const formData = new FormData();
+
+  formData.append('first_name', firstName);
+  formData.append('last_name', lastName);
+  formData.append('email', email);
+  formData.append('password', password);
+
+  fetch(`${API_BASE_URL}/auth/signup`, {
+    method: 'POST',
+    body: formData,
+  })
+    .then(response => response.json())
+    .then((data) => {
+      if (data.status === 'ok') {
+        dispatch({
+          type: FETCH_REGISTER__SUCCESS,
+          payload: data,
+        });
+      } else {
+        dispatch({
+          type: FETCH_REGISTER__FAIL,
+        });
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: FETCH_REGISTER__FAIL,
         payload: error,
       });
     });
