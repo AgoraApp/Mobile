@@ -1,9 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, View, ImageBackground, TouchableOpacity, Text } from 'react-native';
+import {
+  StyleSheet,
+  Dimensions,
+  Animated,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from './../../config/colors';
+import { wait } from '../../helpers/generalHelpers';
+
 import splashImage from './../../../assets/splash.png';
+
+import Login from './Login';
+
+const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
@@ -22,7 +35,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     width: '100%',
-    bottom: 100,
   },
 
   button: {
@@ -55,29 +67,104 @@ const styles = StyleSheet.create({
   },
 });
 
-const Auth = ({ navigation }) => (
-  <View style={styles.container}>
-    <ImageBackground style={styles.background} resizeMode="contain" source={splashImage}>
-      <View style={styles.overlayContainer}>
-        <TouchableOpacity
-          style={[styles.button, styles.loginButton]}
-          onPress={() => navigation.navigate('Login')}
-        >
-          <Text style={[styles.buttonText, styles.loginButtonText]}>Connexion</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.registerButton]}
-          onPress={() => navigation.navigate('Login')}
-        >
-          <Text style={[styles.buttonText, styles.registerButtonText]}>Inscription</Text>
-        </TouchableOpacity>
-      </View>
-    </ImageBackground>
-  </View>
-);
+class Auth extends React.Component {
+  constructor() {
+    super();
 
-Auth.propTypes = {
-  navigation: PropTypes.shape({ navigate: PropTypes.func }).isRequired,
-};
+    this.navigationTop = new Animated.Value(DEVICE_HEIGHT);
+    this.loginTop = new Animated.Value(DEVICE_HEIGHT);
+    this.backgroundOpacity = new Animated.Value(1);
+
+    this.state = {
+      page: '',
+    };
+  }
+
+  componentDidMount() {
+    this.showNavigation(500).start();
+  }
+
+  showNavigation = time => (
+    Animated.parallel([
+      Animated.spring(this.navigationTop, {
+        toValue: DEVICE_HEIGHT * 0.75,
+        duration: time,
+      }),
+      Animated.timing(this.backgroundOpacity, {
+        toValue: 1,
+        duration: time,
+      }),
+    ])
+  )
+
+  hideNavigation = time => (
+    Animated.parallel([
+      Animated.spring(this.navigationTop, {
+        toValue: DEVICE_HEIGHT,
+        duration: time,
+      }),
+      Animated.timing(this.backgroundOpacity, {
+        toValue: 0,
+        duration: time,
+      }),
+    ])
+  )
+
+  hideLogin = async () => {
+    this.setState({ page: '' });
+
+    Animated.spring(this.loginTop, {
+      toValue: DEVICE_HEIGHT,
+      duration: 500,
+    }).start();
+
+    await wait(550);
+
+    this.showNavigation(300).start();
+  }
+
+  showLogin = async () => {
+    this.hideNavigation(300).start();
+
+    await wait(350);
+
+    Animated.spring(this.loginTop, {
+      toValue: 100,
+      duration: 500,
+    }).start();
+
+    this.setState({ page: 'login' });
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Animated.View style={{ flex: 1, opacity: this.backgroundOpacity }}>
+          <ImageBackground style={styles.background} resizeMode="contain" source={splashImage} />
+        </Animated.View>
+        <Animated.View style={[styles.overlayContainer, { top: this.navigationTop }]}>
+          <TouchableOpacity
+            style={[styles.button, styles.loginButton]}
+            onPress={() => this.showLogin()}
+          >
+            <Text style={[styles.buttonText, styles.loginButtonText]}>Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, styles.registerButton]}
+            // onPress={() => navigation.navigate('Login')}
+          >
+            <Text style={[styles.buttonText, styles.registerButtonText]}>Register</Text>
+          </TouchableOpacity>
+        </Animated.View>
+        <Animated.View style={[styles.overlayContainer, { top: this.loginTop }]}>
+          <Login
+            isVisible={this.state.page === 'login'}
+            onBack={this.hideLogin}
+          />
+        </Animated.View>
+      </View>
+    );
+  }
+}
 
 export default Auth;

@@ -17,3 +17,9 @@ export const calculateDistance = (lat1, lon1, lat2, lon2) => {
 
   return 12742 * Math.asin(Math.sqrt(a));
 };
+
+export const wait = time => (
+  new Promise((resolve) => {
+    setTimeout(resolve, time);
+  })
+);

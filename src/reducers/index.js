@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 
 import rootTabNavigationState from './RootTabNavigationReducers';
-import authNavigationState from './AuthNavigationReducers';
 import profileNavigationState from './ProfileNavigationReducers';
 import userState from './UserReducers';
 import mapState from './MapReducers';
@@ -12,7 +11,6 @@ import sessionState from './SessionReducers';
 
 const state = combineReducers({
   rootTabNavigation: rootTabNavigationState,
-  authNavigation: authNavigationState,
   profileNavigation: profileNavigationState,
   user: userState,
   map: mapState,

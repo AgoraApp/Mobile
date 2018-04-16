@@ -5,42 +5,24 @@ import { bindActionCreators } from 'redux';
 import {
   StyleSheet,
   View,
-  ImageBackground,
   TextInput,
   TouchableOpacity,
   Text,
-  KeyboardAvoidingView,
-  Keyboard,
 } from 'react-native';
 import { Pulse } from 'react-native-loader';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from './../../config/colors';
-import splashImage from './../../../assets/splash.png';
 
 import { login } from './../../actions/UserActions';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: MAIN_COLOR,
-  },
-
-  background: {
-    position: 'relative',
-    flex: 1,
-    width: '100%',
-  },
-
-  overlayContainer: {
-    position: 'absolute',
-    flex: 1,
     alignItems: 'center',
-    width: '100%',
-    bottom: 50,
+    justifyContent: 'flex-start',
   },
 
   input: {
-    flex: 1,
     alignItems: 'center',
     width: 250,
     padding: 15,
@@ -51,7 +33,6 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    flex: 1,
     alignItems: 'center',
     width: 250,
     padding: 15,
@@ -70,36 +51,38 @@ const styles = StyleSheet.create({
     top: 15,
     backgroundColor: 'transparent',
   },
+
+  backButton: {
+    marginVertical: 15,
+    paddingVertical: 10,
+  },
+
+  backButtonText: {
+    color: '#FFFFFF',
+  },
 });
 
 class Login extends React.Component {
   constructor() {
     super();
 
+    this.loginInputReference = null;
+
     this.state = {
       email: '',
       password: '',
-      keyboardIsVisible: false,
     };
   }
 
-  componentWillMount() {
-    this.keyboardWillShowSubscription = Keyboard.addListener('keyboardWillShow', this.handleKeyboardWillShow);
-    this.keyboardWillHideSubscription = Keyboard.addListener('keyboardWillHide', this.handleKeyboardWillHide);
+  componentDidUpdate(prevProps) {
+    if (!prevProps.isVisible && this.props.isVisible) {
+      this.loginInputReference.focus();
+    }
+
+    if (prevProps.isVisible && !this.props.isVisible) {
+      this.loginInputReference.blur();
+    }
   }
-
-  componentWillUnmount() {
-    this.keyboardWillShowSubscription.remove();
-    this.keyboardWillHideSubscription.remove();
-  }
-
-  handleKeyboardWillShow = () => {
-    this.setState({ keyboardIsVisible: true });
-  };
-
-  handleKeyboardWillHide = () => {
-    this.setState({ keyboardIsVisible: false });
-  };
 
   handleLogin = () => {
     const { email, password } = this.state;
@@ -109,56 +92,57 @@ class Login extends React.Component {
 
   render() {
     const { isLoading } = this.props;
-    const { email, password, keyboardIsVisible } = this.state;
+    const { email, password } = this.state;
 
     return (
       <View style={styles.container}>
-        <ImageBackground style={styles.background} resizeMode="contain" source={splashImage} blurRadius={keyboardIsVisible ? 10 : 0}>
-          <KeyboardAvoidingView
-            style={styles.overlayContainer}
-            behavior="position"
-            keyboardVerticalOffset={25}
-          >
-            <TextInput
-              style={styles.input}
-              autoCapitalize="none"
-              autoCorrect={false}
-              placeholder="Email"
-              value={email}
-              onChangeText={value => this.setState({ email: value })}
-            />
-            <TextInput
-              style={styles.input}
-              autoCapitalize="none"
-              autoCorrect={false}
-              secureTextEntry
-              placeholder="Mot de passe"
-              value={password}
-              onChangeText={value => this.setState({ password: value })}
-            />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={this.handleLogin}
-            >
-              <Text style={styles.buttonText}>Se connecter</Text>
-              {
-                isLoading ?
-                  <View style={styles.loader}>
-                    <Pulse size={10} color="#FFFFFF" />
-                  </View>
-                  : null
-              }
-            </TouchableOpacity>
-          </KeyboardAvoidingView>
-        </ImageBackground>
+        <TextInput
+          ref={(input) => { this.loginInputReference = input; }}
+          style={styles.input}
+          autoCapitalize="none"
+          autoCorrect={false}
+          placeholder="Email"
+          value={email}
+          onChangeText={value => this.setState({ email: value })}
+        />
+        <TextInput
+          style={styles.input}
+          autoCapitalize="none"
+          autoCorrect={false}
+          secureTextEntry
+          placeholder="Password"
+          value={password}
+          onChangeText={value => this.setState({ password: value })}
+        />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={this.handleLogin}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+          {
+            isLoading ?
+              <View style={styles.loader}>
+                <Pulse size={10} color="#FFFFFF" />
+              </View>
+              : null
+          }
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => this.props.onBack()}
+        >
+          <Text style={styles.backButtonText}>Go back</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
 Login.propTypes = {
+  isVisible: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   login: PropTypes.func.isRequired,
+  onBack: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
