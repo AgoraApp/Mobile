@@ -109,6 +109,11 @@ class Register extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
   handleKeyboardDidShow = (e) => {
     this.setState({ height: DEVICE_HEIGHT - e.endCoordinates.height });
   }
