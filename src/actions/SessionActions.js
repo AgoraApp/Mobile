@@ -133,6 +133,7 @@ export const createSession = (placeId, zoneId, duration) => (dispatch) => {
           payload: data,
         },
         closeCreateSession(),
+        fetchSessions(),
       ]);
     })
     .catch((error) => {
@@ -149,7 +150,10 @@ export const stopSession = sessionId => (dispatch) => {
   fetch(`${API_BASE_URL}/me/sessions/${sessionId}`, { method: 'DELETE' })
     .then(response => response.json())
     .then(() => {
-      dispatch({ type: STOP_SESSION__SUCCESS });
+      dispatch([
+        { type: STOP_SESSION__SUCCESS },
+        fetchSessions(),
+      ]);
     })
     .catch((error) => {
       dispatch({
@@ -175,6 +179,7 @@ export const updateZone = (sessionId, zoneId) => (dispatch) => {
           payload: data,
         },
         closeUpdateZone(),
+        fetchSessions(),
       ]);
     })
     .catch((error) => {
@@ -199,6 +204,7 @@ export const updateDuration = (sessionId, duration) => (dispatch) => {
           payload: data,
         },
         closeUpdateDuration(),
+        fetchSessions(),
       ]);
     })
     .catch((error) => {
