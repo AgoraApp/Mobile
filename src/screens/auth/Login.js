@@ -14,7 +14,7 @@ import { Pulse } from 'react-native-loader';
 
 import { MAIN_COLOR, SECONDARY_COLOR } from './../../config/colors';
 
-import { login } from './../../actions/UserActions';
+import { login, resetErrors } from './../../actions/UserActions';
 
 const styles = StyleSheet.create({
   container: {
@@ -82,6 +82,7 @@ class Login extends React.Component {
 
     if (prevProps.isVisible && !this.props.isVisible) {
       Keyboard.dismiss();
+      this.props.resetErrors();
     }
   }
 
@@ -143,6 +144,7 @@ Login.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   login: PropTypes.func.isRequired,
+  resetErrors: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
 };
 
@@ -153,6 +155,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     login,
+    resetErrors,
   }, dispatch)
 );
 

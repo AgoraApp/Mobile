@@ -26,6 +26,8 @@ export const FETCH_REGISTER = '@@USER/FETCH_REGISTER';
 export const FETCH_REGISTER__SUCCESS = '@@USER/FETCH_REGISTER__SUCCESS';
 export const FETCH_REGISTER__FAIL = '@@USER/FETCH_REGISTER__FAIL';
 
+export const RESET_ERRORS = '@@USER/RESET_ERRORS';
+
 export const FETCH_LOGOUT = '@@USER/FETCH_LOGOUT';
 export const FETCH_LOGOUT__SUCCESS = '@@USER/FETCH_LOGOUT__SUCCESS';
 export const FETCH_LOGOUT__FAIL = '@@USER/FETCH_LOGOUT__FAIL';
@@ -154,11 +156,14 @@ export const login = (email, password) => (dispatch) => {
         payload: data,
       });
     })
-    .catch((error) => {
-      dispatch({
-        type: FETCH_LOGIN__FAIL,
-        payload: error,
-      });
+    .catch(error => error.json())
+    .then((data) => {
+      if (data.error && data.error.errors) {
+        dispatch({
+          type: FETCH_LOGIN__FAIL,
+          payload: data.error.errors,
+        });
+      }
     });
 };
 
@@ -178,24 +183,27 @@ export const register = (firstName, lastName, email, password) => (dispatch) => 
   })
     .then(response => response.json())
     .then((data) => {
-      if (data.status === 'ok') {
-        dispatch({
-          type: FETCH_REGISTER__SUCCESS,
-          payload: data,
-        });
-      } else {
+      AsyncStorage.setItem('@AgoraStore:authToken', data.token);
+
+      dispatch({
+        type: FETCH_REGISTER__SUCCESS,
+        payload: data,
+      });
+    })
+    .catch(error => error.json())
+    .then((data) => {
+      if (data.error && data.error.errors) {
         dispatch({
           type: FETCH_REGISTER__FAIL,
+          payload: data.error.errors,
         });
       }
-    })
-    .catch((error) => {
-      dispatch({
-        type: FETCH_REGISTER__FAIL,
-        payload: error,
-      });
     });
 };
+
+export const resetErrors = () => ({
+  type: RESET_ERRORS,
+});
 
 export const logout = () => (dispatch) => {
   dispatch({ type: FETCH_LOGOUT });

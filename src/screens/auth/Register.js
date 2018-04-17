@@ -12,9 +12,9 @@ import {
 } from 'react-native';
 import { Pulse } from 'react-native-loader';
 
-import { MAIN_COLOR, SECONDARY_COLOR } from './../../config/colors';
+import { MAIN_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from './../../config/colors';
 
-import { register } from './../../actions/UserActions';
+import { register, resetErrors } from './../../actions/UserActions';
 
 const styles = StyleSheet.create({
   container: {
@@ -23,14 +23,24 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
 
+  inputContainer: {
+    marginBottom: 15,
+  },
+
   input: {
     alignItems: 'center',
     width: 250,
     padding: 15,
     borderRadius: 25,
-    marginBottom: 15,
+    borderWidth: 2,
     backgroundColor: '#FFFFFF',
     color: MAIN_COLOR,
+  },
+
+  errorText: {
+    marginTop: 5,
+    color: '#FFFFFF',
+    textAlign: 'center',
   },
 
   button: {
@@ -84,10 +94,11 @@ class Register extends React.Component {
 
     if (prevProps.isVisible && !this.props.isVisible) {
       Keyboard.dismiss();
+      this.props.resetErrors();
     }
   }
 
-  handleLogin = () => {
+  handleRegister = () => {
     const {
       firstName,
       lastName,
@@ -99,7 +110,7 @@ class Register extends React.Component {
   }
 
   render() {
-    const { isLoading } = this.props;
+    const { isLoading, errors } = this.props;
     const {
       firstName,
       lastName,
@@ -109,41 +120,68 @@ class Register extends React.Component {
 
     return (
       <View style={styles.container}>
-        <TextInput
-          ref={(input) => { this.firstNameInputReference = input; }}
-          style={styles.input}
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="First name"
-          value={firstName}
-          onChangeText={value => this.setState({ firstName: value })}
-        />
-        <TextInput
-          style={styles.input}
-          autoCapitalize="none"
-          autoCorrect={false}
-          secureTextEntry
-          placeholder="Last name"
-          value={lastName}
-          onChangeText={value => this.setState({ lastName: value })}
-        />
-        <TextInput
-          style={styles.input}
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Email"
-          value={email}
-          onChangeText={value => this.setState({ email: value })}
-        />
-        <TextInput
-          style={styles.input}
-          autoCapitalize="none"
-          autoCorrect={false}
-          secureTextEntry
-          placeholder="Password"
-          value={password}
-          onChangeText={value => this.setState({ password: value })}
-        />
+        <View style={styles.inputContainer}>
+          <TextInput
+            ref={(input) => { this.firstNameInputReference = input; }}
+            style={[styles.input, { borderColor: errors && errors.first_name ? TERTIARY_COLOR : 'transparent' }]}
+            autoCapitalize="none"
+            autoCorrect={false}
+            placeholder="First name"
+            value={firstName}
+            onChangeText={value => this.setState({ firstName: value })}
+          />
+          {
+            errors && errors.first_name ?
+              <Text style={styles.errorText}>{ errors.first_name }</Text>
+              : null
+          }
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={[styles.input, { borderColor: errors && errors.last_name ? TERTIARY_COLOR : 'transparent' }]}
+            autoCapitalize="none"
+            autoCorrect={false}
+            placeholder="Last name"
+            value={lastName}
+            onChangeText={value => this.setState({ lastName: value })}
+          />
+          {
+            errors && errors.last_name ?
+              <Text style={styles.errorText}>{ errors.last_name }</Text>
+              : null
+          }
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={[styles.input, { borderColor: errors && errors.email ? TERTIARY_COLOR : 'transparent' }]}
+            autoCapitalize="none"
+            autoCorrect={false}
+            placeholder="Email"
+            value={email}
+            onChangeText={value => this.setState({ email: value })}
+          />
+          {
+            errors && errors.email ?
+              <Text style={styles.errorText}>{ errors.email }</Text>
+              : null
+          }
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={[styles.input, { borderColor: errors && errors.password ? TERTIARY_COLOR : 'transparent' }]}
+            autoCapitalize="none"
+            autoCorrect={false}
+            secureTextEntry
+            placeholder="Password"
+            value={password}
+            onChangeText={value => this.setState({ password: value })}
+          />
+          {
+            errors && errors.password ?
+              <Text style={styles.errorText}>{ errors.password }</Text>
+              : null
+          }
+        </View>
         <TouchableOpacity
           style={styles.button}
           onPress={this.handleRegister}
@@ -171,17 +209,25 @@ class Register extends React.Component {
 Register.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  errors: PropTypes.shape({}),
   register: PropTypes.func.isRequired,
+  resetErrors: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
+};
+
+Register.defaultProps = {
+  errors: null,
 };
 
 const mapStateToProps = state => ({
   isLoading: state.user.isLoading,
+  errors: state.user.errors,
 });
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     register,
+    resetErrors,
   }, dispatch)
 );
 

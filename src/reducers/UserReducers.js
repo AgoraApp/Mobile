@@ -7,6 +7,10 @@ import {
   FETCH_LOGIN,
   FETCH_LOGIN__SUCCESS,
   FETCH_LOGIN__FAIL,
+  FETCH_REGISTER,
+  FETCH_REGISTER__SUCCESS,
+  FETCH_REGISTER__FAIL,
+  RESET_ERRORS,
   FETCH_LOGOUT__SUCCESS,
   FETCH_UPDATE_USER,
   FETCH_UPDATE_USER__SUCCESS,
@@ -20,6 +24,7 @@ import {
 const initialState = {
   isLogged: false,
   isLoading: false,
+  errors: null,
   firstName: '',
   lastName: '',
   avatar: '',
@@ -71,6 +76,7 @@ export default function userState(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
+        errors: null,
       };
 
     case FETCH_LOGIN__SUCCESS:
@@ -90,8 +96,38 @@ export default function userState(state = initialState, action) {
     case FETCH_LOGIN__FAIL:
       return {
         ...state,
-        token: '',
         isLoading: false,
+        errors: action.payload,
+      };
+
+    case FETCH_REGISTER:
+      return {
+        ...state,
+        isLoading: true,
+        errors: null,
+      };
+
+    case FETCH_REGISTER__SUCCESS:
+      return {
+        ...state,
+        isLogged: true,
+        isLoading: false,
+        token: action.payload.token,
+        firstName: action.payload.user.first_name,
+        lastName: action.payload.user.last_name,
+      };
+
+    case FETCH_REGISTER__FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        errors: action.payload,
+      };
+
+    case RESET_ERRORS:
+      return {
+        ...state,
+        errors: null,
       };
 
     case FETCH_LOGOUT__SUCCESS:
