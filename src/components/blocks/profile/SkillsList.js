@@ -17,16 +17,18 @@ const ITEMS_PER_GROUP = 4;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 35,
+    flex: 1,
   },
 
   skillsContainer: {
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 20,
   },
 
   emptySkills: {
-    color: FONT_COLOR,
+    color: 'rgba(0, 0, 0, 0.35)',
     marginTop: 20,
     marginBottom: 10,
   },

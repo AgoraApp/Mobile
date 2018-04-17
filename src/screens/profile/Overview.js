@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    height: 150,
+    height: 120,
     backgroundColor: MAIN_COLOR,
     zIndex: 10,
   },
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
 
   userInformation: {
     alignItems: 'center',
-    padding: 25,
+    paddingVertical: 25,
   },
 });
 
@@ -75,6 +75,7 @@ class Profile extends React.PureComponent {
           </View>
         </View>
         <ScrollView
+          contentContainerStyle={styles.container}
           alwaysBounceVertical={false}
           showsVerticalScrollIndicator={false}
         >

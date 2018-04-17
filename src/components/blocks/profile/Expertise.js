@@ -25,6 +25,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     color: MAIN_COLOR,
   },
+
+  emptyText: {
+    color: '#FFFFFF',
+  },
 });
 
 class Expertise extends React.PureComponent {
@@ -47,7 +51,12 @@ class Expertise extends React.PureComponent {
 
     return (
       <View>
-        <Tag text={expertise.toUpperCase()} size="small" />
+        {
+          expertise.length > 0 ?
+            <Tag text={expertise.toUpperCase()} size="small" />
+            :
+            <Tag text="No expertise" size="small" />
+        }
       </View>
     );
   }

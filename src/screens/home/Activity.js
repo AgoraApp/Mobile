@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import moment from 'moment';
 
 import sessionShape from './../../config/shapes/sessionShape';
@@ -15,6 +15,15 @@ import SessionDay from './../../components/blocks/session/SessionDay';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+
+  emptyContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  emptyText: {
+    color: 'rgba(0, 0, 0, 0.35)',
   },
 });
 
@@ -41,7 +50,7 @@ class Activity extends React.PureComponent {
   }
 
   render() {
-    const { isSessionsLoading } = this.props;
+    const { sessions, isSessionsLoading } = this.props;
 
     if (isSessionsLoading) {
       return (
@@ -55,22 +64,30 @@ class Activity extends React.PureComponent {
       );
     }
 
-    const sessionsByDate = this.formatSessions();
-    const orderedSessionsByDateKeys = Object.keys(sessionsByDate).sort((a, b) => (
-      new Date(b) - new Date(a)
-    ));
+    if (sessions.length > 0) {
+      const sessionsByDate = this.formatSessions();
+      const orderedSessionsByDateKeys = Object.keys(sessionsByDate).sort((a, b) => (
+        new Date(b) - new Date(a)
+      ));
+
+      return (
+        <ScrollView
+          style={styles.container}
+          showsVerticalScrollIndicator={false}
+        >
+          {
+            orderedSessionsByDateKeys.map((key, index) => (
+              <SessionDay key={key} index={index} date={key} sessions={sessionsByDate[key]} />
+            ))
+          }
+        </ScrollView>
+      );
+    }
 
     return (
-      <ScrollView
-        style={styles.container}
-        showsVerticalScrollIndicator={false}
-      >
-        {
-          orderedSessionsByDateKeys.map((key, index) => (
-            <SessionDay key={key} index={index} date={key} sessions={sessionsByDate[key]} />
-          ))
-        }
-      </ScrollView>
+      <View style={[styles.container, styles.emptyContainer]}>
+        <Text style={styles.emptyText}>You have no past sessions.</Text>
+      </View>
     );
   }
 }
