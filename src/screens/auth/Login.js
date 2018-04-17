@@ -32,11 +32,11 @@ const styles = StyleSheet.create({
 
   inputContainer: {
     marginBottom: 15,
+    width: 250,
   },
 
   input: {
     alignItems: 'center',
-    width: 250,
     padding: 15,
     borderRadius: 25,
     borderWidth: 2,
