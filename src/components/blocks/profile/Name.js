@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
   input: {
     alignItems: 'center',
     width: 150,
+    height: 47,
     padding: 15,
     borderRadius: 25,
     marginBottom: 15,
