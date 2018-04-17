@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
   bottomActionContainer: {
     flexDirection: 'row',
     paddingHorizontal: 35,
-    paddingTop: 20,
-    paddingBottom: IS_IPHONE_X ? 35 : 20,
+    paddingTop: 15,
+    paddingBottom: IS_IPHONE_X ? 35 : 15,
     borderTopWidth: 1,
     borderColor: COLOR_GREY,
     backgroundColor: '#FFFFFF',

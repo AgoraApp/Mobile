@@ -17,12 +17,11 @@ const styles = StyleSheet.create({
   },
 
   item: {
-    marginBottom: 20,
+    marginBottom: 15,
     alignItems: 'center',
   },
 
   actionContainer: {
-    marginTop: 10,
     alignItems: 'center',
   },
 
@@ -46,8 +45,8 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    paddingVertical: 15,
-    paddingHorizontal: 35,
+    paddingVertical: 10,
+    paddingHorizontal: 25,
   },
 
   buttonText: {
