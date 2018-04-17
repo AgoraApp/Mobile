@@ -32,11 +32,11 @@ const styles = StyleSheet.create({
 
   inputContainer: {
     marginBottom: 15,
+    width: 250,
   },
 
   input: {
     alignItems: 'center',
-    width: 250,
     padding: 15,
     borderRadius: 25,
     borderWidth: 2,
@@ -141,6 +141,7 @@ class Register extends React.Component {
     return (
       <View style={[styles.container, { height }]}>
         <ScrollView
+          contentContainerStyle={{ alignItems: 'center' }}
           alwaysBounceVertical={false}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="always"
@@ -220,6 +221,11 @@ class Register extends React.Component {
                 : null
             }
           </TouchableOpacity>
+          {
+            errors && errors.form ?
+              <Text style={styles.errorText}>{ errors.form }</Text>
+              : null
+          }
           <TouchableOpacity
             style={styles.backButton}
             onPress={() => this.props.onBack()}

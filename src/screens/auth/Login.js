@@ -127,6 +127,7 @@ class Login extends React.Component {
     return (
       <View style={[styles.container, { height }]}>
         <ScrollView
+          contentContainerStyle={{ alignItems: 'center' }}
           alwaysBounceVertical={false}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="always"

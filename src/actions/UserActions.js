@@ -174,6 +174,13 @@ export const login = (email, password) => (dispatch) => {
           type: FETCH_LOGIN__FAIL,
           payload: data.error.errors,
         });
+      } else {
+        dispatch({
+          type: FETCH_LOGIN__FAIL,
+          payload: {
+            form: 'There was an unknown error. Please try again later',
+          },
+        });
       }
     });
 };
@@ -207,6 +214,13 @@ export const register = (firstName, lastName, email, password) => (dispatch) => 
         dispatch({
           type: FETCH_REGISTER__FAIL,
           payload: data.error.errors,
+        });
+      } else {
+        dispatch({
+          type: FETCH_LOGIN__FAIL,
+          payload: {
+            form: 'There was an unknown error. Please try again later',
+          },
         });
       }
     });
