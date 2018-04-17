@@ -131,9 +131,11 @@ class Auth extends React.Component {
     await wait(350);
 
     Animated.spring(this.loginTop, {
-      toValue: 100,
+      toValue: 0,
       duration: 500,
     }).start();
+
+    await wait(550);
 
     this.setState({ page: 'login' });
   }
@@ -157,9 +159,11 @@ class Auth extends React.Component {
     await wait(350);
 
     Animated.spring(this.registerTop, {
-      toValue: 100,
+      toValue: 0,
       duration: 500,
     }).start();
+
+    await wait(550);
 
     this.setState({ page: 'register' });
   }

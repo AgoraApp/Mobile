@@ -5,22 +5,29 @@ import { bindActionCreators } from 'redux';
 import {
   StyleSheet,
   Keyboard,
+  Dimensions,
+  ScrollView,
   View,
   TextInput,
   TouchableOpacity,
   Text,
 } from 'react-native';
+import { Constants } from 'expo';
 import { Pulse } from 'react-native-loader';
 
 import { MAIN_COLOR, SECONDARY_COLOR, ALERT_COLOR } from './../../config/colors';
 
 import { login, resetErrors } from './../../actions/UserActions';
 
+const DEVICE_HEIGHT = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
+    marginTop: Constants.statusBarHeight,
+    paddingVertical: 25,
   },
 
   inputContainer: {
@@ -66,6 +73,7 @@ const styles = StyleSheet.create({
   backButton: {
     marginVertical: 15,
     paddingVertical: 10,
+    alignSelf: 'center',
   },
 
   backButtonText: {
@@ -78,6 +86,8 @@ class Login extends React.Component {
     super();
 
     this.emailInputReference = null;
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.handleKeyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.handleKeyboardDidHide);
 
     this.state = {
       email: '',
@@ -96,6 +106,14 @@ class Login extends React.Component {
     }
   }
 
+  handleKeyboardDidShow = (e) => {
+    this.setState({ height: DEVICE_HEIGHT - e.endCoordinates.height });
+  }
+
+  handleKeyboardDidHide = () => {
+    this.setState({ height: DEVICE_HEIGHT });
+  }
+
   handleLogin = () => {
     const { email, password } = this.state;
 
@@ -104,66 +122,72 @@ class Login extends React.Component {
 
   render() {
     const { isLoading, errors } = this.props;
-    const { email, password } = this.state;
+    const { height, email, password } = this.state;
 
     return (
-      <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            ref={(input) => { this.emailInputReference = input; }}
-            style={[styles.input, { borderColor: errors && errors.email ? ALERT_COLOR : 'transparent' }]}
-            autoCapitalize="none"
-            autoCorrect={false}
-            placeholder="Email"
-            value={email}
-            onChangeText={value => this.setState({ email: value })}
-          />
-          {
-            errors && errors.email ?
-              <Text style={styles.errorText}>{ errors.email }</Text>
-              : null
-          }
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={[styles.input, { borderColor: errors && errors.password ? ALERT_COLOR : 'transparent' }]}
-            autoCapitalize="none"
-            autoCorrect={false}
-            secureTextEntry
-            placeholder="Password"
-            value={password}
-            onChangeText={value => this.setState({ password: value })}
-          />
-          {
-            errors && errors.password ?
-              <Text style={styles.errorText}>{ errors.password }</Text>
-              : null
-          }
-        </View>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={this.handleLogin}
+      <View style={[styles.container, { height }]}>
+        <ScrollView
+          alwaysBounceVertical={false}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="always"
         >
-          <Text style={styles.buttonText}>Login</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              ref={(input) => { this.emailInputReference = input; }}
+              style={[styles.input, { borderColor: errors && errors.email ? ALERT_COLOR : 'transparent' }]}
+              autoCapitalize="none"
+              autoCorrect={false}
+              placeholder="Email"
+              value={email}
+              onChangeText={value => this.setState({ email: value })}
+            />
+            {
+              errors && errors.email ?
+                <Text style={styles.errorText}>{ errors.email }</Text>
+                : null
+            }
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input, { borderColor: errors && errors.password ? ALERT_COLOR : 'transparent' }]}
+              autoCapitalize="none"
+              autoCorrect={false}
+              secureTextEntry
+              placeholder="Password"
+              value={password}
+              onChangeText={value => this.setState({ password: value })}
+            />
+            {
+              errors && errors.password ?
+                <Text style={styles.errorText}>{ errors.password }</Text>
+                : null
+            }
+          </View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this.handleLogin}
+          >
+            <Text style={styles.buttonText}>Login</Text>
+            {
+              isLoading ?
+                <View style={styles.loader}>
+                  <Pulse size={10} color="#FFFFFF" />
+                </View>
+                : null
+            }
+          </TouchableOpacity>
           {
-            isLoading ?
-              <View style={styles.loader}>
-                <Pulse size={10} color="#FFFFFF" />
-              </View>
+            errors && errors.form ?
+              <Text style={styles.errorText}>{ errors.form }</Text>
               : null
           }
-        </TouchableOpacity>
-        {
-          errors && errors.form ?
-            <Text style={styles.errorText}>{ errors.form }</Text>
-            : null
-        }
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => this.props.onBack()}
-        >
-          <Text style={styles.backButtonText}>Go back</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => this.props.onBack()}
+          >
+            <Text style={styles.backButtonText}>Go back</Text>
+          </TouchableOpacity>
+        </ScrollView>
       </View>
     );
   }
