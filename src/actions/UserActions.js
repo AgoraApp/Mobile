@@ -156,7 +156,18 @@ export const login = (email, password) => (dispatch) => {
         payload: data,
       });
     })
-    .catch(error => error.json())
+    .catch((error) => {
+      if (error.status === 403) {
+        dispatch({
+          type: FETCH_LOGIN__FAIL,
+          payload: {
+            form: 'The email or password did not match.',
+          },
+        });
+      }
+
+      return error.json();
+    })
     .then((data) => {
       if (data.error && data.error.errors) {
         dispatch({

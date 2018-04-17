@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { Pulse } from 'react-native-loader';
 
-import { MAIN_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from './../../config/colors';
+import { MAIN_COLOR, SECONDARY_COLOR, ALERT_COLOR } from './../../config/colors';
 
 import { register, resetErrors } from './../../actions/UserActions';
 
@@ -123,7 +123,7 @@ class Register extends React.Component {
         <View style={styles.inputContainer}>
           <TextInput
             ref={(input) => { this.firstNameInputReference = input; }}
-            style={[styles.input, { borderColor: errors && errors.first_name ? TERTIARY_COLOR : 'transparent' }]}
+            style={[styles.input, { borderColor: errors && errors.first_name ? ALERT_COLOR : 'transparent' }]}
             autoCapitalize="none"
             autoCorrect={false}
             placeholder="First name"
@@ -138,7 +138,7 @@ class Register extends React.Component {
         </View>
         <View style={styles.inputContainer}>
           <TextInput
-            style={[styles.input, { borderColor: errors && errors.last_name ? TERTIARY_COLOR : 'transparent' }]}
+            style={[styles.input, { borderColor: errors && errors.last_name ? ALERT_COLOR : 'transparent' }]}
             autoCapitalize="none"
             autoCorrect={false}
             placeholder="Last name"
@@ -153,7 +153,7 @@ class Register extends React.Component {
         </View>
         <View style={styles.inputContainer}>
           <TextInput
-            style={[styles.input, { borderColor: errors && errors.email ? TERTIARY_COLOR : 'transparent' }]}
+            style={[styles.input, { borderColor: errors && errors.email ? ALERT_COLOR : 'transparent' }]}
             autoCapitalize="none"
             autoCorrect={false}
             placeholder="Email"
@@ -168,7 +168,7 @@ class Register extends React.Component {
         </View>
         <View style={styles.inputContainer}>
           <TextInput
-            style={[styles.input, { borderColor: errors && errors.password ? TERTIARY_COLOR : 'transparent' }]}
+            style={[styles.input, { borderColor: errors && errors.password ? ALERT_COLOR : 'transparent' }]}
             autoCapitalize="none"
             autoCorrect={false}
             secureTextEntry
