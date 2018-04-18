@@ -49,6 +49,12 @@ class PlaceContainer extends React.PureComponent {
         this.showCard().start();
       }
     }
+
+    if (prevProps.focusedPlace && this.props.focusedPlace) {
+      if (!prevProps.focusedPlace.zones && this.props.focusedPlace.zones) {
+        this.setState({ focusedPlace: this.props.focusedPlace });
+      }
+    }
   }
 
   showCard = () => (

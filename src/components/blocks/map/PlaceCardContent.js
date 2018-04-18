@@ -25,6 +25,7 @@ class PlaceCardContent extends React.PureComponent {
     return (
       <ScrollView
         contentContainerStyle={styles.container}
+        alwaysBounceVertical={false}
         showsVerticalScrollIndicator={false}
       >
         <PlaceFavouriteButton place={place} />
