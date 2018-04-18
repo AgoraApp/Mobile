@@ -1,4 +1,5 @@
 import { AsyncStorage, Image } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 
 import { API_BASE_URL } from './../config/api';
 
@@ -238,7 +239,11 @@ export const logout = () => (dispatch) => {
     .then(() => {
       AsyncStorage.setItem('@AgoraStore:authToken', '');
 
-      dispatch({ type: FETCH_LOGOUT__SUCCESS });
+      dispatch([
+        { type: FETCH_LOGOUT__SUCCESS },
+        NavigationActions.navigate({ routeName: 'Home' }),
+        NavigationActions.navigate({ routeName: 'Overview' }),
+      ]);
     })
     .catch((error) => {
       dispatch({

@@ -12,6 +12,9 @@ import {
   SET_MAP_EXPANDED_PLACE,
   SET_FAVOURITE_EXPANDED_PLACE,
 } from './../actions/PlaceActions';
+import {
+  FETCH_LOGOUT__SUCCESS,
+} from './../actions/UserActions';
 
 const initialState = {
   isDetailLoading: false,
@@ -129,6 +132,9 @@ export default function placeState(state = initialState, action) {
         ...state,
         expandedFavouritePlaceId: action.payload,
       };
+
+    case FETCH_LOGOUT__SUCCESS:
+      return initialState;
 
     default:
       return state;

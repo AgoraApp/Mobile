@@ -4,6 +4,9 @@ import {
   FETCH_SKILL_AUTOCOMPLETE__FAIL,
   RESET_SKILL_AUTOCOMPLETE,
 } from './../actions/SkillActions';
+import {
+  FETCH_LOGOUT__SUCCESS,
+} from './../actions/UserActions';
 
 const initialState = {
   isLoading: false,
@@ -40,6 +43,9 @@ export default function skillState(state = initialState, action) {
         skills: [],
         hasNoResults: false,
       };
+
+    case FETCH_LOGOUT__SUCCESS:
+      return initialState;
 
     default:
       return state;

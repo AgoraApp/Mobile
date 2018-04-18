@@ -6,6 +6,9 @@ import {
   SET_EXPERTISE,
   SET_AVATAR,
 } from './../actions/ProfileActions';
+import {
+  FETCH_LOGOUT__SUCCESS,
+} from './../actions/UserActions';
 
 const initialState = {
   isEditMode: false,
@@ -56,6 +59,9 @@ export default function profileState(state = initialState, action) {
         ...state,
         avatar: action.payload,
       };
+
+    case FETCH_LOGOUT__SUCCESS:
+      return initialState;
 
     default:
       return state;

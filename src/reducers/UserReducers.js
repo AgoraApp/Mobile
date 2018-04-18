@@ -131,16 +131,7 @@ export default function userState(state = initialState, action) {
       };
 
     case FETCH_LOGOUT__SUCCESS:
-      return {
-        ...state,
-        isLogged: false,
-        token: '',
-        firstName: '',
-        lastName: '',
-        avatar: '',
-        expertise: '',
-        skills: [],
-      };
+      return initialState;
 
     case FETCH_UPDATE_USER:
       return {

@@ -22,6 +22,9 @@ import {
   UPDATE_SESSION__SUCCESS,
   UPDATE_SESSION__FAIL,
 } from './../actions/SessionActions';
+import {
+  FETCH_LOGOUT__SUCCESS,
+} from './../actions/UserActions';
 
 const START_DURATION = 3600;
 
@@ -183,6 +186,9 @@ export default function skillState(state = initialState, action) {
         ...state,
         loading: false,
       };
+
+    case FETCH_LOGOUT__SUCCESS:
+      return initialState;
 
     default:
       return state;
