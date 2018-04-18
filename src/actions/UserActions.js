@@ -144,7 +144,7 @@ export const login = (email, password) => (dispatch) => {
     .then((data) => {
       AsyncStorage.setItem('@AgoraStore:authToken', data.token);
       if (data.user.avatar.length > 0) {
-        Image.prefetch(data.user.avatar);
+        Image.prefetch(`${API_BASE_URL}/${data.user.avatar}`);
       }
 
       if (data.user.current_session) {

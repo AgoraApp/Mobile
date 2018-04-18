@@ -26,20 +26,14 @@ const styles = StyleSheet.create({
   },
 
   actionsContainer: {
-    position: 'absolute',
-    left: 15,
-    right: 15,
-    top: Constants.statusBarHeight + 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop: Constants.statusBarHeight + 10,
+    paddingHorizontal: 15,
   },
 
   avatarContainer: {
-    position: 'absolute',
     alignItems: 'center',
-    left: 0,
-    right: 0,
-    bottom: -60,
   },
 
   userContainer: {
@@ -51,7 +45,8 @@ const styles = StyleSheet.create({
 
   userInformation: {
     alignItems: 'center',
-    paddingVertical: 25,
+    paddingTop: 10,
+    paddingBottom: 25,
   },
 });
 

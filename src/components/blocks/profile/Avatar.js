@@ -14,6 +14,7 @@ import Icon from '../Icon';
 const styles = StyleSheet.create({
   avatarContainer: {
     position: 'relative',
+    marginTop: -15,
   },
 
   avatar: {
@@ -112,15 +113,13 @@ class Avatar extends React.PureComponent {
     const url = this.props.avatar.length > 0 ? `${API_BASE_URL}/${this.props.avatar}` : 'Placeholder';
 
     return (
-      <View style={{ alignItems: 'center' }}>
-        <View style={styles.avatarContainer}>
-          <Image
-            style={styles.avatar}
-            source={{ uri: isEditMode && editAvatar ? editAvatar : url }}
-            blurRadius={isEditMode ? 4 : 0}
-          />
-          { this.renderEdit() }
-        </View>
+      <View style={styles.avatarContainer}>
+        <Image
+          style={styles.avatar}
+          source={{ uri: isEditMode && editAvatar ? editAvatar : url }}
+          blurRadius={isEditMode ? 4 : 0}
+        />
+        { this.renderEdit() }
       </View>
     );
   }
