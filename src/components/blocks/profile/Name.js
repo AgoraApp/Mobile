@@ -16,18 +16,28 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  inputContainer: {
+  editContainer: {
     flexDirection: 'row',
   },
 
-  input: {
-    alignItems: 'center',
+  inputContainer: {
     width: 150,
+    marginBottom: 15,
+    marginHorizontal: 10,
+  },
+
+  placeholder: {
+    marginHorizontal: 15,
+    marginBottom: 3,
+    color: 'rgba(0, 0, 0, 0.35)',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+
+  input: {
     height: 51,
     padding: 15,
     borderRadius: 25,
-    marginBottom: 15,
-    marginHorizontal: 10,
     backgroundColor: '#FFFFFF',
     color: MAIN_COLOR,
   },
@@ -45,29 +55,33 @@ class Name extends React.PureComponent {
 
     if (isEditMode) {
       return (
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            autoCorrect={false}
-            placeholder="First name"
-            value={editableFirstName}
-            onChangeText={value => this.props.setFirstName(value)}
-          />
-          <TextInput
-            style={styles.input}
-            autoCorrect={false}
-            placeholder="Last name"
-            value={editableLastName}
-            onChangeText={value => this.props.setLastName(value)}
-          />
+        <View style={styles.editContainer}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.placeholder}>First name</Text>
+            <TextInput
+              style={styles.input}
+              autoCorrect={false}
+              placeholder="First name"
+              value={editableFirstName}
+              onChangeText={value => this.props.setFirstName(value)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.placeholder}>Last name</Text>
+            <TextInput
+              style={styles.input}
+              autoCorrect={false}
+              placeholder="Last name"
+              value={editableLastName}
+              onChangeText={value => this.props.setLastName(value)}
+            />
+          </View>
         </View>
       );
     }
 
     return (
-      <View>
-        <Text style={styles.userName}>{ firstName } { lastName }</Text>
-      </View>
+      <Text style={styles.userName}>{ firstName } { lastName }</Text>
     );
   }
 }

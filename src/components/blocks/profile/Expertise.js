@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { StyleSheet, View, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TextInput } from 'react-native';
 
 import { MAIN_COLOR } from './../../../config/colors';
 
@@ -12,7 +12,7 @@ import Tag from './../Tag';
 
 const styles = StyleSheet.create({
   inputContainer: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
   },
 
   input: {
@@ -27,6 +27,14 @@ const styles = StyleSheet.create({
     color: MAIN_COLOR,
   },
 
+  placeholder: {
+    marginHorizontal: 25,
+    marginBottom: 3,
+    color: 'rgba(0, 0, 0, 0.35)',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+
   emptyText: {
     color: '#FFFFFF',
   },
@@ -39,6 +47,7 @@ class Expertise extends React.PureComponent {
     if (isEditMode) {
       return (
         <View style={styles.inputContainer}>
+          <Text style={styles.placeholder}>Expertise</Text>
           <TextInput
             style={styles.input}
             autoCorrect={false}
