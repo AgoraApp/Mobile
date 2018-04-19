@@ -16,7 +16,6 @@ import Icon from '../Icon';
 const styles = StyleSheet.create({
   avatarContainer: {
     position: 'relative',
-    // marginTop: 15,
   },
 
   avatar: {

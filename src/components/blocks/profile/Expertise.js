@@ -11,10 +11,6 @@ import { setExpertise } from './../../../actions/ProfileActions';
 import Tag from './../Tag';
 
 const styles = StyleSheet.create({
-  inputContainer: {
-    // flexDirection: 'row',
-  },
-
   input: {
     alignItems: 'center',
     width: 320,
@@ -46,7 +42,7 @@ class Expertise extends React.PureComponent {
 
     if (isEditMode) {
       return (
-        <View style={styles.inputContainer}>
+        <View>
           <Text style={styles.placeholder}>Expertise</Text>
           <TextInput
             style={styles.input}

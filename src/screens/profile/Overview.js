@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    // height: 120,
     height: Constants.statusBarHeight + 10 + (AVATAR_HEIGT / 2) + 30,
     backgroundColor: MAIN_COLOR,
     zIndex: 10,
