@@ -7,6 +7,8 @@ import { ImagePicker } from 'expo';
 
 import { API_BASE_URL } from './../../../config/api';
 
+import defaultAvatar from './../../../../assets/avatar_default.png';
+
 import { setAvatar } from './../../../actions/ProfileActions';
 
 import Icon from '../Icon';
@@ -109,15 +111,21 @@ class Avatar extends React.PureComponent {
 
   render() {
     const { editAvatar, isEditMode } = this.props;
+    let source = defaultAvatar;
 
-    const url = this.props.avatar.length > 0 ? `${API_BASE_URL}/${this.props.avatar}` : 'Placeholder';
+    if (this.props.avatar.length > 0) {
+      source = { uri: `${API_BASE_URL}/${this.props.avatar}` };
+    }
+
+    if (isEditMode && editAvatar) {
+      source = { uri: editAvatar };
+    }
 
     return (
       <View style={styles.avatarContainer}>
         <Image
           style={styles.avatar}
-          source={{ uri: isEditMode && editAvatar ? editAvatar : url }}
-          blurRadius={isEditMode ? 4 : 0}
+          source={source}
         />
         { this.renderEdit() }
       </View>
