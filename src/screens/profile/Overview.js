@@ -14,13 +14,16 @@ import Name from '../../components/blocks/profile/Name';
 import Expertise from '../../components/blocks/profile/Expertise';
 import SaveButton from '../../components/blocks/profile/SaveButton';
 
+const AVATAR_HEIGT = 120;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
 
   header: {
-    height: 120,
+    // height: 120,
+    height: Constants.statusBarHeight + 10 + (AVATAR_HEIGT / 2) + 30,
     backgroundColor: MAIN_COLOR,
     zIndex: 10,
   },
