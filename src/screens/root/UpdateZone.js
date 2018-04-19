@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Dimensions, StyleSheet, View, Text } from 'react-native';
+import { Dimensions, StyleSheet, Animated, Easing, View, Text } from 'react-native';
+import { DangerZone } from 'expo';
 import PopupDialog, { SlideAnimation } from 'react-native-popup-dialog';
+import Swiper from 'react-native-swiper';
 
 import { MAIN_COLOR } from './../../config/colors';
 import placeShape from '../../config/shapes/placeShape';
@@ -11,9 +13,13 @@ import sessionShape from '../../config/shapes/sessionShape';
 
 import { closeUpdateZone, setZone, updateZone } from './../../actions/SessionActions';
 
+import doneAnimation from './../../../assets/animations/done.json';
+
 import Icon from './../../components/blocks/Icon';
 import Button from './../../components/blocks/Button';
 import ZoneList from '../../components/blocks/session/ZoneList';
+
+const { Lottie } = DangerZone;
 
 const slideAnimation = new SlideAnimation({
   slideFrom: 'bottom',
@@ -68,6 +74,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
+  buttomContainer: {
+    alignItems: 'center',
+  },
+
   updateButton: {
     marginTop: 20,
     marginBottom: 10,
@@ -79,6 +89,15 @@ const styles = StyleSheet.create({
 });
 
 class UpdateSession extends React.PureComponent {
+  constructor() {
+    super();
+
+    this.state = {
+      index: 0,
+      progress: new Animated.Value(0),
+    };
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.showUpdateZone !== nextProps.showUpdateZone) {
       if (nextProps.showUpdateZone) {
@@ -95,6 +114,14 @@ class UpdateSession extends React.PureComponent {
 
   handleDismiss = () => {
     this.props.closeUpdateZone();
+
+    if (this.state.index !== 0) {
+      this.swiper.scrollBy(this.state.index * -1);
+      this.setState({
+        index: 0,
+        progress: new Animated.Value(0),
+      });
+    }
   }
 
   handleZoneSelect = (zoneId) => {
@@ -105,8 +132,31 @@ class UpdateSession extends React.PureComponent {
     }
   }
 
+  handleValidation = () => {
+    this.props.updateZone(
+      this.props.currentSession.id,
+      this.props.selectedZoneId,
+    ).then(() => {
+      this.handleNext();
+      Animated.timing(this.state.progress, {
+        toValue: 1,
+        duration: 2000,
+        easing: Easing.linear,
+      }).start(() => {
+        this.popupDialog.dismiss();
+      });
+    });
+  }
+
+  handleNext = () => {
+    const { index } = this.state;
+
+    this.setState({ index: index + 1 });
+    this.swiper.scrollBy(1);
+  }
+
   render() {
-    const { currentSession, place, selectedZoneId } = this.props;
+    const { place, selectedZoneId } = this.props;
 
     return (
       <PopupDialog
@@ -128,24 +178,40 @@ class UpdateSession extends React.PureComponent {
             </Button>
           </View>
           <View style={styles.content}>
-            <View style={styles.stepContainer}>
-              <View style={styles.titleContainer}>
-                <Text style={styles.titleStep}>Update zone</Text>
-                <Text>Select where you&#39;re sitting now</Text>
-              </View>
-              <ZoneList
-                zones={place.zones}
-                selectedZoneId={selectedZoneId}
-                onSelect={this.handleZoneSelect}
-              />
-            </View>
-            <Button
-              style={styles.updateButton}
-              color={MAIN_COLOR}
-              onPress={() => this.props.updateZone(currentSession.id, selectedZoneId)}
+            <Swiper
+              ref={(swiper) => { this.swiper = swiper; }}
+              loop={false}
+              showsPagination={false}
+              scrollEnabled={false}
             >
-              <Text style={styles.buttonText}>Update the zone</Text>
-            </Button>
+              <View style={styles.stepContainer}>
+                <View style={styles.titleContainer}>
+                  <Text style={styles.titleStep}>Update zone</Text>
+                  <Text>Select where you&#39;re sitting now</Text>
+                </View>
+                <ZoneList
+                  zones={place.zones}
+                  selectedZoneId={selectedZoneId}
+                  onSelect={this.handleZoneSelect}
+                />
+                <View style={styles.buttomContainer}>
+                  <Button
+                    style={styles.updateButton}
+                    color={MAIN_COLOR}
+                    onPress={this.handleValidation}
+                  >
+                    <Text style={styles.buttonText}>Update the zone</Text>
+                  </Button>
+                </View>
+              </View>
+              <View style={styles.stepContainer}>
+                <Lottie
+                  style={styles.animationContainer}
+                  source={doneAnimation}
+                  progress={this.state.progress}
+                />
+              </View>
+            </Swiper>
           </View>
         </View>
       </PopupDialog>

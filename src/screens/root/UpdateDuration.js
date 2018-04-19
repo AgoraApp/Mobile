@@ -2,17 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Dimensions, StyleSheet, View, Text } from 'react-native';
+import { Dimensions, StyleSheet, Animated, Easing, View, Text } from 'react-native';
+import { DangerZone } from 'expo';
 import PopupDialog, { SlideAnimation } from 'react-native-popup-dialog';
+import Swiper from 'react-native-swiper';
 
 import { MAIN_COLOR } from './../../config/colors';
 import sessionShape from '../../config/shapes/sessionShape';
 
 import { closeUpdateDuration, setDuration, updateDuration } from './../../actions/SessionActions';
 
+import doneAnimation from './../../../assets/animations/done.json';
+
 import Icon from './../../components/blocks/Icon';
 import Button from './../../components/blocks/Button';
 import CircularSlider from '../../components/blocks/session/CircularSlider';
+
+const { Lottie } = DangerZone;
 
 const slideAnimation = new SlideAnimation({
   slideFrom: 'bottom',
@@ -54,6 +60,10 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 15,
   },
 
+  stepContainer: {
+    flex: 1,
+  },
+
   sliderContainer: {
     flex: 1,
     alignItems: 'center',
@@ -84,6 +94,15 @@ const styles = StyleSheet.create({
 });
 
 class UpdateDuration extends React.PureComponent {
+  constructor() {
+    super();
+
+    this.state = {
+      index: 0,
+      progress: new Animated.Value(0),
+    };
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.showUpdateDuration !== nextProps.showUpdateDuration) {
       if (nextProps.showUpdateDuration) {
@@ -100,14 +119,45 @@ class UpdateDuration extends React.PureComponent {
 
   handleDismiss = () => {
     this.props.closeUpdateDuration();
+
+    if (this.state.index !== 0) {
+      this.swiper.scrollBy(this.state.index * -1);
+      this.setState({
+        index: 0,
+        progress: new Animated.Value(0),
+      });
+    }
   }
 
   handleDurationChange = (value) => {
     this.props.setDuration(Math.ceil((value * 80) / 300) * 300);
   }
 
+  handleValidation = () => {
+    this.props.updateDuration(
+      this.props.currentSession.id,
+      this.props.duration,
+    ).then(() => {
+      this.handleNext();
+      Animated.timing(this.state.progress, {
+        toValue: 1,
+        duration: 2000,
+        easing: Easing.linear,
+      }).start(() => {
+        this.popupDialog.dismiss();
+      });
+    });
+  }
+
+  handleNext = () => {
+    const { index } = this.state;
+
+    this.setState({ index: index + 1 });
+    this.swiper.scrollBy(1);
+  }
+
   render() {
-    const { currentSession, duration } = this.props;
+    const { duration } = this.props;
 
     return (
       <PopupDialog
@@ -129,27 +179,43 @@ class UpdateDuration extends React.PureComponent {
             </Button>
           </View>
           <View style={styles.content}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.titleStep}>Update duration</Text>
-              <Text>Select how long you&#39;re planning to stay</Text>
-            </View>
-            <View style={styles.sliderContainer}>
-              <CircularSlider
-                width={SLIDER_SIZE}
-                height={SLIDER_SIZE}
-                value={duration / 80}
-                onChange={this.handleDurationChange}
-              />
-            </View>
-            <View style={styles.buttomContainer}>
-              <Button
-                style={styles.updateButton}
-                color={MAIN_COLOR}
-                onPress={() => this.props.updateDuration(currentSession.id, duration)}
-              >
-                <Text style={styles.buttonText}>Update the duration</Text>
-              </Button>
-            </View>
+            <Swiper
+              ref={(swiper) => { this.swiper = swiper; }}
+              loop={false}
+              showsPagination={false}
+              scrollEnabled={false}
+            >
+              <View style={styles.stepContainer}>
+                <View style={styles.titleContainer}>
+                  <Text style={styles.titleStep}>Update duration</Text>
+                  <Text>Select how long you&#39;re planning to stay</Text>
+                </View>
+                <View style={styles.sliderContainer}>
+                  <CircularSlider
+                    width={SLIDER_SIZE}
+                    height={SLIDER_SIZE}
+                    value={duration / 80}
+                    onChange={this.handleDurationChange}
+                  />
+                </View>
+                <View style={styles.buttomContainer}>
+                  <Button
+                    style={styles.updateButton}
+                    color={MAIN_COLOR}
+                    onPress={this.handleValidation}
+                  >
+                    <Text style={styles.buttonText}>Update the duration</Text>
+                  </Button>
+                </View>
+              </View>
+              <View style={styles.stepContainer}>
+                <Lottie
+                  style={styles.animationContainer}
+                  source={doneAnimation}
+                  progress={this.state.progress}
+                />
+              </View>
+            </Swiper>
           </View>
         </View>
       </PopupDialog>

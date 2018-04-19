@@ -2,21 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Dimensions, Platform, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { Constants } from 'expo';
+import { Dimensions, Platform, StyleSheet, Animated, Easing, View, Text, TouchableOpacity } from 'react-native';
+import { Constants, DangerZone } from 'expo';
 import PopupDialog, { SlideAnimation } from 'react-native-popup-dialog';
 import Swiper from 'react-native-swiper';
 
 import { MAIN_COLOR, COLOR_GREY, FONT_COLOR } from './../../config/colors';
-import placeShape from '../../config/shapes/placeShape';
+import placeShape from './../../config/shapes/placeShape';
 
 import { closeCreateSession, setZone, setDuration, createSession } from './../../actions/SessionActions';
 
+import doneAnimation from './../../../assets/animations/done.json';
+
 import Icon from './../../components/blocks/Icon';
 import Button from './../../components/blocks/Button';
-import ZoneList from '../../components/blocks/session/ZoneList';
-import CircularSlider from '../../components/blocks/session/CircularSlider';
-import Validation from '../../components/blocks/session/Validation';
+import ZoneList from './../../components/blocks/session/ZoneList';
+import CircularSlider from './../../components/blocks/session/CircularSlider';
+import Validation from './../../components/blocks/session/Validation';
+
+const { Lottie } = DangerZone;
 
 const slideAnimation = new SlideAnimation({
   slideFrom: 'bottom',
@@ -79,6 +83,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
+  animationContainer: {
+    flex: 1,
+  },
+
   bottomActionContainer: {
     flexDirection: 'row',
     paddingHorizontal: 35,
@@ -104,6 +112,7 @@ class CreateSession extends React.PureComponent {
 
     this.state = {
       index: 0,
+      progress: new Animated.Value(0),
     };
   }
 
@@ -148,7 +157,10 @@ class CreateSession extends React.PureComponent {
 
     if (this.state.index !== 0) {
       this.swiper.scrollBy(this.state.index * -1);
-      this.setState({ index: 0 });
+      this.setState({
+        index: 0,
+        progress: new Animated.Value(0),
+      });
     }
   }
 
@@ -170,7 +182,16 @@ class CreateSession extends React.PureComponent {
       this.props.selectedPlaceId,
       this.props.selectedZoneId,
       this.props.duration,
-    );
+    ).then(() => {
+      this.handleNext();
+      Animated.timing(this.state.progress, {
+        toValue: 1,
+        duration: 2000,
+        easing: Easing.linear,
+      }).start(() => {
+        this.popupDialog.dismiss();
+      });
+    });
   }
 
   handlePrevious = () => {
@@ -256,6 +277,13 @@ class CreateSession extends React.PureComponent {
                     />
                     : null
                 }
+              </View>
+              <View style={styles.stepContainer}>
+                <Lottie
+                  style={styles.animationContainer}
+                  source={doneAnimation}
+                  progress={this.state.progress}
+                />
               </View>
             </Swiper>
           </View>

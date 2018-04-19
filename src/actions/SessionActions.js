@@ -105,7 +105,6 @@ export const fetchSessions = () => (dispatch) => {
           type: FETCH_SESSIONS__SUCCESS,
           payload: data,
         },
-        closeCreateSession(),
       ]);
     })
     .catch((error) => {
@@ -124,7 +123,7 @@ export const createSession = (placeId, zoneId, duration) => (dispatch) => {
   formData.append('zone_id', zoneId);
   formData.append('duration', duration);
 
-  fetch(`${API_BASE_URL}/me/sessions`, { method: 'POST', body: formData })
+  return fetch(`${API_BASE_URL}/me/sessions`, { method: 'POST', body: formData })
     .then(response => response.json())
     .then((data) => {
       dispatch([
@@ -132,7 +131,6 @@ export const createSession = (placeId, zoneId, duration) => (dispatch) => {
           type: CREATE_SESSION__SUCCESS,
           payload: data,
         },
-        closeCreateSession(),
         fetchSessions(),
       ]);
     })
@@ -170,7 +168,7 @@ export const removeCurrentSessions = () => (dispatch) => {
 export const updateZone = (sessionId, zoneId) => (dispatch) => {
   dispatch({ type: UPDATE_SESSION });
 
-  fetch(`${API_BASE_URL}/me/sessions/${sessionId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ zone_id: zoneId }) })
+  return fetch(`${API_BASE_URL}/me/sessions/${sessionId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ zone_id: zoneId }) })
     .then(response => response.json())
     .then((data) => {
       dispatch([
@@ -178,7 +176,6 @@ export const updateZone = (sessionId, zoneId) => (dispatch) => {
           type: UPDATE_SESSION__SUCCESS,
           payload: data,
         },
-        closeUpdateZone(),
         fetchSessions(),
       ]);
     })
@@ -195,7 +192,7 @@ export const updateDuration = (sessionId, duration) => (dispatch) => {
 
   const end = moment().add(duration, 'seconds').format('YYYY-MM-DD HH:mm:ss');
 
-  fetch(`${API_BASE_URL}/me/sessions/${sessionId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ end_at: end }) })
+  return fetch(`${API_BASE_URL}/me/sessions/${sessionId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ end_at: end }) })
     .then(response => response.json())
     .then((data) => {
       dispatch([
@@ -203,7 +200,6 @@ export const updateDuration = (sessionId, duration) => (dispatch) => {
           type: UPDATE_SESSION__SUCCESS,
           payload: data,
         },
-        closeUpdateDuration(),
         fetchSessions(),
       ]);
     })
