@@ -12,6 +12,13 @@ class Tag extends React.PureComponent {
     };
 
     switch (this.props.size) {
+      case 'smaller':
+        return {
+          ...baseStyles,
+          paddingHorizontal: 10,
+          paddingVertical: 3,
+        };
+
       case 'small':
         return {
           ...baseStyles,
@@ -49,6 +56,12 @@ class Tag extends React.PureComponent {
     };
 
     switch (this.props.size) {
+      case 'smaller':
+        return {
+          ...baseStyles,
+          fontSize: 11,
+        };
+
       case 'small':
         return {
           ...baseStyles,
@@ -90,7 +103,7 @@ Tag.propTypes = {
   text: PropTypes.string.isRequired,
   color: PropTypes.string,
   fontColor: PropTypes.string,
-  size: PropTypes.oneOf(['small', 'normal', 'large']),
+  size: PropTypes.oneOf(['small', 'normal', 'large', 'smaller']),
   style: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.object,

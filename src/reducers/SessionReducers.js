@@ -1,4 +1,6 @@
 import {
+  OPEN_VIEW_SESSIONS,
+  CLOSE_VIEW_SESSIONS,
   OPEN_CREATE_SESSION,
   CLOSE_CREATE_SESSION,
   OPEN_UPDATE_ZONE,
@@ -29,6 +31,7 @@ import {
 const START_DURATION = 3600;
 
 const initialState = {
+  showView: false,
   showCreate: false,
   showUpdateZone: false,
   showUpdateDuration: false,
@@ -43,6 +46,19 @@ const initialState = {
 
 export default function skillState(state = initialState, action) {
   switch (action.type) {
+    case OPEN_VIEW_SESSIONS:
+      return {
+        ...state,
+        showView: true,
+        placeId: action.payload,
+      };
+
+    case CLOSE_VIEW_SESSIONS:
+      return {
+        ...state,
+        showView: false,
+      };
+
     case OPEN_CREATE_SESSION:
       return {
         ...state,

@@ -2,6 +2,9 @@ import {
   FETCH_PLACE,
   FETCH_PLACE__SUCCESS,
   FETCH_PLACE__FAIL,
+  FETCH_PLACE_SESSIONS,
+  FETCH_PLACE_SESSIONS__SUCCESS,
+  FETCH_PLACE_SESSIONS__FAIL,
   FETCH_NEARBY_PLACES,
   FETCH_NEARBY_PLACES__SUCCESS,
   FETCH_NEARBY_PLACES__FAIL,
@@ -18,6 +21,7 @@ import {
 
 const initialState = {
   isDetailLoading: false,
+  isSessionsLoading: false,
   isNearbyLoading: false,
   isFavouritesLoading: false,
   places: [],
@@ -50,7 +54,10 @@ export default function placeState(state = initialState, action) {
       newPlaces = state.places.map((place) => {
         if (place.id === action.payload.id) {
           hasReplacedPlace = true;
-          return action.payload;
+          return {
+            ...place,
+            ...action.payload,
+          };
         }
 
         return place;
@@ -70,6 +77,34 @@ export default function placeState(state = initialState, action) {
       return {
         ...state,
         isDetailLoading: false,
+      };
+
+    case FETCH_PLACE_SESSIONS:
+      return {
+        ...state,
+        isSessionsLoading: true,
+      };
+
+    case FETCH_PLACE_SESSIONS__SUCCESS:
+      return {
+        ...state,
+        isSessionsLoading: false,
+        places: state.places.map((place) => {
+          if (place.id === action.payload.id) {
+            return {
+              ...place,
+              sessions: action.payload.sessions,
+            };
+          }
+
+          return place;
+        }),
+      };
+
+    case FETCH_PLACE_SESSIONS__FAIL:
+      return {
+        ...state,
+        isSessionsLoading: false,
       };
 
     case FETCH_NEARBY_PLACES:

@@ -2,6 +2,9 @@ import moment from 'moment';
 
 import { API_BASE_URL } from './../config/api';
 
+export const OPEN_VIEW_SESSIONS = '@@SESSION/OPEN_VIEW_SESSIONS';
+export const CLOSE_VIEW_SESSIONS = '@@SESSION/CLOSE_VIEW_SESSIONS';
+
 export const OPEN_CREATE_SESSION = '@@SESSION/OPEN_CREATE_SESSION';
 export const CLOSE_CREATE_SESSION = '@@SESSION/CLOSE_CREATE_SESSION';
 
@@ -33,6 +36,19 @@ export const REMOVE_CURRENT_SESSION = '@@SESSION/REMOVE_CURRENT_SESSION';
 export const UPDATE_SESSION = '@@SESSION/UPDATE_SESSION';
 export const UPDATE_SESSION__SUCCESS = '@@SESSION/UPDATE_SESSION__SUCCESS';
 export const UPDATE_SESSION__FAIL = '@@SESSION/UPDATE_SESSION__FAIL';
+
+export const openViewSessions = placeId => (dispatch) => {
+  dispatch({
+    type: OPEN_VIEW_SESSIONS,
+    payload: placeId,
+  });
+};
+
+export const closeViewSessions = () => (dispatch) => {
+  dispatch({
+    type: CLOSE_VIEW_SESSIONS,
+  });
+};
 
 export const openCreateSession = placeId => (dispatch) => {
   dispatch({

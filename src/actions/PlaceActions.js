@@ -6,6 +6,10 @@ export const FETCH_PLACE = '@@PLACE/FETCH_PLACE';
 export const FETCH_PLACE__SUCCESS = '@@PLACE/FETCH_PLACE__SUCCESS';
 export const FETCH_PLACE__FAIL = '@@PLACE/FETCH_PLACE_FAIL';
 
+export const FETCH_PLACE_SESSIONS = '@@PLACE/FETCH_PLACE_SESSIONS';
+export const FETCH_PLACE_SESSIONS__SUCCESS = '@@PLACE/FETCH_PLACE_SESSIONS__SUCCESS';
+export const FETCH_PLACE_SESSIONS__FAIL = '@@PLACE/FETCH_PLACE_SESSIONS_FAIL';
+
 export const FETCH_NEARBY_PLACES = '@@PLACE/FETCH_NEARBY_PLACES';
 export const FETCH_NEARBY_PLACES__SUCCESS = '@@PLACE/FETCH_NEARBY_PLACES__SUCCESS';
 export const FETCH_NEARBY_PLACES__FAIL = '@@PLACE/FETCH_NEARBY_PLACES_FAIL';
@@ -33,6 +37,25 @@ export const fetchPlace = id => (dispatch) => {
     .catch((error) => {
       dispatch({
         type: FETCH_PLACE__FAIL,
+        payload: error,
+      });
+    });
+};
+
+export const fetchPlaceSessions = id => (dispatch) => {
+  dispatch({ type: FETCH_PLACE_SESSIONS });
+
+  fetch(`${API_BASE_URL}/sessions/find/place/${id}`)
+    .then(response => response.json())
+    .then((data) => {
+      dispatch({
+        type: FETCH_PLACE_SESSIONS__SUCCESS,
+        payload: { id, sessions: data },
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: FETCH_PLACE_SESSIONS__FAIL,
         payload: error,
       });
     });
