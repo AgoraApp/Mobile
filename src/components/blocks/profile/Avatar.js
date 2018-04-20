@@ -7,7 +7,7 @@ import { ImagePicker } from 'expo';
 
 import { API_BASE_URL } from './../../../config/api';
 
-import defaultAvatar from './../../../../assets/avatar_default.png';
+import defaultAvatar from './../../../../assets/avatar_default_x2.png';
 
 import { setAvatar } from './../../../actions/ProfileActions';
 

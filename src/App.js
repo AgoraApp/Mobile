@@ -11,7 +11,7 @@ import redPin from './../assets/pin_red.png';
 import bluePin from './../assets/pin_blue.png';
 import redFavouritePin from './../assets/pin_red_favourited.png';
 import blueFavouritePin from './../assets/pin_blue_favourited.png';
-import defaultAvatar from './../assets/avatar_default.png';
+import defaultAvatar from './../assets/avatar_default_x2.png';
 
 import { MAIN_COLOR } from './config/colors';
 
