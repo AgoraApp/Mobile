@@ -112,6 +112,16 @@ const styles = StyleSheet.create({
   actionButtonText: {
     color: FONT_COLOR,
   },
+
+  emptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  emptyText: {
+    color: 'rgba(0, 0, 0, 0.35)',
+  },
 });
 
 class CreateSession extends React.PureComponent {
@@ -163,7 +173,9 @@ class CreateSession extends React.PureComponent {
       }
 
       return (
-        <Text>There are no active sessions at this place.</Text>
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>There are no active sessions at this place.</Text>
+        </View>
       );
     }
 
