@@ -115,6 +115,12 @@ const styles = StyleSheet.create({
 });
 
 class CreateSession extends React.PureComponent {
+  constructor() {
+    super();
+
+    this.refreshInterval = null;
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.showView !== nextProps.showView) {
       if (nextProps.showView) {
@@ -130,12 +136,15 @@ class CreateSession extends React.PureComponent {
   }
 
   handleShow = () => {
-    // Start refreshing of sessions
     this.props.fetchPlaceSessions(this.props.place.id);
+
+    this.refreshInterval = setInterval(() => {
+      this.props.fetchPlaceSessions(this.props.place.id);
+    }, 60000);
   }
 
   handleDismiss = () => {
-    // Stop refreshing of sessions
+    clearInterval(this.refreshInterval);
     this.props.closeViewSessions();
   }
 
