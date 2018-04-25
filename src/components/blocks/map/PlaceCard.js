@@ -7,6 +7,7 @@ import { StyleSheet, Dimensions, View, Text, Animated, TouchableOpacity } from '
 import { FONT_GREY, MAIN_COLOR } from './../../../config/colors';
 import placeShape from './../../../config/shapes/placeShape';
 import { positionShape } from './../../../config/shapes/userShape';
+import sessionShape from './../../../config/shapes/sessionShape';
 import { transformKilometersToMeters, calculateDistance } from './../../../helpers/generalHelpers';
 import { expandMapPlace, focusMapPlace } from './../../../actions/PlaceActions';
 
@@ -172,7 +173,12 @@ class PlaceCard extends React.PureComponent {
 
   renderContent = () => {
     if (this.props.expandedPlaceId) {
-      return <PlaceCardContent place={this.props.place} />;
+      return (
+        <PlaceCardContent
+          place={this.props.place}
+          currentSession={this.props.currentSession}
+        />
+      );
     }
 
     return (
@@ -246,6 +252,7 @@ class PlaceCard extends React.PureComponent {
 
 PlaceCard.propTypes = {
   place: PropTypes.shape(placeShape).isRequired,
+  currentSession: PropTypes.shape(sessionShape),
   position: PropTypes.shape(positionShape),
   expandedPlaceId: PropTypes.number,
   expandMapPlace: PropTypes.func.isRequired,
@@ -253,12 +260,14 @@ PlaceCard.propTypes = {
 };
 
 PlaceCard.defaultProps = {
+  currentSession: null,
   position: {},
   expandedPlaceId: null,
 };
 
 const mapStateToProps = state => ({
   expandedPlaceId: state.place.expandedMapPlaceId,
+  currentSession: state.session.currentSession,
   position: state.user.position,
 });
 
