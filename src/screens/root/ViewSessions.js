@@ -22,7 +22,7 @@ const slideAnimation = new SlideAnimation({
   slideFrom: 'bottom',
 });
 
-const DIALOG_HEIGT = Dimensions.get('window').height * 0.45;
+const DIALOG_HEIGT = Dimensions.get('window').height * 0.55;
 const IS_IPHONE_X = Platform.OS === 'ios' && Constants.platform.ios.model.toLowerCase() === 'iphone x';
 
 const styles = StyleSheet.create({

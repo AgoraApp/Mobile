@@ -93,18 +93,20 @@ class Description extends React.PureComponent {
 
     return (
       <View>
-        <View style={styles.item}>
-          <SvgAnimatedLinearGradient height={55} width={width}>
-            <Svg.Rect x={(width / 2) - 50} y="0" width="100" height="16" />
-            <Svg.Rect x={(width / 2) - 75} y="26" width="150" height="14" />
-            <Svg.Rect x={(width / 2) - 50} y="45" width="100" height="10" />
-          </SvgAnimatedLinearGradient>
-        </View>
-        <View style={styles.item}>
-          <SvgAnimatedLinearGradient height={40} width={width}>
-            <Svg.Rect x={(width / 2) - 35} y="0" width="70" height="16" />
-            <Svg.Rect x={(width / 2) - 60} y="26" width="120" height="14" />
-          </SvgAnimatedLinearGradient>
+        <View style={styles.row}>
+          <View style={styles.item}>
+            <SvgAnimatedLinearGradient height={55} width={width / 2}>
+              <Svg.Rect x={(width / 4) - 50} y="0" width="100" height="16" />
+              <Svg.Rect x={(width / 4) - 75} y="26" width="150" height="14" />
+              <Svg.Rect x={(width / 4) - 50} y="45" width="100" height="10" />
+            </SvgAnimatedLinearGradient>
+          </View>
+          <View style={styles.item}>
+            <SvgAnimatedLinearGradient height={40} width={width / 2}>
+              <Svg.Rect x={(width / 4) - 35} y="0" width="70" height="16" />
+              <Svg.Rect x={(width / 4) - 60} y="26" width="120" height="14" />
+            </SvgAnimatedLinearGradient>
+          </View>
         </View>
         <View style={styles.item}>
           <SvgAnimatedLinearGradient height={40} width={width}>
