@@ -16,12 +16,13 @@ import { fetchPlaceSessions } from './../../actions/PlaceActions';
 import Icon from './../../components/blocks/Icon';
 import Button from './../../components/blocks/Button';
 import UserSession from './../../components/blocks/session/UserSession';
+import UserSessionSkeleton from './../../components/blocks/session/UserSessionSkeleton';
 
 const slideAnimation = new SlideAnimation({
   slideFrom: 'bottom',
 });
 
-const DIALOG_HEIGT = Dimensions.get('window').height * 0.65;
+const DIALOG_HEIGT = Dimensions.get('window').height * 0.45;
 const IS_IPHONE_X = Platform.OS === 'ios' && Constants.platform.ios.model.toLowerCase() === 'iphone x';
 
 const styles = StyleSheet.create({
@@ -158,7 +159,7 @@ class CreateSession extends React.PureComponent {
     }
 
     return (
-      <Text>Loading...</Text>
+      <UserSessionSkeleton />
     );
   }
 
