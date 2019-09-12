@@ -14,7 +14,7 @@
     "ios": {
       "bundleIdentifier": "com.bramvanosta.agora",
       "config": {
-        "googleMapsApiKey": "AIzaSyA7J_GN5mn_9zJZG5RzLqn6jFbRwlX--E4"
+        "googleMapsApiKey": ""
       },
       "publishBundlePath": "ios/agora/Supporting/shell-app.bundle",
       "publishManifestPath": "ios/agora/Supporting/shell-app-manifest.json"
@@ -23,7 +23,7 @@
       "package": "com.bramvanosta.agora",
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyBL8QrFq7LVW4l2JAUaJRlOVogQposr6hE"
+          "apiKey": ""
         }
       }
     },
